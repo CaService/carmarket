@@ -1,0 +1,78 @@
+@import url('https://fonts.cdnfonts.com/css/chillax');
+@import url('https://fonts.cdnfonts.com/css/source-sans-pro');
+                
+@import "tailwindcss";
+@plugin "daisyui";
+
+* {
+  box-sizing: border-box;
+}
+
+
+body {
+    font-family: 'Chillax', sans-serif;
+    background-color: oklch(0.967 0.001 286.375)
+  }
+
+  /* Underline link navbar */
+  .underline-animation {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .underline-animation::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 4px;
+    bottom: 0;
+    left: 0;
+    top: 24px;
+    background-color: currentColor;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    transform-origin: bottom right;
+  }
+  
+  .underline-animation:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
+
+  /* Buttons bg */
+  .bg-primary {
+    background-color: #008282;
+  }
+
+  .bg-secondary {
+    background-color: #0f3549;
+  }
+
+  .bg-primary:hover {
+    background-color: #fff;
+  }
+
+  .bg-secondary:hover {
+    background-color: #fff;
+  }
+
+  /* Dividers width */
+  .divider {
+   width: 1.8px;
+   
+  }
+
+  /* Swiper */
+
+  .swiper {
+    width: 100%;
+    padding-bottom: 40px;
+  }
+  
+  .swiper-pagination-bullet {
+    background: #0A2A3B;
+  }
+  
+  .swiper-pagination-bullet-active {
+    background: #0A2A3B;
+  }
