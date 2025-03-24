@@ -1,4 +1,6 @@
 // import { useState } from "react";
+import axios from "axios";
+import { useState } from "react";
 
 // import CardSignInSelector from "./CardSignInSelector";
 import Container from "./Container";
@@ -7,11 +9,52 @@ import Button from "./Button";
 // import Toggle from "./Toggle";
 
 const CardSignIn = () => {
-  // const [isRepresentative, setIsRepresentative] = useState(false);
+  const [formData, setFormData] = useState({
+    country: "",
+    company_name: "",
+    vat_number: "",
+    address: "",
+    postal_code: "",
+    city: "",
+    email: "",
+    password: "",
+  });
 
-  // const handleToggleChange = (newState) => {
-  //   setIsRepresentative(newState);
-  // };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const apiUrl =
+      "http://localhost/carmarket/server/api/users/user_create.php";
+    console.log("Invio richiesta a:", apiUrl);
+    console.log("Dati:", formData);
+
+    try {
+      const response = await axios.post(apiUrl, formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      console.log("Risposta:", response.data);
+      if (response.data.status === "success") {
+        alert("Registrazione completata con successo!");
+        // Qui puoi aggiungere redirect o altre azioni post-registrazione
+      }
+    } catch (error) {
+      console.error("Errore completo:", error);
+      const errorMessage =
+        error.response?.data?.message || "Errore durante la registrazione";
+      alert(errorMessage);
+    }
+  };
 
   return (
     <div className="flex flex-col justify-center mt-16 pt-18">
@@ -22,7 +65,7 @@ const CardSignIn = () => {
           </h1>
         </div>
         <div className="max-w-2xl mx-auto bg-white p-8 shadow-lg rounded-lg">
-          <form className="flex flex-col space-y-6">
+          <form onSubmit={handleSubmit} className="flex flex-col space-y-6">
             <div>
               <h3 className="text-lg font-medium text-gray-800 mb-8">
                 Società
@@ -39,6 +82,8 @@ const CardSignIn = () => {
                   <select
                     id="country"
                     name="country"
+                    value={formData.country}
+                    onChange={handleChange}
                     className="border-b text-xs border-black rounded px-3 py-2 
                            focus:outline-none focus:ring-2"
                   >
@@ -59,7 +104,9 @@ const CardSignIn = () => {
                   <input
                     type="text"
                     id="societa"
-                    name="societa"
+                    name="company_name"
+                    value={formData.company_name}
+                    onChange={handleChange}
                     className="border-b text-xs border-black rounded px-3 py-2
                            focus:outline-none focus:ring-2"
                     placeholder="Ragione sociale"
@@ -78,7 +125,9 @@ const CardSignIn = () => {
                   <input
                     type="text"
                     id="iva"
-                    name="iva"
+                    name="vat_number"
+                    value={formData.vat_number}
+                    onChange={handleChange}
                     className="border-b text-xs border-black rounded px-3 py-2
                            focus:outline-none focus:ring-2"
                     placeholder="Es. 12345678901"
@@ -95,7 +144,9 @@ const CardSignIn = () => {
                   <input
                     type="text"
                     id="indirizzo"
-                    name="indirizzo"
+                    name="address"
+                    value={formData.address}
+                    onChange={handleChange}
                     className="border-b text-xs border-black rounded px-3 py-2
                            focus:outline-none focus:ring-2"
                     placeholder="Es. Via Roma 1"
@@ -114,7 +165,9 @@ const CardSignIn = () => {
                   <input
                     type="text"
                     id="cap"
-                    name="cap"
+                    name="postal_code"
+                    value={formData.postal_code}
+                    onChange={handleChange}
                     className="border-b text-xs border-black rounded px-3 py-2
                            focus:outline-none focus:ring-2"
                     placeholder="Es. 00100"
@@ -131,10 +184,48 @@ const CardSignIn = () => {
                   <input
                     type="text"
                     id="citta"
-                    name="citta"
+                    name="city"
+                    value={formData.city}
+                    onChange={handleChange}
                     className="border-b text-xs border-black rounded px-3 py-2
                            focus:outline-none focus:ring-2"
                     placeholder="Es. Roma"
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <label
+                    htmlFor="email"
+                    className="mb-1 font-semibold text-gray-700"
+                  >
+                    Email
+                  </label>
+                  <input
+                    type="text"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="border-b text-xs border-black rounded px-3 py-2
+                           focus:outline-none focus:ring-2"
+                    placeholder="Es. myemail@example.com"
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <label
+                    htmlFor="password"
+                    className="mb-1 font-semibold text-gray-700"
+                  >
+                    Password
+                  </label>
+                  <input
+                    type="text"
+                    id="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    className="border-b text-xs border-black rounded px-3 py-2
+                           focus:outline-none focus:ring-2"
+                    placeholder="Inserisci la tua password"
                   />
                 </div>
               </div>
@@ -163,16 +254,15 @@ const CardSignIn = () => {
                 Chi è il legale rappresentante della società?
               </a>
             </div> */}
+            <div className="flex justify-center mt-4">
+              <Button type="submit">REGISTRATI</Button>
+            </div>
           </form>
         </div>
 
         {/* <div className="max-w-2xl mx-auto mt-8">
           <CardSignInSelector />
         </div> */}
-
-        <div className="max-w-2xl mx-auto mt-4 flex justify-center">
-          <Button>REGISTRATI</Button>
-        </div>
       </Container>
     </div>
   );

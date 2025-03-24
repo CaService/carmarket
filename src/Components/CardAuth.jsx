@@ -19,7 +19,7 @@ const CardAuth = ({ onClose }) => {
       <h2 className="text-2xl font-semibold mb-6">Login</h2>
       <input
         type="text"
-        placeholder="Inserisci il tuo username"
+        placeholder="Inserisci il tuo login"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
         className="w-full p-3 mb-6 border border-gray-300 rounded-lg"
