@@ -8,9 +8,9 @@ import {
 import { DocumentArrowUpIcon, UserIcon } from "@heroicons/react/24/solid";
 import AdminContainer from "./AdimnContainer";
 
-const DefaultSidebar = () => {
+const DefaultSidebar = ({ onViewChange }) => {
   return (
-    <Card className="h-[calc(100vh-4rem)] w-full max-w-[18rem] p-4 shadow-xl shadow-blue-gray-900/5">
+    <Card className="h-[calc(100vh-4rem)] w-full max-w-[18rem] p-4 shadow-xl shadow-blue-gray-900/5 bg-gray-800 text-white">
       <AdminContainer>
         <div className="mb-2 p-4">
           <Typography variant="h5" color="blue-gray">
@@ -18,13 +18,19 @@ const DefaultSidebar = () => {
           </Typography>
         </div>
         <List>
-          <ListItem className="cursor-pointer hover:text-blue-500">
+          <ListItem
+            className="cursor-pointer hover:text-blue-500"
+            onClick={() => onViewChange("vehicles")}
+          >
             <ListItemPrefix>
               <DocumentArrowUpIcon className="h-5 w-5 mr-2" />
             </ListItemPrefix>
             File upload
           </ListItem>
-          <ListItem className="cursor-pointer hover:text-blue-500">
+          <ListItem
+            className="cursor-pointer hover:text-blue-500"
+            onClick={() => onViewChange("users")}
+          >
             <ListItemPrefix>
               <UserIcon className="h-5 w-5 mr-2" />
             </ListItemPrefix>

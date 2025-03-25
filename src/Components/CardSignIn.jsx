@@ -31,25 +31,43 @@ const CardSignIn = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const apiUrl =
-      "http://localhost/carmarket/server/api/users/user_create.php";
-    console.log("Invio richiesta a:", apiUrl);
-    console.log("Dati:", formData);
-
     try {
-      const response = await axios.post(apiUrl, formData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      console.log("Dati form da inviare:", formData); // Log dei dati prima dell'invio
 
-      console.log("Risposta:", response.data);
+      const response = await axios.post(
+        "/api/users/user_create.php",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log("Risposta completa:", response); // Log della risposta completa
+      console.log("Dati risposta:", response.data); // Log dei dati della risposta
+
       if (response.data.status === "success") {
         alert("Registrazione completata con successo!");
-        // Qui puoi aggiungere redirect o altre azioni post-registrazione
+        // Pulizia del form dopo il successo
+        setFormData({
+          country: "",
+          company_name: "",
+          vat_number: "",
+          address: "",
+          postal_code: "",
+          city: "",
+          email: "",
+          password: "",
+        });
       }
     } catch (error) {
       console.error("Errore completo:", error);
+      console.error("Dettagli errore:", {
+        message: error.message,
+        response: error.response?.data,
+        status: error.response?.status,
+      });
       const errorMessage =
         error.response?.data?.message || "Errore durante la registrazione";
       alert(errorMessage);
