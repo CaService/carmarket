@@ -1,27 +1,50 @@
 <?php
-require_once '../../config/database.php';
+// Abilita il reporting degli errori all'inizio del file
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
+// CORS headers
+header('Access-Control-Allow-Origin: http://localhost:5173');
+header('Access-Control-Allow-Methods: DELETE, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, Authorization');
+header('Access-Control-Allow-Credentials: true');
 header('Content-Type: application/json');
 
-if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
-    http_response_code(405);
-    echo json_encode(['status' => 'error', 'message' => 'Metodo non permesso']);
-    exit;
-}
-
-$data = json_decode(file_get_contents('php://input'), true);
-$database = new Database();
-$conn = $database->connect()['connection'];
-
-if (empty($data['user_id'])) {
-    http_response_code(400);
-    echo json_encode(['status' => 'error', 'message' => 'ID utente richiesto']);
-    exit;
+// Gestisci la richiesta OPTIONS
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit();
 }
 
 try {
+    // Log per debug
+    error_log("Metodo richiesta: " . $_SERVER['REQUEST_METHOD']);
+    
+    if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
+        throw new Exception('Metodo non permesso');
+    }
+
+    if (!isset($_GET['id'])) {
+        throw new Exception('ID utente non specificato');
+    }
+
+    require_once '../../config/database.php';
+    $database = new Database();
+    $result = $database->connect();
+
+    if ($result['status'] !== 'success') {
+        throw new Exception("Errore di connessione al database: " . $result['message']);
+    }
+
+    $conn = $result['connection'];
+    $id = intval($_GET['id']);
+
     $stmt = $conn->prepare("DELETE FROM users WHERE id = ?");
-    $stmt->bind_param("i", $data['user_id']);
+    if (!$stmt) {
+        throw new Exception("Errore nella preparazione della query: " . $conn->error);
+    }
+
+    $stmt->bind_param("i", $id);
     
     if ($stmt->execute()) {
         if ($stmt->affected_rows > 0) {
@@ -30,17 +53,14 @@ try {
                 'message' => 'Utente eliminato con successo'
             ]);
         } else {
-            http_response_code(404);
-            echo json_encode([
-                'status' => 'error',
-                'message' => 'Utente non trovato'
-            ]);
+            throw new Exception('Utente non trovato');
         }
     } else {
-        throw new Exception("Errore durante l'eliminazione");
+        throw new Exception("Errore durante l'eliminazione: " . $stmt->error);
     }
 
 } catch (Exception $e) {
+    error_log("Errore nell'API delete: " . $e->getMessage());
     http_response_code(500);
     echo json_encode([
         'status' => 'error',

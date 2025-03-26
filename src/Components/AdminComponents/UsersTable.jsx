@@ -5,6 +5,8 @@ const UsersTable = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
 
   useEffect(() => {
     fetchUsers();
@@ -24,7 +26,51 @@ const UsersTable = () => {
     }
   };
 
-  if (loading) return <div>Caricamento...</div>;
+  const handleDelete = async (id) => {
+    try {
+      setLoading(true);
+      const response = await axios({
+        method: "DELETE",
+        url: `/api/users/user_delete.php?id=${id}`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.data.status === "success") {
+        await fetchUsers();
+      } else {
+        throw new Error(
+          response.data.message || "Errore durante l'eliminazione"
+        );
+      }
+    } catch (error) {
+      console.error("Errore completo:", error);
+      console.error("Dettagli errore:", {
+        message: error.message,
+        response: error.response?.data,
+        status: error.response?.status,
+      });
+    } finally {
+      setLoading(false);
+      setIsDeleteModalOpen(false);
+    }
+  };
+
+  const openDeleteModal = (id) => {
+    setSelectedUser(id);
+    setIsDeleteModalOpen(true);
+  };
+
+  if (loading)
+    return (
+      <div className="w-full px-4 py-12">
+        <div className="flex flex-col items-center justify-center">
+          <div className="w-12 h-12 border-4 border-gray-200 rounded-full animate-spin border-t-blue-500"></div>
+          <p className="mt-4 text-gray-600">Caricamento utenti</p>
+        </div>
+      </div>
+    );
   if (error) return <div>Errore: {error}</div>;
 
   return (
@@ -94,7 +140,10 @@ const UsersTable = () => {
                   <button className="text-indigo-600 hover:text-indigo-900 block mb-1 cursor-pointer">
                     Modifica
                   </button>
-                  <button className="text-red-600 hover:text-red-900 block cursor-pointer">
+                  <button
+                    onClick={() => openDeleteModal(user.id)}
+                    className="text-red-600 hover:text-red-900 block cursor-pointer"
+                  >
                     Elimina
                   </button>
                 </td>
@@ -103,6 +152,36 @@ const UsersTable = () => {
           </tbody>
         </table>
       </div>
+
+      {isDeleteModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/50">
+          <div className="bg-white p-6 rounded-lg shadow-xl">
+            <h2 className="text-xl font-bold mb-4">Conferma eliminazione</h2>
+            <p className="mb-4">Sei sicuro di voler eliminare questo utente?</p>
+            <div className="flex justify-end space-x-4">
+              <button
+                onClick={() => setIsDeleteModalOpen(false)}
+                className="px-4 py-2 cursor-pointer bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
+              >
+                Annulla
+              </button>
+              <button
+                onClick={() => handleDelete(selectedUser)}
+                className="px-4 py-2 cursor-pointer bg-red-600 text-white rounded hover:bg-red-700"
+              >
+                {loading ? (
+                  <div className="flex items-center">
+                    <div className="w-4 h-4 border-2 border-white rounded-full animate-spin border-t-transparent mr-2"></div>
+                    Eliminazione...
+                  </div>
+                ) : (
+                  "Elimina"
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
