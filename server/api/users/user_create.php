@@ -53,6 +53,11 @@ try {
         throw new Exception('Email e password sono obbligatori');
     }
 
+    // Validazione lunghezza password
+    if (strlen($data['password']) > 15) {
+        throw new Exception('La password non può superare i 15 caratteri');
+    }
+
     // Verifica se l'email esiste già
     $checkEmail = $conn->prepare("SELECT id FROM users WHERE email = ?");
     if (!$checkEmail) {
@@ -67,6 +72,9 @@ try {
         throw new Exception('Email già registrata');
     }
 
+    // Hash della password
+    $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
+    
     // Preparazione query di inserimento
     $insertQuery = "INSERT INTO users (
         country, company_name, vat_number, 
@@ -79,9 +87,6 @@ try {
         throw new Exception("Errore nella preparazione della query di inserimento: " . $conn->error);
     }
 
-    // Hash della password
-    $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
-    
     // Binding dei parametri
     $stmt->bind_param("ssssssss",
         $data['country'],

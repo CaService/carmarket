@@ -22,6 +22,13 @@ const CardSignIn = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    // Validazione lunghezza password
+    if (name === "password" && value.length > 15) {
+      alert("La password non può superare i 15 caratteri");
+      return;
+    }
+
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -236,14 +243,15 @@ const CardSignIn = () => {
                     Password
                   </label>
                   <input
-                    type="text"
+                    type="password"
                     id="password"
                     name="password"
+                    maxLength={15}
                     value={formData.password}
                     onChange={handleChange}
                     className="border-b text-xs border-black rounded px-3 py-2
                            focus:outline-none focus:ring-2"
-                    placeholder="Inserisci la tua password"
+                    placeholder="Inserisci la tua password (max 15 caratteri)"
                   />
                 </div>
               </div>

@@ -1,14 +1,30 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Container from "./Container";
 // import LanguageSelector from "./LanguageSelector";
 import Button from "./Button";
 import CardAuth from "./CardAuth";
 import { Link } from "react-router-dom";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import {
+  Menu,
+  MenuHandler,
+  MenuList,
+  MenuItem,
+  Avatar,
+} from "@material-tailwind/react";
 
 const Navbar = () => {
   const [showAuth, setShowAuth] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // Controlla se l'utente è loggato al caricamento
+    const userData = localStorage.getItem("user");
+    if (userData) {
+      setUser(JSON.parse(userData));
+    }
+  }, []);
 
   const handleLoginClick = () => {
     setShowAuth(true);
@@ -19,9 +35,45 @@ const Navbar = () => {
     setShowAuth(false);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setUser(null);
+    window.location.reload();
+  };
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  // Componente UserMenu
+  const UserMenu = () => (
+    <Menu>
+      <MenuHandler>
+        <Avatar
+          src="https://docs.material-tailwind.com/img/face-2.jpg"
+          alt="avatar"
+          className="cursor-pointer w-10 h-10"
+        />
+      </MenuHandler>
+      {user ? (
+        <MenuList className="p-2">
+          <MenuItem className="flex flex-col items-start gap-1 p-2">
+            <span className="text-sm font-semibold text-gray-900">
+              {user.company_name}
+            </span>
+            <span className="text-xs text-gray-600">{user.email}</span>
+          </MenuItem>
+          <hr className="my-2" />
+          <MenuItem
+            onClick={handleLogout}
+            className="text-red-500 hover:text-red-700 text-sm"
+          >
+            Logout
+          </MenuItem>
+        </MenuList>
+      ) : null}
+    </Menu>
+  );
 
   return (
     <>
@@ -61,13 +113,18 @@ const Navbar = () => {
 
             {/* Buttons Desktop */}
             <div className="hidden md:flex items-center gap-4">
-              {/* <LanguageSelector /> */}
-              <Link to="/signup">
-                <Button variant="primary">Registrati</Button>
-              </Link>
-              <Button variant="secondary" onClick={handleLoginClick}>
-                Login
-              </Button>
+              {user ? (
+                <UserMenu />
+              ) : (
+                <>
+                  <Link to="/signup">
+                    <Button variant="primary">Registrati</Button>
+                  </Link>
+                  <Button variant="secondary" onClick={handleLoginClick}>
+                    Login
+                  </Button>
+                </>
+              )}
             </div>
 
             {/* Menu Hamburger */}
@@ -100,18 +157,47 @@ const Navbar = () => {
                   Vendite
                 </a>
                 <div className="flex flex-col gap-3 pt-4 border-t">
-                  <Link to="/signup" className="w-full">
-                    <Button variant="primary" className="w-full">
-                      Registrati
-                    </Button>
-                  </Link>
-                  <Button
-                    variant="secondary"
-                    onClick={handleLoginClick}
-                    className="w-full"
-                  >
-                    Login
-                  </Button>
+                  {user ? (
+                    <>
+                      <div className="flex items-center gap-3 p-2">
+                        <Avatar
+                          src="https://docs.material-tailwind.com/img/face-2.jpg"
+                          alt="avatar"
+                          className="w-10 h-10"
+                        />
+                        <div className="flex flex-col">
+                          <span className="text-sm font-semibold text-gray-900">
+                            {user.company_name}
+                          </span>
+                          <span className="text-xs text-gray-600">
+                            {user.email}
+                          </span>
+                        </div>
+                      </div>
+                      <Button
+                        variant="secondary"
+                        onClick={handleLogout}
+                        className="w-full text-red-500 hover:text-red-700"
+                      >
+                        Logout
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Link to="/signup" className="w-full">
+                        <Button variant="primary" className="w-full">
+                          Registrati
+                        </Button>
+                      </Link>
+                      <Button
+                        variant="secondary"
+                        onClick={handleLoginClick}
+                        className="w-full"
+                      >
+                        Login
+                      </Button>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
