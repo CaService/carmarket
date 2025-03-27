@@ -4,6 +4,8 @@ const Button = ({ variant = "primary", children, onClick, onClose }) => {
       "bg-primary border border-teal-500 text-white cursor-pointer hover:border-[#0f3549] hover:text-[#0f3549]",
     secondary:
       "bg-secondary border border-black text-white cursor-pointer hover:border-[#0f3549] hover:text-[#0f3549]",
+    danger:
+      "bg-red-500 border border-red-500 text-white cursor-pointer hover:bg-white hover:text-red-500",
   };
 
   return (

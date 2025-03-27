@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Container from "./Container";
 // import LanguageSelector from "./LanguageSelector";
 import Button from "./Button";
@@ -12,19 +12,14 @@ import {
   MenuItem,
   Avatar,
 } from "@material-tailwind/react";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../store/slices/authSlice";
 
 const Navbar = () => {
+  const dispatch = useDispatch();
+  const { user, isAuthenticated } = useSelector((state) => state.auth);
   const [showAuth, setShowAuth] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    // Controlla se l'utente è loggato al caricamento
-    const userData = localStorage.getItem("user");
-    if (userData) {
-      setUser(JSON.parse(userData));
-    }
-  }, []);
 
   const handleLoginClick = () => {
     setShowAuth(true);
@@ -36,43 +31,31 @@ const Navbar = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("user");
-    setUser(null);
-    window.location.reload();
+    dispatch(logout());
   };
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  // Componente UserMenu
+  // Modifica il componente UserMenu per mostrare i dati inline
   const UserMenu = () => (
-    <Menu>
-      <MenuHandler>
-        <Avatar
-          src="https://docs.material-tailwind.com/img/face-2.jpg"
-          alt="avatar"
-          className="cursor-pointer w-10 h-10"
-        />
-      </MenuHandler>
-      {user ? (
-        <MenuList className="p-2">
-          <MenuItem className="flex flex-col items-start gap-1 p-2">
-            <span className="text-sm font-semibold text-gray-900">
-              {user.company_name}
-            </span>
-            <span className="text-xs text-gray-600">{user.email}</span>
-          </MenuItem>
-          <hr className="my-2" />
-          <MenuItem
-            onClick={handleLogout}
-            className="text-red-500 hover:text-red-700 text-sm"
-          >
-            Logout
-          </MenuItem>
-        </MenuList>
-      ) : null}
-    </Menu>
+    <div className="flex items-center gap-4">
+      <Avatar
+        src="https://docs.material-tailwind.com/img/face-2.jpg"
+        alt="avatar"
+        className="w-10 h-10"
+      />
+      <div className="flex flex-col">
+        <span className="text-sm font-semibold text-gray-900">
+          {user.company_name}
+        </span>
+        <span className="text-xs text-gray-600">{user.email}</span>
+      </div>
+      <Button variant="danger" onClick={handleLogout}>
+        Logout
+      </Button>
+    </div>
   );
 
   return (
@@ -113,7 +96,7 @@ const Navbar = () => {
 
             {/* Buttons Desktop */}
             <div className="hidden md:flex items-center gap-4">
-              {user ? (
+              {isAuthenticated ? (
                 <UserMenu />
               ) : (
                 <>
@@ -157,31 +140,8 @@ const Navbar = () => {
                   Vendite
                 </a>
                 <div className="flex flex-col gap-3 pt-4 border-t">
-                  {user ? (
-                    <>
-                      <div className="flex items-center gap-3 p-2">
-                        <Avatar
-                          src="https://docs.material-tailwind.com/img/face-2.jpg"
-                          alt="avatar"
-                          className="w-10 h-10"
-                        />
-                        <div className="flex flex-col">
-                          <span className="text-sm font-semibold text-gray-900">
-                            {user.company_name}
-                          </span>
-                          <span className="text-xs text-gray-600">
-                            {user.email}
-                          </span>
-                        </div>
-                      </div>
-                      <Button
-                        variant="secondary"
-                        onClick={handleLogout}
-                        className="w-full text-red-500 hover:text-red-700"
-                      >
-                        Logout
-                      </Button>
-                    </>
+                  {isAuthenticated ? (
+                    <UserMenu />
                   ) : (
                     <>
                       <Link to="/signup" className="w-full">

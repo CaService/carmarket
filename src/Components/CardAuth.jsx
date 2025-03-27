@@ -1,8 +1,15 @@
 import { useState } from "react";
 import { Cross1Icon, EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import {
+  loginStart,
+  loginSuccess,
+  loginFailure,
+} from "../store/slices/authSlice";
 
 const CardAuth = ({ onClose }) => {
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -25,8 +32,7 @@ const CardAuth = ({ onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError(null);
+    dispatch(loginStart());
 
     try {
       const response = await axios.post("/api/users/user_login.php", formData, {
@@ -36,20 +42,16 @@ const CardAuth = ({ onClose }) => {
       });
 
       if (response.data.status === "success") {
-        // Salva i dati dell'utente
-        localStorage.setItem("user", JSON.stringify(response.data.user));
-        // Chiudi il modale
+        dispatch(loginSuccess(response.data.user));
         onClose();
-        // Ricarica la pagina o aggiorna lo stato dell'app
-        window.location.reload();
       }
     } catch (error) {
-      setError(
-        error.response?.data?.message ||
-          "Errore durante il login. Verifica le tue credenziali."
+      dispatch(
+        loginFailure(
+          error.response?.data?.message ||
+            "Errore durante il login. Verifica le tue credenziali."
+        )
       );
-    } finally {
-      setLoading(false);
     }
   };
 
