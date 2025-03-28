@@ -41,11 +41,6 @@ const Navbar = () => {
   // Modifica il componente UserMenu per mostrare i dati inline
   const UserMenu = () => (
     <div className="flex items-center gap-4">
-      <Avatar
-        src="https://docs.material-tailwind.com/img/face-2.jpg"
-        alt="avatar"
-        className="w-10 h-10"
-      />
       <div className="flex flex-col">
         <span className="text-sm font-semibold text-gray-900">
           {user.company_name}
