@@ -7,9 +7,11 @@ import {
   loginSuccess,
   loginFailure,
 } from "../store/slices/authSlice";
+import { useNavigate } from "react-router-dom";
 
-const CardAuth = ({ onClose }) => {
+const CardAuth = ({ onClose, fromSignUp = false }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -44,6 +46,9 @@ const CardAuth = ({ onClose }) => {
       if (response.data.status === "success") {
         dispatch(loginSuccess(response.data.user));
         onClose();
+        if (fromSignUp) {
+          navigate("/"); // Naviga alla homepage solo se viene dalla pagina di signup
+        }
       }
     } catch (error) {
       dispatch(

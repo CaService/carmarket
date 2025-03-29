@@ -166,7 +166,6 @@ const Navbar = () => {
         >
           <div className="relative">
             <CardAuth onClose={handleCloseAuth} />
-            <button className="absolute top-2 right-2 text-white">X</button>
           </div>
         </div>
       )}
@@ -174,4 +173,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export { Navbar as default, CardAuth };

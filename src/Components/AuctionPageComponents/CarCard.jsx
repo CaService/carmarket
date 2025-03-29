@@ -2,7 +2,11 @@ import { ClockIcon } from "@radix-ui/react-icons";
 import Flag from "react-world-flags";
 import { Link } from "react-router-dom";
 import Container from "../Container";
+import { useSelector } from "react-redux";
+
 const CarCard = () => {
+  const { isAuthenticated } = useSelector((state) => state.auth);
+
   return (
     <Container>
       <div className="w-full mx-auto pr-6 bg-white rounded-lg shadow-md overflow-hidden mt-8">
@@ -51,12 +55,23 @@ const CarCard = () => {
             </div>
 
             <div className="mt-4">
-              <Link
-                to="/signup"
-                className="inline-block bg-[#73d2d2] w-90 text-center px-8 py-3 mt-20 cursor-pointer rounded-full font-semibold transition duration-300 hover:bg-white hover:border hover:border-[#072534]"
-              >
-                REGISTRATI
-              </Link>
+              {isAuthenticated ? (
+                <div className="text-center">
+                  <p className="text-xl font-bold text-gray-800 mb-4">
+                    PREZZO €
+                  </p>
+                  <button className="inline-block bg-[#072534] w-90 text-center px-8 py-3 mt-16 text-white cursor-pointer rounded-full font-semibold transition duration-300 hover:bg-white hover:text-[#072534] hover:border hover:border-[#072534]">
+                    ACQUISTA
+                  </button>
+                </div>
+              ) : (
+                <Link
+                  to="/signup"
+                  className="inline-block bg-[#73d2d2] w-90 text-center px-8 py-3 mt-20 cursor-pointer rounded-full font-semibold transition duration-300 hover:bg-white hover:border hover:border-[#072534]"
+                >
+                  REGISTRATI
+                </Link>
+              )}
             </div>
           </div>
         </div>

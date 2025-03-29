@@ -1,6 +1,7 @@
 // import { useState } from "react";
 import axios from "axios";
 import { useState } from "react";
+import { CardAuth } from "./Navbar"; // Importa CardAuth da Navbar
 
 // import CardSignInSelector from "./CardSignInSelector";
 import Container from "./Container";
@@ -19,6 +20,8 @@ const CardSignIn = () => {
     email: "",
     password: "",
   });
+
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -79,6 +82,15 @@ const CardSignIn = () => {
         error.response?.data?.message || "Errore durante la registrazione";
       alert(errorMessage);
     }
+  };
+
+  const handleLoginClick = (e) => {
+    e.preventDefault();
+    setShowLoginModal(true);
+  };
+
+  const handleCloseLogin = () => {
+    setShowLoginModal(false);
   };
 
   return (
@@ -283,8 +295,29 @@ const CardSignIn = () => {
             <div className="flex justify-center mt-4">
               <Button type="submit">REGISTRATI</Button>
             </div>
+
+            <div className="flex justify-center mt-4">
+              <a
+                href="#"
+                className="text-sm text-blue-600 hover:underline"
+                onClick={handleLoginClick}
+              >
+                Se hai già un account, accedi
+              </a>
+            </div>
           </form>
         </div>
+
+        {showLoginModal && (
+          <div
+            className="z-50 fixed inset-0 flex items-center justify-center"
+            style={{ backgroundColor: "rgba(0, 0, 0, 0.25)" }}
+          >
+            <div className="relative">
+              <CardAuth onClose={handleCloseLogin} fromSignUp={true} />
+            </div>
+          </div>
+        )}
 
         {/* <div className="max-w-2xl mx-auto mt-8">
           <CardSignInSelector />
