@@ -3,9 +3,6 @@ import Flag from "react-world-flags";
 import { Link } from "react-router-dom";
 import Container from "../Container";
 import { useSelector } from "react-redux";
-import ayvensLogo from "../../assets/Ayvens.svg";
-import bannerImage from "../../assets/banner-1680px.jpg";
-import logoWhite from "../../assets/logo-desktop-ayvens-white.svg";
 
 const CarCard = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -17,7 +14,7 @@ const CarCard = () => {
           {/* Immagine Auto */}
           <div className="relative w-96">
             <img
-              src={ayvensLogo}
+              src="/images/Ayvens.svg"
               alt="Ayvens"
               className="w-full h-full object-cover"
             />

@@ -68,7 +68,7 @@ const Navbar = () => {
             <div className="flex items-center gap-18">
               <Link to="/">
                 <img
-                  src="src/assets/Ayvens.svg"
+                  src="/images/Ayvens.svg"
                   alt="Ayvens"
                   className="w-26.5 h-26.5"
                 />
