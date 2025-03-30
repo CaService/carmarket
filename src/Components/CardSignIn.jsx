@@ -139,7 +139,7 @@ const CardSignIn = () => {
                     name="company_name"
                     value={formData.company_name}
                     onChange={handleChange}
-                    className="border-b text-xs border-black rounded px-3 py-2
+                    className="border-b text-xs border-black rounded px-3 py-2 text-gray-800
                            focus:outline-none focus:ring-2"
                     placeholder="Ragione sociale"
                   />
@@ -160,7 +160,7 @@ const CardSignIn = () => {
                     name="vat_number"
                     value={formData.vat_number}
                     onChange={handleChange}
-                    className="border-b text-xs border-black rounded px-3 py-2
+                    className="border-b text-xs border-black rounded px-3 py-2 text-gray-800
                            focus:outline-none focus:ring-2"
                     placeholder="Es. 12345678901"
                   />
@@ -179,7 +179,7 @@ const CardSignIn = () => {
                     name="address"
                     value={formData.address}
                     onChange={handleChange}
-                    className="border-b text-xs border-black rounded px-3 py-2
+                    className="border-b text-xs border-black rounded px-3 py-2 text-gray-800
                            focus:outline-none focus:ring-2"
                     placeholder="Es. Via Roma 1"
                   />
@@ -200,7 +200,7 @@ const CardSignIn = () => {
                     name="postal_code"
                     value={formData.postal_code}
                     onChange={handleChange}
-                    className="border-b text-xs border-black rounded px-3 py-2
+                    className="border-b text-xs border-black rounded px-3 py-2 text-gray-800
                            focus:outline-none focus:ring-2"
                     placeholder="Es. 00100"
                   />
@@ -219,7 +219,7 @@ const CardSignIn = () => {
                     name="city"
                     value={formData.city}
                     onChange={handleChange}
-                    className="border-b text-xs border-black rounded px-3 py-2
+                    className="border-b text-xs border-black rounded px-3 py-2 text-gray-800
                            focus:outline-none focus:ring-2"
                     placeholder="Es. Roma"
                   />
@@ -237,7 +237,7 @@ const CardSignIn = () => {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className="border-b text-xs border-black rounded px-3 py-2
+                    className="border-b text-xs border-black rounded px-3 py-2 text-gray-800
                            focus:outline-none focus:ring-2"
                     placeholder="Es. myemail@example.com"
                   />
@@ -256,7 +256,7 @@ const CardSignIn = () => {
                     maxLength={15}
                     value={formData.password}
                     onChange={handleChange}
-                    className="border-b text-xs border-black rounded px-3 py-2
+                    className="border-b text-xs border-black rounded px-3 py-2 text-gray-800
                            focus:outline-none focus:ring-2"
                     placeholder="Inserisci la tua password (max 15 caratteri)"
                   />
