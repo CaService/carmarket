@@ -79,7 +79,7 @@ const CardAuction = ({ vehicles = [] }) => {
                     </span>
                     <FontAwesomeIcon
                       icon={faCarSide}
-                      className="w-5 h-5 ml-2 "
+                      className="w-5 h-5 ml-2 text-[#072534]"
                     />
                   </div>
                 </div>
