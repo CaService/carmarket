@@ -152,9 +152,6 @@ const UsersTable = () => {
                   {user.email}
                 </td>
                 <td className="px-2 py-4 text-sm font-medium">
-                  <button className="text-indigo-600 hover:text-indigo-900 block mb-1 cursor-pointer">
-                    Modifica
-                  </button>
                   <button
                     onClick={() => openDeleteModal(user.id)}
                     className="text-red-600 hover:text-red-900 block cursor-pointer"
