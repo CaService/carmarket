@@ -8,14 +8,19 @@ const Footer = () => {
       <Container>
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-start mb-8">
-            <div className="flex w-auto h-auto mb-4 md:mb-0 md:mr-8">
-              <Link to="/">
-                <img
-                  src="/src/assets/logo-desktop-ayvens-white.svg"
-                  alt="Company Logo"
-                  className="h-24 w-auto"
-                />
-              </Link>
+            <div className="flex items-center">
+              <img
+                src="/images/logo-desktop-ayvens-white.svg"
+                alt="Ayvens Logo"
+                className="h-8"
+                onError={(e) => {
+                  console.error(
+                    "Errore caricamento logo footer:",
+                    e.target.src
+                  );
+                  e.target.src = "/images/Ayvens.svg";
+                }}
+              />
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
