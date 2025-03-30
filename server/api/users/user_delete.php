@@ -22,6 +22,7 @@ try {
     error_log("Metodo richiesta: " . $_SERVER['REQUEST_METHOD']);
     
     if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
+        http_response_code(405);  // Method Not Allowed
         throw new Exception('Metodo non permesso');
     }
 
@@ -49,11 +50,13 @@ try {
     
     if ($stmt->execute()) {
         if ($stmt->affected_rows > 0) {
+            http_response_code(200);  // OK
             echo json_encode([
                 'status' => 'success',
                 'message' => 'Utente eliminato con successo'
             ]);
         } else {
+            http_response_code(404);  // Not Found
             throw new Exception('Utente non trovato');
         }
     } else {
@@ -62,7 +65,9 @@ try {
 
 } catch (Exception $e) {
     error_log("Errore nell'API delete: " . $e->getMessage());
-    http_response_code(500);
+    if (http_response_code() === 200) {
+        http_response_code(500);  // Internal Server Error
+    }
     echo json_encode([
         'status' => 'error',
         'message' => $e->getMessage()

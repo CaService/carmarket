@@ -41,26 +41,30 @@ const UsersTable = () => {
   const handleDelete = async (userId) => {
     try {
       setLoading(true);
-      const response = await fetch(`/api/users/user_delete.php?id=${userId}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${API_BASE_URL}/users/user_delete.php?id=${userId}`,
+        {
+          method: "DELETE",
+          ...fetchConfig,
+        }
+      );
 
-      if (response.data.status === "success") {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (data.status === "success") {
         await fetchUsers();
       } else {
-        throw new Error(
-          response.data.message || "Errore durante l'eliminazione"
-        );
+        throw new Error(data.message || "Errore durante l'eliminazione");
       }
     } catch (error) {
       console.error("Errore durante l'eliminazione:", error);
       console.error("Dettagli errore:", {
         message: error.message,
-        response: error.response?.data,
-        status: error.response?.status,
+        status: error.status,
       });
     } finally {
       setLoading(false);
