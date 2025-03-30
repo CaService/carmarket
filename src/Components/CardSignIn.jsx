@@ -1,9 +1,7 @@
 // import { useState } from "react";
-import axios from "axios";
+import { API_BASE_URL, fetchConfig } from "../config/api";
 import { useState } from "react";
 import { CardAuth } from "./Navbar"; // Importa CardAuth da Navbar
-import { API_BASE_URL } from "../config/api";
-
 // import CardSignInSelector from "./CardSignInSelector";
 import Container from "./Container";
 import Button from "./Button";
@@ -43,38 +41,41 @@ const CardSignIn = () => {
     e.preventDefault();
 
     try {
-      console.log("Dati form da inviare:", formData); // Log dei dati prima dell'invio
+      console.log("Dati form da inviare:", formData);
 
-      const response = await fetch("/api/users/user_create.php", {
+      const response = await fetch(`${API_BASE_URL}/users/user_create.php`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        ...fetchConfig,
         body: JSON.stringify(formData),
       });
 
-      console.log("Risposta completa:", response); // Log della risposta completa
-      console.log("Dati risposta:", response.data); // Log dei dati della risposta
+      console.log("Risposta completa:", response);
 
-      if (response.data.status === "success") {
-        alert("Registrazione completata con successo!");
-        // Pulizia del form dopo il successo
-        setFormData({
-          country: "",
-          company_name: "",
-          vat_number: "",
-          address: "",
-          postal_code: "",
-          city: "",
-          email: "",
-          password: "",
-        });
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Dati risposta:", data);
+
+        if (data.status === "success") {
+          alert("Registrazione completata con successo!");
+          setFormData({
+            country: "",
+            company_name: "",
+            vat_number: "",
+            address: "",
+            postal_code: "",
+            city: "",
+            email: "",
+            password: "",
+          });
+        } else {
+          throw new Error(data.message);
+        }
+      } else {
+        throw new Error(`Errore nella registrazione: ${response.status}`);
       }
     } catch (error) {
       console.error("Errore durante la registrazione:", error);
-      const errorMessage =
-        error.response?.data?.message || "Errore durante la registrazione";
-      alert(errorMessage);
+      alert(error.message || "Errore durante la registrazione");
     }
   };
 

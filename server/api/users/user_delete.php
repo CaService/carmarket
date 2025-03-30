@@ -3,11 +3,12 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// CORS headers
-header('Access-Control-Allow-Origin: http://localhost:5173');
-header('Access-Control-Allow-Methods: DELETE, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, Authorization');
+// CORS headers standardizzati
+header('Access-Control-Allow-Origin: https://carmarket.pages.dev');
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE');
+header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
 header('Access-Control-Allow-Credentials: true');
+header('Access-Control-Expose-Headers: Content-Type');
 header('Content-Type: application/json');
 
 // Gestisci la richiesta OPTIONS
