@@ -45,16 +45,13 @@ const CardSignIn = () => {
     try {
       console.log("Dati form da inviare:", formData); // Log dei dati prima dell'invio
 
-      const response = await fetch(
-        `${API_BASE_URL}/carmarket/server/api/users/user_create.php`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+      const response = await fetch("/api/users/user_create.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
       console.log("Risposta completa:", response); // Log della risposta completa
       console.log("Dati risposta:", response.data); // Log dei dati della risposta

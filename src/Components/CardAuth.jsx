@@ -38,14 +38,13 @@ const CardAuth = ({ onClose, fromSignUp = false }) => {
     dispatch(loginStart());
 
     try {
-      const response = await fetch(
-        `${API_BASE_URL}/carmarket/server/api/users/user_login.php`,
-        {
-          method: "POST",
-          ...fetchConfig,
-          body: JSON.stringify(formData),
-        }
-      );
+      const response = await fetch("/api/users/user_login.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
       if (response.ok) {
         const data = await response.json();

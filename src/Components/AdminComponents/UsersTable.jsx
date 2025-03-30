@@ -15,9 +15,7 @@ const UsersTable = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch(
-        `${API_BASE_URL}/carmarket/server/api/users/get_users.php`
-      );
+      const response = await fetch("/api/users/get_users.php");
       const data = await response.json();
       setUsers(data);
       setLoading(false);
@@ -31,15 +29,12 @@ const UsersTable = () => {
   const handleDelete = async (userId) => {
     try {
       setLoading(true);
-      const response = await fetch(
-        `${API_BASE_URL}/carmarket/server/api/users/user_delete.php`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch(`/api/users/user_delete.php?id=${userId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       if (response.data.status === "success") {
         await fetchUsers();
