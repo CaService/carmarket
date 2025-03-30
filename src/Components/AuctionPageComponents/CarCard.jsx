@@ -37,8 +37,8 @@ const CarCard = () => {
                     }}
                   />
                 </div>
-                <span className="font-bold text-xl">1.</span>
-                <h2 className="text-teal-700 text-xl font-bold">
+                <span className="font-bold text-xl font-chillax">1.</span>
+                <h2 className="text-teal-700 text-xl font-bold font-chillax">
                   AUDI AUDI A3 30 TDI S tronic Business S.Back Hatchback 5-door
                   (Euro 6D)
                 </h2>
@@ -48,7 +48,7 @@ const CarCard = () => {
                 <ClockIcon className="w-5 h-5" />
                 <span>Termina tra 2 giorno(i) 10 ora(e) 44 minuto(i)</span>
               </div>
-              <div className="flex gap-4 text-gray-700 text-sm">
+              <div className="flex gap-4 text-gray-700 text-sm font-['Source_Sans_Pro']">
                 <span>103.940 Chilometri | 10/11/2021</span>
                 <span>Diesel | Automatico</span>
               </div>
@@ -60,14 +60,14 @@ const CarCard = () => {
                   <p className="text-xl font-bold text-gray-800 mb-4">
                     PREZZO €
                   </p>
-                  <button className="inline-block bg-[#072534] w-90 text-center px-8 py-3 mt-16 text-white cursor-pointer rounded-full font-semibold transition duration-300 hover:bg-white hover:text-[#072534] hover:border hover:border-[#072534]">
+                  <button className="inline-block bg-[#072534] w-90 text-center px-8 py-3 mt-16 text-white cursor-pointer rounded-full font-semibold transition duration-300 hover:bg-white hover:text-[#072534] hover:border hover:border-[#072534] font-chillax">
                     ACQUISTA
                   </button>
                 </div>
               ) : (
                 <Link
                   to="/signup"
-                  className="inline-block bg-[#73d2d2] w-90 text-center px-8 py-3 mt-20 cursor-pointer rounded-full font-semibold transition duration-300 hover:bg-white hover:border hover:border-[#072534]"
+                  className="inline-block bg-[#73d2d2] w-90 text-center px-8 py-3 mt-20 cursor-pointer rounded-full font-semibold transition duration-300 hover:bg-white hover:border hover:border-[#072534] font-chillax"
                 >
                   REGISTRATI
                 </Link>
@@ -79,12 +79,16 @@ const CarCard = () => {
         {/* Accordion Buttons */}
         <div className="">
           <div className="flex">
-            <button className="text-center flex-1 p-4 font-semibold cursor-pointer text-gray-700">
-              <span className="ml-20 underline-animation">DETTAGLI</span>
+            <button className="text-center flex-1 p-4 font-semibold cursor-pointer text-[#072534]">
+              <span className="ml-20 underline-animation font-chillax">
+                DETTAGLI
+              </span>
             </button>
             <span className="ml-4 text-4xl">+</span>
-            <button className="text-center flex-1 p-4 font-semibold cursor-pointer text-gray-700">
-              <span className="ml-20 underline-animation">SCARICA PDF</span>
+            <button className="text-center flex-1 p-4 font-semibold cursor-pointer text-[#072534]">
+              <span className="ml-20 underline-animation font-chillax">
+                SCARICA PDF
+              </span>
             </button>
             <span className="ml-4 text-4xl">+</span>
           </div>

@@ -47,7 +47,9 @@ const CardAuction = ({ vehicles = [] }) => {
       <Container>
         <div className="mt-10 flex items-center gap-2">
           <FontAwesomeIcon icon={faCarSide} className="text-teal-700" />
-          <span className="text-teal-700 text-lg">Vendita disponibile</span>
+          <span className="text-teal-700 text-lg font-['Source_Sans_Pro']">
+            Vendita disponibile
+          </span>
         </div>
 
         <div className="bg-white mt-8 rounded-lg shadow-md overflow-hidden">
@@ -67,10 +69,14 @@ const CardAuction = ({ vehicles = [] }) => {
                         }}
                       />
                     </div>
-                    <h2 className="text-lg font-bold">ASTA</h2>
+                    <h2 className="text-lg font-bold text-[#072534] font-chillax">
+                      ASTA
+                    </h2>
                   </div>
                   <div className="flex items-center">
-                    <span className="text-sm font-medium">10</span>
+                    <span className="text-sm font-medium text-[#072534] font-['Source_Sans_Pro']">
+                      10
+                    </span>
                     <FontAwesomeIcon
                       icon={faCarSide}
                       className="w-5 h-5 ml-2 "
@@ -89,13 +95,17 @@ const CardAuction = ({ vehicles = [] }) => {
                     >
                       {isOpen ? "APERTA" : "CHIUSA"}
                     </span>
-                    <p className="text-sm">Fine: 15 apr 2025 10h00</p>
+                    <p className="text-sm text-[#072534] font-['Source_Sans_Pro']">
+                      Fine: 15 apr 2025 10h00
+                    </p>
                   </div>
                   <div className="flex items-center justify-center mt-2 border text-blue-800 border-gray-200 rounded-full px-2 py-2">
                     <ClockIcon className="w-4 h-4 mr-1" />
-                    <span className="text-sm font-medium">{timeLeft}</span>
+                    <span className="text-sm font-medium text-[#072534] font-['Source_Sans_Pro']">
+                      {timeLeft}
+                    </span>
                   </div>
-                  <p className="text-xs mt-4 border-t font-semibold border-gray-200 pt-4 pb-24">
+                  <p className="text-xs mt-4 border-t font-semibold border-gray-200 pt-4 pb-24 text-[#072534] font-chillax">
                     VEICOLO ASTA IN ITALIA - 12424
                   </p>
                 </div>
@@ -103,13 +113,13 @@ const CardAuction = ({ vehicles = [] }) => {
                 <div className="mt-4 flex justify-between gap-4">
                   <Link
                     to="/signup"
-                    className="w-1/2 bg-[#73d2d2] text-center border border-[#73d2d2] px-3 py-3 rounded-full font-semibold transition duration-300 hover:bg-white hover:border hover:border-[#072534] flex items-center justify-center"
+                    className="w-1/2 bg-[#73d2d2] text-center border border-[#73d2d2] px-3 py-3 rounded-full font-semibold transition duration-300 hover:bg-white hover:border hover:border-[#072534] flex items-center justify-center font-chillax"
                   >
                     REGISTRATI
                   </Link>
                   <Link
                     to="/auction"
-                    className="w-1/2 bg-[#072534] border border-[#072534] text-white px-3 py-3 rounded-full font-semibold transition duration-300 hover:bg-white hover:border hover:border-[#072534] hover:text-[#072534] flex items-center justify-center"
+                    className="w-1/2 bg-[#072534] border border-[#072534] text-white px-3 py-3 rounded-full font-semibold transition duration-300 hover:bg-white hover:border hover:border-[#072534] hover:text-[#072534] flex items-center justify-center font-chillax"
                   >
                     MOSTRA DI PIÙ
                   </Link>

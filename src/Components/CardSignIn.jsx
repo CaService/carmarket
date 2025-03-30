@@ -92,7 +92,7 @@ const CardSignIn = () => {
     <div className="flex flex-col justify-center mt-16 pt-18">
       <Container>
         <div className="flex flex-col justify-center items-center">
-          <h1 className="text-3xl font-medium text-teal-500 mb-16 opacity-80">
+          <h1 className="text-3xl font-medium text-teal-500 mb-16 opacity-80 font-chillax">
             Iscriviti per acquistare l&apos;usato Ayvens
           </h1>
         </div>

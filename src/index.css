@@ -10,7 +10,7 @@
 
 
 body {
-    font-family: 'Chillax', sans-serif;
+    font-family: 'Source Sans Pro', sans-serif;
     background-color: oklch(0.967 0.001 286.375)
   }
 
@@ -76,3 +76,7 @@ body {
   .swiper-pagination-bullet-active {
     background: #0A2A3B;
   }
+
+.font-chillax {
+  font-family: 'Chillax', sans-serif;
+}

@@ -55,9 +55,11 @@ const AuctionBanner = () => {
                     }}
                   />
                 </div>
-                <span className="font-bold text-gray-800">ASTA</span>
+                <span className="font-bold text-[#072534] font-chillax">
+                  ASTA
+                </span>
               </div>
-              <span className="text-gray-800 font-medium">
+              <span className="text-[#072534] font-medium font-chillax">
                 VEICOLO ASTA IN ITALIA - 134793
               </span>
             </div>
@@ -73,21 +75,23 @@ const AuctionBanner = () => {
                   >
                     APERTA
                   </span>
-                  <span className="text-sm text-gray-600">
+                  <span className="text-sm text-[#072534] font-['Source_Sans_Pro']">
                     Fine: 10 mar 2025 10h30
                   </span>
                 </div>
 
                 <div className="flex items-center justify-center gap-2 border border-gray-200 px-4 py-2 rounded-full">
                   <ClockIcon className="w-4 h-4 text-blue-800" />
-                  <span className="text-sm text-blue-800">{timeLeft}</span>
+                  <span className="text-sm text-blue-800 font-['Source_Sans_Pro']">
+                    {timeLeft}
+                  </span>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </Container>
-      <div className="flex bg-[#0f3549] p-4 mt-4 text-white items-center justify-center">
+      <div className="flex bg-[#0f3549] p-4 mt-4 text-white items-center justify-center font-['Source_Sans_Pro']">
         Vetture usate Asta in vendita in Italia: Selezione di veicoli usati per
         professionisti del settore.
       </div>
