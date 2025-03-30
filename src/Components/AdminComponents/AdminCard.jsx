@@ -52,14 +52,18 @@ const AdminCard = ({ onDataParsed }) => {
         File Upload
       </h2>
       <fieldset className="fieldset">
-        <legend className="fieldset-legend">Pick a file</legend>
+        <legend className="fieldset-legend text-[#072534] font-chillax">
+          Pick a file
+        </legend>
         <input
           type="file"
           className="file-input"
           onChange={handleFileChange}
           accept=".csv"
         />
-        <label className="fieldset-label">Max size 2MB</label>
+        <label className="fieldset-label text-[#072534] font-chillax">
+          Max size 2MB
+        </label>
       </fieldset>
       <ul className="list-disc-none pl-5">
         {files.map((file, index) => (

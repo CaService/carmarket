@@ -3,9 +3,15 @@ import Flag from "react-world-flags";
 import { Link } from "react-router-dom";
 import Container from "../Container";
 import { useSelector } from "react-redux";
+import { useState } from "react";
 
 const CarCard = () => {
+  const [showDetails, setShowDetails] = useState(false);
   const { isAuthenticated } = useSelector((state) => state.auth);
+
+  const toggleDetails = () => {
+    setShowDetails(!showDetails);
+  };
 
   return (
     <Container>
@@ -79,19 +85,111 @@ const CarCard = () => {
         {/* Accordion Buttons */}
         <div className="">
           <div className="flex">
-            <button className="text-center flex-1 p-4 font-semibold cursor-pointer text-[#072534]">
-              <span className="ml-20 underline-animation font-chillax">
-                DETTAGLI
-              </span>
+            <button
+              onClick={toggleDetails}
+              className="text-center flex-1 p-4 pb-8 font-semibold cursor-pointer text-[#072534] underline-animation"
+            >
+              DETTAGLI {showDetails ? "-" : "+"}
             </button>
-            <span className="ml-4 text-4xl">+</span>
-            <button className="text-center flex-1 p-4 font-semibold cursor-pointer text-[#072534]">
-              <span className="ml-20 underline-animation font-chillax">
-                SCARICA PDF
-              </span>
+            <button className="text-center flex-1 p-4 pb-8 font-semibold cursor-pointer text-[#072534] underline-animation">
+              SCARICA PDF +
             </button>
-            <span className="ml-4 text-4xl">+</span>
           </div>
+
+          {/* Dropdown Details */}
+          {showDetails && (
+            <div className="px-6 pb-6 mb-6 ml-6 mt-6 border-t border-gray-100 bg-gray-100 rounded-lg">
+              <div className="flex mt-4">
+                {/* Colonna Labels */}
+                <div className="w-1/2 space-y-4 pr-4">
+                  <p className="text-[#072534] font-['Source_Sans_Pro']">
+                    VERSIONE
+                  </p>
+                  <p className="text-[#072534] font-['Source_Sans_Pro']">
+                    CARROZZERIA
+                  </p>
+                  <p className="text-[#072534] font-['Source_Sans_Pro']">
+                    PORTE
+                  </p>
+                  <p className="text-[#072534] font-['Source_Sans_Pro']">
+                    POSTI
+                  </p>
+                  <p className="text-[#072534] font-['Source_Sans_Pro']">
+                    CATEGORIA
+                  </p>
+                  <p className="text-[#072534] font-['Source_Sans_Pro']">
+                    COLORE ESTERNO
+                  </p>
+                  <p className="text-[#072534] font-['Source_Sans_Pro']">
+                    COLORE INTERNO
+                  </p>
+                  <p className="text-[#072534] font-['Source_Sans_Pro']">
+                    ANNO MODELLO
+                  </p>
+                  <p className="text-[#072534] font-['Source_Sans_Pro']">
+                    CHILOMETRAGGIO
+                  </p>
+                  <p className="text-[#072534] font-['Source_Sans_Pro']">
+                    CAMBIO
+                  </p>
+                  <p className="text-[#072534] font-['Source_Sans_Pro']">
+                    TIPO CARBURANTE
+                  </p>
+                  <p className="text-[#072534] font-['Source_Sans_Pro']">
+                    POTENZA MOTORE (DIN)
+                  </p>
+                  <p className="text-[#072534] font-['Source_Sans_Pro']">
+                    POTENZA (KW)
+                  </p>
+                  <p className="text-[#072534] font-['Source_Sans_Pro']">
+                    CILINDRATA MOTORE
+                  </p>
+                  <p className="text-[#072534] font-['Source_Sans_Pro']">
+                    POTENZA FISCALE
+                  </p>
+                </div>
+
+                {/* Colonna Valori */}
+                <div className="w-1/2 space-y-4 text-right">
+                  <p className="text-[#072534] font-['Source_Sans_Pro']">
+                    2.0 TDI
+                  </p>
+                  <p className="text-[#072534] font-['Source_Sans_Pro']">
+                    Berlina
+                  </p>
+                  <p className="text-[#072534] font-['Source_Sans_Pro']">5</p>
+                  <p className="text-[#072534] font-['Source_Sans_Pro']">5</p>
+                  <p className="text-[#072534] font-['Source_Sans_Pro']">
+                    AUTO
+                  </p>
+                  <p className="text-[#072534] font-['Source_Sans_Pro']">
+                    GRIGIO MOONLIGHT METALLIZZATO
+                  </p>
+                  <p className="text-[#072534] font-['Source_Sans_Pro']">
+                    Tessuto nero
+                  </p>
+                  <p className="text-[#072534] font-['Source_Sans_Pro']">
+                    2022
+                  </p>
+                  <p className="text-[#072534] font-['Source_Sans_Pro']">
+                    125.139 Km
+                  </p>
+                  <p className="text-[#072534] font-['Source_Sans_Pro']">
+                    Automatico
+                  </p>
+                  <p className="text-[#072534] font-['Source_Sans_Pro']">
+                    Diesel
+                  </p>
+                  <p className="text-[#072534] font-['Source_Sans_Pro']">190</p>
+                  <p className="text-[#072534] font-['Source_Sans_Pro']">140</p>
+                  <p className="text-[#072534] font-['Source_Sans_Pro']">
+                    2143
+                  </p>
+                  <p className="text-[#072534] font-['Source_Sans_Pro']">21</p>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </Container>
