@@ -38,11 +38,9 @@ const CardAuth = ({ onClose, fromSignUp = false }) => {
     dispatch(loginStart());
 
     try {
-      const response = await fetch("/api/users/user_login.php", {
+      const response = await fetch(`${API_BASE_URL}/users/user_login.php`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        ...fetchConfig,
         body: JSON.stringify(formData),
       });
 
@@ -52,9 +50,13 @@ const CardAuth = ({ onClose, fromSignUp = false }) => {
           dispatch(loginSuccess(data.user));
           onClose();
           if (fromSignUp) {
-            navigate("/"); // Naviga alla homepage solo se viene dalla pagina di signup
+            navigate("/");
           }
+        } else {
+          throw new Error(data.message || "Errore durante il login");
         }
+      } else {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
     } catch (error) {
       console.error("Errore durante il login:", error);
