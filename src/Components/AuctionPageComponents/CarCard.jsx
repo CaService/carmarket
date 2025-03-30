@@ -91,9 +91,12 @@ const CarCard = () => {
             >
               DETTAGLI {showDetails ? "-" : "+"}
             </button>
-            <button className="text-center flex-1 p-4 pb-8 font-semibold cursor-pointer text-[#072534] underline-animation">
+            <Link
+              to="/signup"
+              className="text-center flex-1 p-4 pb-8 font-semibold cursor-pointer text-[#072534] underline-animation"
+            >
               SCARICA PDF +
-            </button>
+            </Link>
           </div>
 
           {/* Dropdown Details */}
