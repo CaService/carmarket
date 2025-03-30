@@ -9,9 +9,9 @@ export default defineConfig({
     port: 5173,
     proxy: {
       "/api": {
-        target: "http://localhost",
+        target: "https://071b-82-84-9-104.ngrok-free.app",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, "/carmarket/server/api"),
+        secure: false,
       },
     },
   },

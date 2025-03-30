@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { API_BASE_URL } from "../../config/api";
 
 const UsersTable = () => {
   const [users, setUsers] = useState([]);
@@ -14,28 +15,31 @@ const UsersTable = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost/carmarket/server/api/users/get_users.php"
+      const response = await fetch(
+        `${API_BASE_URL}/carmarket/server/api/users/get_users.php`
       );
-      setUsers(response.data);
+      const data = await response.json();
+      setUsers(data);
       setLoading(false);
     } catch (error) {
-      console.error("Errore nel caricamento degli utenti:", error);
+      console.error("Errore nel recupero degli utenti:", error);
       setError("Errore nel caricamento degli utenti");
       setLoading(false);
     }
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (userId) => {
     try {
       setLoading(true);
-      const response = await axios({
-        method: "DELETE",
-        url: `/api/users/user_delete.php?id=${id}`,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${API_BASE_URL}/carmarket/server/api/users/user_delete.php`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (response.data.status === "success") {
         await fetchUsers();
@@ -45,7 +49,7 @@ const UsersTable = () => {
         );
       }
     } catch (error) {
-      console.error("Errore completo:", error);
+      console.error("Errore durante l'eliminazione:", error);
       console.error("Dettagli errore:", {
         message: error.message,
         response: error.response?.data,

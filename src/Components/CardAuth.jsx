@@ -8,6 +8,7 @@ import {
   loginFailure,
 } from "../store/slices/authSlice";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../config/api";
 
 const CardAuth = ({ onClose, fromSignUp = false }) => {
   const dispatch = useDispatch();
@@ -37,23 +38,31 @@ const CardAuth = ({ onClose, fromSignUp = false }) => {
     dispatch(loginStart());
 
     try {
-      const response = await axios.post("/api/users/user_login.php", formData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${API_BASE_URL}/carmarket/server/api/users/user_login.php`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
-      if (response.data.status === "success") {
-        dispatch(loginSuccess(response.data.user));
-        onClose();
-        if (fromSignUp) {
-          navigate("/"); // Naviga alla homepage solo se viene dalla pagina di signup
+      if (response.ok) {
+        const data = await response.json();
+        if (data.status === "success") {
+          dispatch(loginSuccess(data.user));
+          onClose();
+          if (fromSignUp) {
+            navigate("/"); // Naviga alla homepage solo se viene dalla pagina di signup
+          }
         }
       }
     } catch (error) {
       dispatch(
         loginFailure(
-          error.response?.data?.message ||
+          error.message ||
             "Errore durante il login. Verifica le tue credenziali."
         )
       );

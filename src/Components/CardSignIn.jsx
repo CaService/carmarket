@@ -2,6 +2,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { CardAuth } from "./Navbar"; // Importa CardAuth da Navbar
+import { API_BASE_URL } from "../config/api";
 
 // import CardSignInSelector from "./CardSignInSelector";
 import Container from "./Container";
@@ -44,13 +45,14 @@ const CardSignIn = () => {
     try {
       console.log("Dati form da inviare:", formData); // Log dei dati prima dell'invio
 
-      const response = await axios.post(
-        "/api/users/user_create.php",
-        formData,
+      const response = await fetch(
+        `${API_BASE_URL}/carmarket/server/api/users/user_create.php`,
         {
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
+          body: JSON.stringify(formData),
         }
       );
 
@@ -72,12 +74,7 @@ const CardSignIn = () => {
         });
       }
     } catch (error) {
-      console.error("Errore completo:", error);
-      console.error("Dettagli errore:", {
-        message: error.message,
-        response: error.response?.data,
-        status: error.response?.status,
-      });
+      console.error("Errore durante la registrazione:", error);
       const errorMessage =
         error.response?.data?.message || "Errore durante la registrazione";
       alert(errorMessage);
