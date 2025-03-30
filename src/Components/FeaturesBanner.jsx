@@ -5,7 +5,7 @@ import {
 } from "@radix-ui/react-icons";
 import Container from "./Container";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Navigation } from "swiper/modules";
+import { Pagination } from "swiper/modules";
 import React from "react";
 
 // Import Swiper styles
