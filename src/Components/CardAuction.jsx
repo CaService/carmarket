@@ -130,7 +130,10 @@ const CardAuction = ({ vehicles = [] }) => {
             <div className="p-6 md:w-2/3">
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 {vehicles.map((vehicle, index) => (
-                  <div key={index} className="rounded-lg overflow-hidden">
+                  <div
+                    key={index}
+                    className="rounded-lg overflow-hidden text-gray-800"
+                  >
                     <img
                       src={vehicle.image || "https://placehold.co/200x150"}
                       alt={vehicle.name}

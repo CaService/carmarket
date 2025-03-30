@@ -77,7 +77,7 @@ const CardAuth = ({ onClose, fromSignUp = false }) => {
       >
         <Cross1Icon className="cursor-pointer w-6 h-6" />
       </button>
-      <h2 className="text-2xl font-semibold mb-6">Login</h2>
+      <h2 className="text-2xl font-semibold mb-6 text-gray-800">Login</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="email"
@@ -85,7 +85,7 @@ const CardAuth = ({ onClose, fromSignUp = false }) => {
           placeholder="Inserisci la tua email"
           value={formData.email}
           onChange={handleChange}
-          className="w-full p-3 mb-6 border border-gray-300 rounded-lg"
+          className="w-full p-3 mb-6 border border-gray-300 rounded-lg text-gray-800"
           required
         />
         <div className="relative mb-4">
@@ -95,7 +95,7 @@ const CardAuth = ({ onClose, fromSignUp = false }) => {
             placeholder="Inserisci la tua password"
             value={formData.password}
             onChange={handleChange}
-            className="w-full p-3 mb-4 border border-gray-300 rounded-lg"
+            className="w-full p-3 mb-4 border border-gray-300 rounded-lg text-gray-800"
             required
           />
           <span
@@ -103,9 +103,9 @@ const CardAuth = ({ onClose, fromSignUp = false }) => {
             onClick={() => setShowPassword(!showPassword)}
           >
             {showPassword ? (
-              <EyeOpenIcon className="w-6 h-6" />
+              <EyeOpenIcon className="w-6 h-6 text-gray-800" />
             ) : (
-              <EyeClosedIcon className="w-6 h-6" />
+              <EyeClosedIcon className="w-6 h-6 text-gray-800" />
             )}
           </span>
         </div>
