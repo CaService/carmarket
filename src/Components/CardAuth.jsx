@@ -8,7 +8,7 @@ import {
   loginFailure,
 } from "../store/slices/authSlice";
 import { useNavigate } from "react-router-dom";
-import { API_BASE_URL } from "../config/api";
+import { API_BASE_URL, fetchConfig } from "../config/api";
 
 const CardAuth = ({ onClose, fromSignUp = false }) => {
   const dispatch = useDispatch();
@@ -42,9 +42,7 @@ const CardAuth = ({ onClose, fromSignUp = false }) => {
         `${API_BASE_URL}/carmarket/server/api/users/user_login.php`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          ...fetchConfig,
           body: JSON.stringify(formData),
         }
       );
@@ -60,6 +58,7 @@ const CardAuth = ({ onClose, fromSignUp = false }) => {
         }
       }
     } catch (error) {
+      console.error("Errore durante il login:", error);
       dispatch(
         loginFailure(
           error.message ||
