@@ -103,15 +103,15 @@ const CardAuction = ({ vehicles = [] }) => {
                 <div className="mt-4 flex justify-between gap-4">
                   <Link
                     to="/signup"
-                    className="w-1/2 bg-[#73d2d2] text-center border border-[#73d2d2] px-3 py-3 rounded-full font-semibold transition duration-300 hover:bg-white hover:border hover:border-[#072534]"
+                    className="w-1/2 bg-[#73d2d2] text-center border border-[#73d2d2] px-3 py-3 rounded-full font-semibold transition duration-300 hover:bg-white hover:border hover:border-[#072534] flex items-center justify-center"
                   >
-                    <button className="cursor-pointer">REGISTRATI</button>
+                    REGISTRATI
                   </Link>
                   <Link
                     to="/auction"
-                    className="w-1/2 bg-[#072534] border border-[#072534] text-white px-3 py-3 rounded-full font-semibold cursor-pointer transition duration-300 hover:bg-white hover:border hover:border-[#072534] hover:text-[#072534]"
+                    className="w-1/2 bg-[#072534] border border-[#072534] text-white px-3 py-3 rounded-full font-semibold transition duration-300 hover:bg-white hover:border hover:border-[#072534] hover:text-[#072534] flex items-center justify-center"
                   >
-                    <button className="cursor-pointer">MOSTRA DI PIÙ</button>
+                    MOSTRA DI PIÙ
                   </Link>
                 </div>
               </div>
