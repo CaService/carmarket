@@ -23,8 +23,8 @@ const UsersTable = () => {
       }
 
       const data = await response.json();
-      if (Array.isArray(data)) {
-        setUsers(data);
+      if (data.status === "success" && Array.isArray(data.data)) {
+        setUsers(data.data);
       } else if (data.status === "error") {
         throw new Error(data.message);
       } else {
