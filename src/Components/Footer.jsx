@@ -1,6 +1,5 @@
 import Flag from "react-world-flags";
 import Container from "./Container";
-import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -13,13 +12,6 @@ const Footer = () => {
                 src="/images/logo-desktop-ayvens-white.svg"
                 alt="Ayvens Logo"
                 className="h-8"
-                onError={(e) => {
-                  console.error(
-                    "Errore caricamento logo footer:",
-                    e.target.src
-                  );
-                  e.target.src = "/images/Ayvens.svg";
-                }}
               />
             </div>
 
