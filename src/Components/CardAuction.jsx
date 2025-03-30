@@ -12,7 +12,7 @@ const CardAuction = ({ vehicles = [] }) => {
 
   // Modificare la endDate qui per far partire il count down
   useEffect(() => {
-    const endDate = new Date("2025-03-30T10:00:00");
+    const endDate = new Date("2025-04-15T10:00:00");
     const updateCountdown = () => {
       const now = new Date();
       const difference = endDate - now;
@@ -89,7 +89,7 @@ const CardAuction = ({ vehicles = [] }) => {
                     >
                       {isOpen ? "APERTA" : "CHIUSA"}
                     </span>
-                    <p className="text-sm">Fine: 30 mar 2025 10h00</p>
+                    <p className="text-sm">Fine: 15 apr 2025 10h00</p>
                   </div>
                   <div className="flex items-center justify-center mt-2 border text-blue-800 border-gray-200 rounded-full px-2 py-2">
                     <ClockIcon className="w-4 h-4 mr-1" />
