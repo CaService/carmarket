@@ -68,9 +68,12 @@ const Navbar = () => {
             <div className="flex items-center gap-18">
               <Link to="/">
                 <img
-                  src="/images/Ayvens.svg"
+                  src="/images/logo-desktop-ayvens-white.svg"
                   alt="Ayvens"
                   className="w-26.5 h-26.5"
+                  onError={(e) => {
+                    console.error("Errore caricamento logo:", e.target.src);
+                  }}
                 />
               </Link>
               <div className="hidden md:flex items-center gap-10">

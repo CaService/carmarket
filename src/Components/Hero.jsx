@@ -10,7 +10,16 @@ const Hero = () => {
           </span>{" "}
           cars, everywhere.
         </h1>
-        <img src="src/assets/banner-1680px.jpg" className="w-full h-auto"></img>
+        <img
+          src="/images/banner-1680px.jpg"
+          alt="Banner"
+          className="w-full h-full object-cover"
+          onError={(e) => {
+            console.error("Errore caricamento banner:", e.target.src);
+            // Fallback temporaneo
+            e.target.src = "https://placehold.co/1680x400";
+          }}
+        />
       </div>
       {/* Features */}
       <FeaturesBanner />
