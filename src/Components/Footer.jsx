@@ -15,61 +15,20 @@ const Footer = () => {
               />
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-2 gap-8">
               <div>
-                <h2 className="text-white text-xl font-medium mb-4">About</h2>
-                <ul className="space-y-1 font-medium font-['Source_Sans_Pro'] text-base">
-                  <li>
-                    <a href="#" className="font-medium">
-                      About us
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="font-medium">
-                      How does it work
-                    </a>
-                  </li>
-                  <li>
-                    {/* <a href="#" className="font-medium">
-                      Mobile app
-                    </a> */}
-                  </li>
-                </ul>
-              </div>
-
-              <div>
-                <h2 className="text-white font-medium mb-4 text-xl">
-                  Sales types
+                <h2 className="text-white text-xl font-medium mb-4">
+                  Chi Siamo
                 </h2>
                 <ul className="space-y-1 font-medium font-['Source_Sans_Pro'] text-base">
                   <li>
-                    <a href="#" className="">
-                      Auction
+                    <a href="#" className="font-medium">
+                      La società
                     </a>
                   </li>
                   <li>
-                    <a href="#" className="">
-                      Tender
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="">
-                      Fixed price
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="">
-                      See all sales types
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="">
-                      All vehicles
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="">
-                      Electric vehicles
+                    <a href="#" className="font-medium">
+                      Come funziona
                     </a>
                   </li>
                 </ul>
@@ -77,7 +36,7 @@ const Footer = () => {
 
               <div>
                 <h2 className="text-white font-medium mb-4 text-xl">
-                  Help center
+                  Help Center
                 </h2>
                 <ul className="space-y-1 font-medium font-['Source_Sans_Pro'] text-base">
                   <li>
@@ -87,43 +46,7 @@ const Footer = () => {
                   </li>
                   <li>
                     <a href="#" className="">
-                      Contact us
-                    </a>
-                  </li>
-                </ul>
-              </div>
-
-              <div>
-                <h2 className="text-white font-medium mb-4 text-xl">Marchi</h2>
-                <ul className="space-y-1 font-medium font-['Source_Sans_Pro'] text-base">
-                  <li>
-                    <a href="#" className="">
-                      Ford
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="">
-                      Peugeot
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="">
-                      Renault
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="">
-                      Volkswagen
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="">
-                      BMW
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="">
-                      Vedi tutti i marchi
+                      Contattaci
                     </a>
                   </li>
                 </ul>
@@ -133,7 +56,7 @@ const Footer = () => {
 
           <div className="border-t border-white pt-4 flex flex-col md:flex-row items-center justify-between">
             <p className="mb-2 md:mb-0 font-['Source_Sans_Pro']">
-              Copyright © 2025 Aayens Carmarket. All Rights Reserved.
+              Copyright © 2025 Ayvens Carmarket. All Rights Reserved.
             </p>
             <ul className="flex space-x-24 font-medium font-['Source_Sans_Pro'] text-sm">
               <li>
@@ -153,7 +76,7 @@ const Footer = () => {
               </li>
               <li>
                 <a href="#" className="">
-                  Impostazioni Cookies
+                  Impostazioni Cookie
                 </a>
               </li>
             </ul>
