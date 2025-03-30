@@ -74,18 +74,18 @@ const Navbar = () => {
                 />
               </Link>
               <div className="hidden md:flex items-center gap-10">
-                <a
-                  href="/"
+                <Link
+                  to="/auction"
                   className="underline-animation text-black font-medium hover:text-cyan-800 font-['Source_Sans_Pro']"
                 >
                   Veicoli
-                </a>
-                <a
-                  href="/"
+                </Link>
+                <Link
+                  to="/"
                   className="underline-animation text-black font-medium hover:text-cyan-800 font-['Source_Sans_Pro']"
                 >
                   Vendite
-                </a>
+                </Link>
               </div>
             </div>
 

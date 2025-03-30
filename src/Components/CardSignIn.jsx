@@ -116,7 +116,7 @@ const CardSignIn = () => {
                     name="country"
                     value={formData.country}
                     onChange={handleChange}
-                    className="border-b text-xs border-black rounded px-3 py-2 
+                    className="border-b text-xs border-black rounded px-3 py-2 text-gray-800
                            focus:outline-none focus:ring-2"
                   >
                     <option value="">Seleziona il Paese</option>
