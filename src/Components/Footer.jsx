@@ -11,7 +11,7 @@ const Footer = () => {
               <img
                 src="/images/logo-desktop-ayvens-white.svg"
                 alt="Ayvens Logo"
-                className="h-8"
+                className="h-40"
               />
             </div>
 
