@@ -99,9 +99,9 @@ const CardAuction = ({ vehicles = [] }) => {
                       Fine: 15 apr 2025 10h00
                     </p>
                   </div>
-                  <div className="flex items-center justify-center mt-2 border text-blue-800 border-gray-200 rounded-full px-2 py-2">
+                  <div className="flex items-center justify-center mt-2 border text-blue-600 border-gray-200 rounded-full px-2 py-2">
                     <ClockIcon className="w-4 h-4 mr-1" />
-                    <span className="text-sm font-medium text-[#072534] font-['Source_Sans_Pro']">
+                    <span className="text-sm font-medium text-blue-600 font-['Source_Sans_Pro']">
                       {timeLeft}
                     </span>
                   </div>

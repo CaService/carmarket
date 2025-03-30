@@ -8,7 +8,7 @@ const AuctionBanner = () => {
   const [timeLeft, setTimeLeft] = useState("");
 
   useEffect(() => {
-    const endDate = new Date("2025-03-10T10:30:00"); // Data aggiornata come nell'immagine
+    const endDate = new Date("2025-04-15T10:00:00"); // Data aggiornata come nell'immagine
     const updateCountdown = () => {
       const now = new Date();
       const difference = endDate - now;
@@ -76,13 +76,13 @@ const AuctionBanner = () => {
                     APERTA
                   </span>
                   <span className="text-sm text-[#072534] font-['Source_Sans_Pro']">
-                    Fine: 10 mar 2025 10h30
+                    Fine: 15 apr 2025 10h00
                   </span>
                 </div>
 
                 <div className="flex items-center justify-center gap-2 border border-gray-200 px-4 py-2 rounded-full">
-                  <ClockIcon className="w-4 h-4 text-blue-800" />
-                  <span className="text-sm text-blue-800 font-['Source_Sans_Pro']">
+                  <ClockIcon className="w-4 h-4 text-blue-600" />
+                  <span className="text-sm text-blue-600 font-['Source_Sans_Pro']">
                     {timeLeft}
                   </span>
                 </div>
