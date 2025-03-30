@@ -37,5 +37,7 @@ export default defineConfig({
         manualChunks: undefined,
       },
     },
+    cssCodeSplit: false,
+    assetsInlineLimit: 0,
   },
 });
