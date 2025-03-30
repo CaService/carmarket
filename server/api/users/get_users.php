@@ -29,14 +29,22 @@ try {
              ORDER BY id DESC";
     $result = $conn->query($query);
     
+    if (!$result) {
+        throw new Exception("Errore nell'esecuzione della query");
+    }
+    
     $users = [];
     while ($row = $result->fetch_assoc()) {
         $users[] = $row;
     }
     
-    echo json_encode($users);
+    echo json_encode([
+        'status' => 'success',
+        'data' => $users
+    ]);
 
 } catch (Exception $e) {
+    error_log("Errore in get_users.php: " . $e->getMessage());
     http_response_code(500);
     echo json_encode([
         'status' => 'error',

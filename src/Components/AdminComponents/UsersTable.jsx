@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
-import { API_BASE_URL } from "../../config/api";
+import { API_BASE_URL, fetchConfig } from "../../config/api";
 
 const UsersTable = () => {
   const [users, setUsers] = useState([]);
@@ -15,13 +14,26 @@ const UsersTable = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch("/api/users/get_users.php");
+      const response = await fetch(`${API_BASE_URL}/users/get_users.php`, {
+        ...fetchConfig,
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       const data = await response.json();
-      setUsers(data);
-      setLoading(false);
+      if (Array.isArray(data)) {
+        setUsers(data);
+      } else if (data.status === "error") {
+        throw new Error(data.message);
+      } else {
+        throw new Error("Formato dati non valido");
+      }
     } catch (error) {
       console.error("Errore nel recupero degli utenti:", error);
-      setError("Errore nel caricamento degli utenti");
+      setError(error.message || "Errore nel caricamento degli utenti");
+    } finally {
       setLoading(false);
     }
   };
