@@ -1,33 +1,6 @@
 <?php
 require_once '../../config/database.php';
-
-// Determina l'origine della richiesta
-$allowed_origins = [
-    'https://carmarket.pages.dev',
-    'http://localhost:5173',
-    'https://071b-82-84-9-104.ngrok-free.app'
-];
-
-$origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
-
-if (in_array($origin, $allowed_origins)) {
-    header("Access-Control-Allow-Origin: $origin");
-} else {
-    header("Access-Control-Allow-Origin: https://carmarket.pages.dev");
-}
-
-// Altri header CORS
-header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE');
-header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
-header('Access-Control-Allow-Credentials: true');
-header('Access-Control-Expose-Headers: Content-Type');
-header('Content-Type: application/json');
-
-// Gestisci la richiesta OPTIONS
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit();
-}
+require_once '../../config/cors.php';  
 
 try {
     $database = new Database();

@@ -16,6 +16,11 @@ const UsersTable = () => {
     try {
       const response = await fetch(`${API_BASE_URL}/users/get_users.php`, {
         ...fetchConfig,
+        credentials: "include",
+        headers: {
+          ...fetchConfig.headers,
+          Accept: "application/json",
+        },
       });
 
       if (!response.ok) {
