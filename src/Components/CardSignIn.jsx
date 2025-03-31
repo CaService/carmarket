@@ -49,32 +49,38 @@ const CardSignIn = () => {
         body: JSON.stringify(formData),
       });
 
-      console.log("Risposta completa:", response);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          errorData.message || `Errore nella registrazione: ${response.status}`
+        );
+      }
 
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Dati risposta:", data);
+      const data = await response.json();
+      console.log("Dati risposta:", data);
 
-        if (data.status === "success") {
-          alert("Registrazione completata con successo!");
-          setFormData({
-            country: "",
-            company_name: "",
-            vat_number: "",
-            address: "",
-            postal_code: "",
-            city: "",
-            email: "",
-            password: "",
-          });
-        } else {
-          throw new Error(data.message);
-        }
+      if (data.status === "success") {
+        alert("Registrazione completata con successo!");
+        setFormData({
+          country: "",
+          company_name: "",
+          vat_number: "",
+          address: "",
+          postal_code: "",
+          city: "",
+          email: "",
+          password: "",
+        });
       } else {
-        throw new Error(`Errore nella registrazione: ${response.status}`);
+        throw new Error(data.message);
       }
     } catch (error) {
-      console.error("Errore durante la registrazione:", error);
+      console.error("Errore completo:", error);
+      console.error("Dettagli risposta:", {
+        status: error.response?.status,
+        message: error.message,
+        data: error.response?.data,
+      });
       alert(error.message || "Errore durante la registrazione");
     }
   };

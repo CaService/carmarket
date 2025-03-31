@@ -25,12 +25,12 @@ try {
         throw new Exception('Metodo non permesso');
     }
 
-    // Leggi i dati raw
-    $rawData = file_get_contents('php://input');
-    error_log("Dati ricevuti: " . $rawData);
+    // Log dei dati ricevuti
+    $input = file_get_contents('php://input');
+    error_log("Dati ricevuti: " . $input);
 
     // Decodifica JSON
-    $data = json_decode($rawData, true);
+    $data = json_decode($input, true);
     if (json_last_error() !== JSON_ERROR_NONE) {
         throw new Exception('Errore nella decodifica JSON: ' . json_last_error_msg());
     }
@@ -111,7 +111,7 @@ try {
     ]);
 
 } catch (Exception $e) {
-    error_log("Errore nell'API: " . $e->getMessage());
+    error_log("Errore in user_create.php: " . $e->getMessage());
     http_response_code(500);
     echo json_encode([
         'status' => 'error',
