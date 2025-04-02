@@ -4,13 +4,35 @@ import { Link } from "react-router-dom";
 import Container from "../Container";
 import { useSelector } from "react-redux";
 import { useState } from "react";
+import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
+import "@cyntler/react-doc-viewer/dist/index.css";
 
 const CarCard = () => {
   const [showDetails, setShowDetails] = useState(false);
+  const [pdfError, setPdfError] = useState(null);
   const { isAuthenticated } = useSelector((state) => state.auth);
+
+  const pdfUrl = import.meta.env.DEV
+    ? "/public/pdf/GB604HG.pdf"
+    : "/pdf/GB604HG.pdf";
 
   const toggleDetails = () => {
     setShowDetails(!showDetails);
+  };
+
+  const handlePdfDownload = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    fetch(pdfUrl)
+      .then((response) => {
+        if (!response.ok) throw new Error("PDF non trovato");
+        window.open(pdfUrl, "_blank");
+      })
+      .catch((error) => {
+        console.error("Errore nel caricamento del PDF:", error);
+        setPdfError("PDF non disponibile al momento");
+      });
   };
 
   return (
@@ -91,104 +113,38 @@ const CarCard = () => {
             >
               DETTAGLI {showDetails ? "-" : "+"}
             </button>
-            <Link
-              to="/signup"
+            <button
+              onClick={handlePdfDownload}
               className="text-center flex-1 p-4 pb-8 font-semibold cursor-pointer text-[#072534] underline-animation"
             >
               SCARICA PDF +
-            </Link>
+            </button>
           </div>
 
-          {/* Dropdown Details */}
+          {/* Dropdown Details con PDF */}
           {showDetails && (
             <div className="px-6 pb-6 mb-6 ml-6 mt-6 border-t border-gray-100 bg-gray-100 rounded-lg">
-              <div className="flex mt-4">
-                {/* Colonna Labels */}
-                <div className="w-1/2 space-y-4 pr-4">
-                  <p className="text-[#072534] font-['Source_Sans_Pro']">
-                    VERSIONE
-                  </p>
-                  <p className="text-[#072534] font-['Source_Sans_Pro']">
-                    CARROZZERIA
-                  </p>
-                  <p className="text-[#072534] font-['Source_Sans_Pro']">
-                    PORTE
-                  </p>
-                  <p className="text-[#072534] font-['Source_Sans_Pro']">
-                    POSTI
-                  </p>
-                  <p className="text-[#072534] font-['Source_Sans_Pro']">
-                    CATEGORIA
-                  </p>
-                  <p className="text-[#072534] font-['Source_Sans_Pro']">
-                    COLORE ESTERNO
-                  </p>
-                  <p className="text-[#072534] font-['Source_Sans_Pro']">
-                    COLORE INTERNO
-                  </p>
-                  <p className="text-[#072534] font-['Source_Sans_Pro']">
-                    ANNO MODELLO
-                  </p>
-                  <p className="text-[#072534] font-['Source_Sans_Pro']">
-                    CHILOMETRAGGIO
-                  </p>
-                  <p className="text-[#072534] font-['Source_Sans_Pro']">
-                    CAMBIO
-                  </p>
-                  <p className="text-[#072534] font-['Source_Sans_Pro']">
-                    TIPO CARBURANTE
-                  </p>
-                  <p className="text-[#072534] font-['Source_Sans_Pro']">
-                    POTENZA MOTORE (DIN)
-                  </p>
-                  <p className="text-[#072534] font-['Source_Sans_Pro']">
-                    POTENZA (KW)
-                  </p>
-                  <p className="text-[#072534] font-['Source_Sans_Pro']">
-                    CILINDRATA MOTORE
-                  </p>
-                  <p className="text-[#072534] font-['Source_Sans_Pro']">
-                    POTENZA FISCALE
-                  </p>
-                </div>
-
-                {/* Colonna Valori */}
-                <div className="w-1/2 space-y-4 text-right">
-                  <p className="text-[#072534] font-['Source_Sans_Pro']">
-                    2.0 TDI
-                  </p>
-                  <p className="text-[#072534] font-['Source_Sans_Pro']">
-                    Berlina
-                  </p>
-                  <p className="text-[#072534] font-['Source_Sans_Pro']">5</p>
-                  <p className="text-[#072534] font-['Source_Sans_Pro']">5</p>
-                  <p className="text-[#072534] font-['Source_Sans_Pro']">
-                    AUTO
-                  </p>
-                  <p className="text-[#072534] font-['Source_Sans_Pro']">
-                    GRIGIO MOONLIGHT METALLIZZATO
-                  </p>
-                  <p className="text-[#072534] font-['Source_Sans_Pro']">
-                    Tessuto nero
-                  </p>
-                  <p className="text-[#072534] font-['Source_Sans_Pro']">
-                    2022
-                  </p>
-                  <p className="text-[#072534] font-['Source_Sans_Pro']">
-                    125.139 Km
-                  </p>
-                  <p className="text-[#072534] font-['Source_Sans_Pro']">
-                    Automatico
-                  </p>
-                  <p className="text-[#072534] font-['Source_Sans_Pro']">
-                    Diesel
-                  </p>
-                  <p className="text-[#072534] font-['Source_Sans_Pro']">190</p>
-                  <p className="text-[#072534] font-['Source_Sans_Pro']">140</p>
-                  <p className="text-[#072534] font-['Source_Sans_Pro']">
-                    2143
-                  </p>
-                  <p className="text-[#072534] font-['Source_Sans_Pro']">21</p>
+              <div className="flex justify-center">
+                <div className="w-full max-w-3xl">
+                  <iframe
+                    src={pdfUrl}
+                    width="100%"
+                    height="800px"
+                    className="rounded-lg"
+                    title="PDF Viewer"
+                  >
+                    <div className="text-center py-4">
+                      <p className="text-red-600 mb-4">
+                        Il tuo browser non supporta la visualizzazione PDF.
+                      </p>
+                      <button
+                        onClick={handlePdfDownload}
+                        className="px-4 py-2 bg-[#072534] text-white rounded-full"
+                      >
+                        Scarica PDF
+                      </button>
+                    </div>
+                  </iframe>
                 </div>
               </div>
             </div>

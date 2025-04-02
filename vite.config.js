@@ -1,12 +1,17 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
+import path from "path";
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
     port: 5173,
+    fs: {
+      allow: ["src", "public", "node_modules", path.resolve(__dirname)],
+      strict: false,
+    },
     proxy: {
       "/api": {
         target: "https://487b-82-84-9-104.ngrok-free.app/carmarket",
@@ -32,15 +37,34 @@ export default defineConfig({
           });
         },
       },
+      "/pdf": {
+        target: "http://localhost:5173",
+        changeOrigin: false,
+        rewrite: (path) => path.replace(/^\/pdf/, "/public/pdf"),
+      },
     },
   },
   build: {
     rollupOptions: {
       output: {
         manualChunks: undefined,
+        assetFileNames: (assetInfo) => {
+          if (assetInfo.name.endsWith(".pdf")) {
+            return "assets/pdf/[name][extname]";
+          }
+          return "assets/[name]-[hash][extname]";
+        },
       },
     },
     cssCodeSplit: false,
     assetsInlineLimit: 0,
+  },
+  publicDir: "public",
+  assetsInclude: ["**/*.pdf"],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "src"),
+      "@public": path.resolve(__dirname, "public"),
+    },
   },
 });
