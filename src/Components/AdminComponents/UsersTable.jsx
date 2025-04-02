@@ -14,6 +14,11 @@ const UsersTable = () => {
 
   const fetchUsers = async () => {
     try {
+      console.log(
+        "Iniziando la richiesta a:",
+        `${API_BASE_URL}/users/get_users.php`
+      );
+
       const response = await fetch(`${API_BASE_URL}/users/get_users.php`, {
         ...fetchConfig,
         credentials: "include",
@@ -24,10 +29,29 @@ const UsersTable = () => {
       });
 
       if (!response.ok) {
+        // Leggi il contenuto della risposta anche se non è OK
+        const textContent = await response.text();
+        console.error("Risposta non OK:", {
+          status: response.status,
+          statusText: response.statusText,
+          content: textContent,
+        });
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const data = await response.json();
+      // Prima controlla il contenuto della risposta
+      const textContent = await response.text();
+      console.log("Risposta ricevuta:", textContent);
+
+      // Poi prova a parsare come JSON
+      let data;
+      try {
+        data = JSON.parse(textContent);
+      } catch (e) {
+        console.error("Errore nel parsing JSON:", e);
+        throw new Error("Risposta non valida dal server");
+      }
+
       if (data.status === "success" && Array.isArray(data.data)) {
         setUsers(data.data);
       } else if (data.status === "error") {
@@ -37,6 +61,7 @@ const UsersTable = () => {
       }
     } catch (error) {
       console.error("Errore nel recupero degli utenti:", error);
+      console.error("Stack trace:", error.stack);
       setError(error.message || "Errore nel caricamento degli utenti");
     } finally {
       setLoading(false);

@@ -9,10 +9,13 @@ export default defineConfig({
     port: 5173,
     proxy: {
       "/api": {
-        target: "https://9a38-82-84-9-104.ngrok-free.app/carmarket",
+        target: "https://487b-82-84-9-104.ngrok-free.app/carmarket",
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/api/, "/server/api"),
+        headers: {
+          "ngrok-skip-browser-warning": "true",
+        },
         configure: (proxy, _options) => {
           proxy.on("error", (err, _req, _res) => {
             console.log("proxy error", err);

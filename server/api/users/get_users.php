@@ -2,7 +2,16 @@
 require_once '../../config/database.php';
 require_once '../../config/cors.php';  
 
+error_reporting(E_ALL);
+ini_set('display_errors', 0); // Disabilita la visualizzazione degli errori ma continua a loggarli
+
+header('Content-Type: application/json');
+// ... altri headers CORS ...
+
 try {
+    // Log della richiesta
+    error_log("Richiesta ricevuta in get_users.php");
+    
     $database = new Database();
     $result = $database->connect();
 
