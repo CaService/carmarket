@@ -25,7 +25,16 @@ const DefaultSidebar = ({ onViewChange }) => {
             <ListItemPrefix>
               <DocumentArrowUpIcon className="h-5 w-5 mr-2" />
             </ListItemPrefix>
-            File upload
+            CSV upload
+          </ListItem>
+          <ListItem
+            className="cursor-pointer hover:text-blue-500"
+            onClick={() => onViewChange("vehicles")}
+          >
+            <ListItemPrefix>
+              <DocumentArrowUpIcon className="h-5 w-5 mr-2" />
+            </ListItemPrefix>
+            PDF upload
           </ListItem>
           <ListItem
             className="cursor-pointer hover:text-blue-500"

@@ -12,9 +12,7 @@ const CarCard = () => {
   const [pdfError, setPdfError] = useState(null);
   const { isAuthenticated } = useSelector((state) => state.auth);
 
-  const pdfUrl = import.meta.env.DEV
-    ? "/public/pdf/GB604HG.pdf"
-    : "/pdf/GB604HG.pdf";
+  const pdfUrl = import.meta.env.DEV ? "/pdf/GB604HG.pdf" : "/pdf/GB604HG.pdf";
 
   const toggleDetails = () => {
     setShowDetails(!showDetails);
@@ -123,7 +121,7 @@ const CarCard = () => {
 
           {/* Dropdown Details con PDF */}
           {showDetails && (
-            <div className="px-6 pb-6 mb-6 ml-6 mt-6 border-t border-gray-100 bg-gray-100 rounded-lg">
+            <div className="px-6 pb-6 pt-6 mb-6 ml-6 mt-6 border-t border-gray-100 bg-gray-100 rounded-lg">
               <div className="flex justify-center">
                 <div className="w-full max-w-3xl">
                   <iframe
