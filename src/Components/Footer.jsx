@@ -58,7 +58,7 @@ const Footer = () => {
             <p className="mb-2 md:mb-0 font-['Source_Sans_Pro']">
               Copyright © 2025 Ayvens Carmarket. All Rights Reserved.
             </p>
-            <ul className="flex space-x-24 font-medium font-['Source_Sans_Pro'] text-sm">
+            <ul className="flex flex-col md:flex-row md:space-x-8 space-y-4 md:space-y-0 font-medium font-['Source_Sans_Pro'] text-sm">
               <li>
                 <a href="#" className="">
                   Privacy Policy

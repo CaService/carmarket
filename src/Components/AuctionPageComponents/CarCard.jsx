@@ -40,7 +40,7 @@ const CarCard = () => {
       <div className="w-full mx-auto pr-6 bg-white rounded-lg shadow-md overflow-hidden mt-8">
         <div className="flex">
           {/* Immagine Auto */}
-          <div className="relative w-96">
+          <div className="relative w-full md:w-96">
             <img
               src="/images/Ayvens.svg"
               alt="Ayvens"
