@@ -65,7 +65,7 @@ const Navbar = () => {
         <Container>
           <div className="w-full flex justify-between items-center py-4">
             {/* Logo e Menu Desktop */}
-            <div className="flex items-center gap-18">
+            <div className="flex items-center md:gap-18">
               <Link to="/">
                 <img
                   src="/images/Ayvens.svg"
