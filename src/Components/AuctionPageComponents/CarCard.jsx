@@ -12,7 +12,9 @@ const CarCard = () => {
   const [pdfError, setPdfError] = useState(null);
   const { isAuthenticated } = useSelector((state) => state.auth);
 
-  const pdfUrl = import.meta.env.DEV ? "/pdf/GB604HG.pdf" : "/pdf/GB604HG.pdf";
+  const pdfUrl = import.meta.env.DEV
+    ? "public/pdf/GB604HG.pdf"
+    : "/pdf/GB604HG.pdf";
 
   const toggleDetails = () => {
     setShowDetails(!showDetails);
