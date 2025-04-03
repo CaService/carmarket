@@ -139,11 +139,13 @@ const Navbar = () => {
                     <UserMenu />
                   ) : (
                     <>
-                      <Link to="/signup" className="w-full">
-                        <Button variant="primary" className="w-full">
-                          Registrati
-                        </Button>
-                      </Link>
+                      <Button
+                        variant="primary"
+                        className="w-full"
+                        onClick={() => (window.location.href = "/signup")}
+                      >
+                        Registrati
+                      </Button>
                       <Button
                         variant="secondary"
                         onClick={handleLoginClick}
