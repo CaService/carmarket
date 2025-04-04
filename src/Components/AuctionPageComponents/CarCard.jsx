@@ -12,7 +12,7 @@ const CarCard = () => {
   const [pdfError, setPdfError] = useState(null);
   const { isAuthenticated } = useSelector((state) => state.auth);
 
-  const pdfUrl = "/GB604HG.pdf"; // Rimuovi il prefisso /pdf/
+  const pdfUrl = "/GB604HG.PDF"; // Rimuovi il prefisso /pdf/
 
   useEffect(() => {
     fetch(pdfUrl)
