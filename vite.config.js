@@ -45,7 +45,7 @@ export default defineConfig({
         manualChunks: undefined,
         assetFileNames: (assetInfo) => {
           if (assetInfo.name.endsWith(".pdf")) {
-            return "../pdf/[name][extname]";
+            return "pdf/[name][extname]";
           }
           return "assets/[name]-[hash][extname]";
         },
