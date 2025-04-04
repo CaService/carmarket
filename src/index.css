@@ -85,3 +85,92 @@ body {
   font-family: 'Chillax', sans-serif;
 }
 
+/* DocViewer custom styles */
+.rpv-core__viewer {
+  width: 100% !important;
+  max-width: 100% !important;
+  border-radius: 0.5rem !important;
+  overflow: hidden !important;
+}
+
+.rpv-core__toolbar {
+  background-color: #072534 !important;
+  padding: 8px !important;
+}
+
+.rpv-core__toolbar-item {
+  color: white !important;
+}
+
+.rpv-core__toolbar-item svg,
+.rpv-core__toolbar-item button svg,
+.rpv-core__menu-item svg,
+.rpv-core__minimal-button svg {
+  fill: white !important;
+  color: white !important;
+  stroke: white !important;
+}
+
+.rpv-core__toolbar-item svg {
+  fill: white !important;
+}
+
+.rpv-core__viewer-content {
+  overflow: auto !important;
+  height: calc(800px - 40px) !important;
+}
+
+.rpv-core__page-layer {
+  max-width: 100% !important;
+}
+
+.rpv-core__button {
+  color: white !important;
+}
+
+/* Zoom controls */
+.rpv-zoom__popover {
+  background-color: #072534 !important;
+  color: white !important;
+}
+
+.rpv-zoom__popover-target {
+  color: white !important;
+}
+
+/* Scrollbar customization */
+.rpv-core__viewer::-webkit-scrollbar {
+  width: 8px;
+}
+
+.rpv-core__viewer::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.rpv-core__viewer::-webkit-scrollbar-thumb {
+  background: #072534;
+  border-radius: 4px;
+}
+
+/* Aggiungi queste nuove regole specifiche per i bottoni della toolbar */
+.rpv-core__minimal-button {
+  color: white !important;
+}
+
+.rpv-core__minimal-button:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Assicurati che anche i menu dropdown abbiano icone bianche */
+.rpv-core__menu-item--selected svg,
+.rpv-core__menu-item:hover svg {
+  fill: white !important;
+  color: white !important;
+}
+
+/* Per il menu dello zoom */
+.rpv-zoom__popover-target svg {
+  fill: white !important;
+  color: white !important;
+}
+

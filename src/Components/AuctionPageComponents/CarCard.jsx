@@ -178,31 +178,31 @@ const CarCard = () => {
                       </button>
                     </div>
                   ) : (
-                    <DocViewer
-                      documents={docs}
-                      pluginRenderers={DocViewerRenderers}
-                      style={{ height: 800 }}
-                      config={{
-                        header: {
-                          disableHeader: true,
-                          disableFileName: true,
-                        },
-                        pdfZoom: {
-                          defaultZoom: 1.1,
-                          zoomJump: 0.2,
-                        },
-                        pdfVerticalScrollByDefault: true,
-                      }}
-                      theme={{
-                        primary: "#072534",
-                        secondary: "#ffffff",
-                        tertiary: "#73d2d2",
-                        textPrimary: "#ffffff",
-                        textSecondary: "#072534",
-                        textTertiary: "#00000099",
-                        disableThemeScrollbar: false,
-                      }}
-                    />
+                    <div className="pdf-viewer-container">
+                      <DocViewer
+                        documents={docs}
+                        pluginRenderers={DocViewerRenderers}
+                        config={{
+                          header: {
+                            disableHeader: false,
+                            disableFileName: true,
+                          },
+                          pdfZoom: {
+                            defaultZoom: 1,
+                            zoomJump: 0.2,
+                          },
+                          pdfVerticalScrollByDefault: true,
+                        }}
+                        theme={{
+                          primary: "#ffffff",
+                          secondary: "#ffffff",
+                          tertiary: "#73d2d2",
+                          textPrimary: "#ffffff",
+                          textSecondary: "#ffffff",
+                          textTertiary: "#ffffff",
+                        }}
+                      />
+                    </div>
                   )}
                 </div>
               </div>
