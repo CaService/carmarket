@@ -12,9 +12,7 @@ const CarCard = () => {
   const [pdfError, setPdfError] = useState(null);
   const { isAuthenticated } = useSelector((state) => state.auth);
 
-  const pdfUrl = import.meta.env.DEV
-    ? "/pdf/GB604HG.pdf" // Development
-    : "/carmarket/pdf/GB604HG.pdf"; // Production su Cloudflare Pages
+  const pdfUrl = "/GB604HG.pdf"; // Rimuovi il prefisso /pdf/
 
   useEffect(() => {
     fetch(pdfUrl)
