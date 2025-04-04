@@ -65,8 +65,8 @@ const Navbar = () => {
         <Container>
           <div className="w-full flex justify-between items-center py-4">
             {/* Logo e Menu Desktop */}
-            <div className="flex items-center md:gap-18">
-              {/* Menu Hamburger - Spostato qui */}
+            <div className="w-full flex items-center justify-between md:justify-start md:gap-18">
+              {/* Menu Hamburger */}
               <button
                 className="md:hidden text-gray-700 p-2"
                 onClick={toggleMenu}
@@ -78,8 +78,11 @@ const Navbar = () => {
                 )}
               </button>
 
-              {/* Logo - Modificato per centrare su mobile */}
-              <Link to="/" className="md:ml-0 mx-auto md:mx-0">
+              {/* Logo - Centrato su mobile */}
+              <Link
+                to="/"
+                className="absolute left-1/2 transform -translate-x-1/2 md:static md:transform-none"
+              >
                 <img
                   src="/images/Ayvens.svg"
                   alt="Ayvens"
