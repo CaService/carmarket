@@ -3,7 +3,7 @@ import Flag from "react-world-flags";
 import { Link } from "react-router-dom";
 import Container from "../Container";
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import "@cyntler/react-doc-viewer/dist/index.css";
 
@@ -12,7 +12,23 @@ const CarCard = () => {
   const [pdfError, setPdfError] = useState(null);
   const { isAuthenticated } = useSelector((state) => state.auth);
 
-  const pdfUrl = "/pdf/GB604HG.pdf";
+  const pdfUrl = import.meta.env.DEV
+    ? "/pdf/GB604HG.pdf" // Development
+    : "/carmarket/pdf/GB604HG.pdf"; // Production su Cloudflare Pages
+
+  useEffect(() => {
+    fetch(pdfUrl)
+      .then((response) => {
+        if (!response.ok) {
+          setPdfError("PDF non disponibile al momento");
+          console.error("PDF non trovato:", response.status);
+        }
+      })
+      .catch((error) => {
+        setPdfError("Errore nel caricamento del PDF");
+        console.error("Errore nel caricamento del PDF:", error);
+      });
+  }, [pdfUrl]);
 
   const toggleDetails = () => {
     setShowDetails(!showDetails);
@@ -145,17 +161,9 @@ const CarCard = () => {
             <div className="px-6 pb-6 pt-6 mb-6 ml-6 mt-6 border-t border-gray-100 bg-gray-100 rounded-lg">
               <div className="flex justify-center">
                 <div className="w-full max-w-3xl">
-                  <iframe
-                    src={pdfUrl}
-                    width="100%"
-                    height="800px"
-                    className="rounded-lg"
-                    title="PDF Viewer"
-                  >
+                  {pdfError ? (
                     <div className="text-center py-4">
-                      <p className="text-red-600 mb-4">
-                        Il tuo browser non supporta la visualizzazione PDF.
-                      </p>
+                      <p className="text-red-600 mb-4">{pdfError}</p>
                       <button
                         onClick={handlePdfDownload}
                         className="px-4 py-2 bg-[#072534] text-white rounded-full"
@@ -163,7 +171,27 @@ const CarCard = () => {
                         Scarica PDF
                       </button>
                     </div>
-                  </iframe>
+                  ) : (
+                    <object
+                      data={pdfUrl}
+                      type="application/pdf"
+                      width="100%"
+                      height="800px"
+                      className="rounded-lg"
+                    >
+                      <div className="text-center py-4">
+                        <p className="text-red-600 mb-4">
+                          Il tuo browser non supporta la visualizzazione PDF.
+                        </p>
+                        <button
+                          onClick={handlePdfDownload}
+                          className="px-4 py-2 bg-[#072534] text-white rounded-full"
+                        >
+                          Scarica PDF
+                        </button>
+                      </div>
+                    </object>
+                  )}
                 </div>
               </div>
             </div>
