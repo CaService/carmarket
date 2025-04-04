@@ -47,7 +47,7 @@ export default defineConfig({
           if (assetInfo.name.endsWith(".pdf")) {
             return "pdf/[name][extname]";
           }
-          return "assets/[name]-[hash][extname]";
+          return "pdf/[name]-[hash][extname]";
         },
       },
     },
