@@ -44,7 +44,7 @@ const CarCard = () => {
             <img
               src="/images/Ayvens.svg"
               alt="Ayvens"
-              className="w-full h-[160px] md:h-full object-cover"
+              className="w-full h-[140px] md:h-full object-cover"
             />
             <div className="absolute bottom-2 left-2 bg-white rounded-full w-8 h-8 flex items-center justify-center">
               <span className="text-sm font-medium text-[#072534]">24</span>
