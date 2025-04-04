@@ -119,7 +119,7 @@ const CardAuction = ({ vehicles = [] }) => {
                   </Link>
                   <Link
                     to="/auction"
-                    className="w-1/2 bg-[#072534] border border-[#072534] text-white px-3 py-3 rounded-full font-semibold transition duration-300 hover:bg-white hover:border hover:border-[#072534] hover:text-[#072534] flex items-center justify-center font-chillax"
+                    className="w-1/2 bg-[#072534] border border-[#072534] text-white px-3 py-3 rounded-full font-semibold transition duration-300 hover:bg-white hover:border hover:border-[#072534] hover:text-[#072534] text-center flex items-center justify-center font-chillax"
                   >
                     MOSTRA DI PIÙ
                   </Link>
