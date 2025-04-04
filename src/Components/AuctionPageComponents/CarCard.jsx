@@ -37,14 +37,14 @@ const CarCard = () => {
 
   return (
     <Container>
-      <div className="w-full mx-auto pr-6 bg-white rounded-lg shadow-md overflow-hidden mt-8">
-        <div className="flex">
+      <div className="w-full mx-auto pr-0 md:pr-6 bg-white rounded-lg shadow-md overflow-hidden mt-8">
+        <div className="flex flex-col md:flex md:flex-row">
           {/* Immagine Auto */}
-          <div className="relative w-96">
+          <div className="relative w-full md:w-96">
             <img
               src="/images/Ayvens.svg"
               alt="Ayvens"
-              className="w-full h-full object-cover max-h-[200px] md:max-h-none"
+              className="w-full h-[200px] md:h-full object-cover"
             />
             <div className="absolute bottom-2 left-2 bg-white rounded-full w-8 h-8 flex items-center justify-center">
               <span className="text-sm font-medium">24</span>
@@ -52,21 +52,23 @@ const CarCard = () => {
           </div>
 
           {/* Contenuto */}
-          <div className="flex p-6">
-            <div className="flex-col">
-              <div className="flex items-center gap-2 mb-4 flex-wrap md:flex-nowrap">
-                <div className="w-10 overflow-hidden rounded-full">
-                  <Flag
-                    code="IT"
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                    }}
-                  />
+          <div className="flex flex-col md:flex-row p-4 md:p-6 w-full">
+            <div className="flex-col w-full">
+              <div className="flex flex-col md:flex-row md:items-center gap-2 mb-4">
+                <div className="flex items-center gap-2 mb-2 md:mb-0">
+                  <div className="w-8 md:w-10 overflow-hidden rounded-full">
+                    <Flag
+                      code="IT"
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
+                    />
+                  </div>
+                  <span className="font-bold text-xl font-chillax">1.</span>
                 </div>
-                <span className="font-bold text-xl font-chillax">1.</span>
-                <h2 className="text-teal-700 text-xl font-bold font-chillax w-full md:w-auto mt-2 md:mt-0">
+                <h2 className="text-teal-700 text-xl font-bold font-chillax">
                   AUDI AUDI A3 30 TDI S tronic Business S.Back Hatchback 5-door
                   (Euro 6D)
                 </h2>
@@ -74,30 +76,43 @@ const CarCard = () => {
 
               <div className="flex items-center gap-2 text-blue-600 mb-4">
                 <ClockIcon className="w-5 h-5" />
-                <span className="text-sm md:text-base">
-                  Termina tra 2 giorno(i) 10 ora(e) 44 minuto(i)
-                </span>
+                <span>Termina tra 2 giorno(i) 10 ora(e) 44 minuto(i)</span>
               </div>
               <div className="flex flex-col md:flex-row gap-2 text-gray-700 text-sm font-['Source_Sans_Pro']">
                 <span>103.940 Chilometri | 10/11/2021</span>
                 <span>Diesel | Automatico</span>
               </div>
+
+              <div className="mt-6 md:mt-4 block md:hidden">
+                {isAuthenticated ? (
+                  <button className="w-full bg-[#072534] text-center px-8 py-3 text-white cursor-pointer rounded-full font-semibold transition duration-300 hover:bg-white hover:text-[#072534] hover:border hover:border-[#072534] font-chillax">
+                    ACQUISTA
+                  </button>
+                ) : (
+                  <Link
+                    to="/signup"
+                    className="block w-full text-center bg-[#73d2d2] px-8 py-3 cursor-pointer rounded-full font-semibold transition duration-300 hover:bg-white hover:border hover:border-[#072534] font-chillax"
+                  >
+                    REGISTRATI
+                  </Link>
+                )}
+              </div>
             </div>
 
-            <div className="mt-4">
+            <div className="hidden md:block mt-4">
               {isAuthenticated ? (
                 <div className="text-center">
                   <p className="text-xl font-bold text-gray-800 mb-4">
                     PREZZO €
                   </p>
-                  <button className="inline-block bg-[#072534] w-full md:w-90 text-center px-8 py-3 mt-16 text-white cursor-pointer rounded-full font-semibold transition duration-300 hover:bg-white hover:text-[#072534] hover:border hover:border-[#072534] font-chillax">
+                  <button className="inline-block bg-[#072534] text-center px-8 py-3 mt-16 text-white cursor-pointer rounded-full font-semibold transition duration-300 hover:bg-white hover:text-[#072534] hover:border hover:border-[#072534] font-chillax">
                     ACQUISTA
                   </button>
                 </div>
               ) : (
                 <Link
                   to="/signup"
-                  className="inline-block bg-[#73d2d2] w-full md:w-90 text-center px-8 py-3 mt-20 cursor-pointer rounded-full font-semibold transition duration-300 hover:bg-white hover:border hover:border-[#072534] font-chillax"
+                  className="inline-block bg-[#73d2d2] text-center px-8 py-3 mt-20 cursor-pointer rounded-full font-semibold transition duration-300 hover:bg-white hover:border hover:border-[#072534] font-chillax"
                 >
                   REGISTRATI
                 </Link>
@@ -107,7 +122,7 @@ const CarCard = () => {
         </div>
 
         {/* Accordion Buttons */}
-        <div className="">
+        <div className="border-t border-gray-100">
           <div className="flex">
             <button
               onClick={toggleDetails}
