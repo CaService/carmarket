@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "include": ["/*"],
+  "exclude": [],
+  "rules": [
+    {
+      "pattern": "/static/pdf/*",
+      "cache": {
+        "browser": {
+          "maxAgeSeconds": 3600
+        },
+        "edge": {
+          "maxAgeSeconds": 86400
+        }
+      }
+    }
+  ]
+}
