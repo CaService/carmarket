@@ -95,7 +95,7 @@ const CarCard = () => {
                 ) : (
                   <Link
                     to="/signup"
-                    className="block w-full text-center bg-[#73d2d2] px-8 py-3 cursor-pointer rounded-full font-semibold transition duration-300 hover:bg-white hover:border hover:border-[#072534] font-chillax"
+                    className="block w-full text-center bg-[#73d2d2] text-white px-8 py-3 cursor-pointer rounded-full font-semibold transition duration-300 hover:bg-white hover:border hover:border-[#072534] font-chillax"
                   >
                     REGISTRATI
                   </Link>
