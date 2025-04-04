@@ -15,6 +15,13 @@ const CarCard = () => {
   const filename = "GB604HG"; // Rimuovi il prefisso /pdf/
   const pdfUrl = `/static/pdf/${filename}.PDF`;
 
+  const docs = [
+    {
+      uri: pdfUrl,
+      fileType: "pdf",
+    },
+  ];
+
   useEffect(() => {
     fetch(pdfUrl)
       .then((response) => {
@@ -171,25 +178,31 @@ const CarCard = () => {
                       </button>
                     </div>
                   ) : (
-                    <object
-                      data={pdfUrl}
-                      type="application/pdf"
-                      width="100%"
-                      height="800px"
-                      className="rounded-lg"
-                    >
-                      <div className="text-center py-4">
-                        <p className="text-red-600 mb-4">
-                          Il tuo browser non supporta la visualizzazione PDF.
-                        </p>
-                        <button
-                          onClick={handlePdfDownload}
-                          className="px-4 py-2 bg-[#072534] text-white rounded-full"
-                        >
-                          Scarica PDF
-                        </button>
-                      </div>
-                    </object>
+                    <DocViewer
+                      documents={docs}
+                      pluginRenderers={DocViewerRenderers}
+                      style={{ height: 800 }}
+                      config={{
+                        header: {
+                          disableHeader: true,
+                          disableFileName: true,
+                        },
+                        pdfZoom: {
+                          defaultZoom: 1.1,
+                          zoomJump: 0.2,
+                        },
+                        pdfVerticalScrollByDefault: true,
+                      }}
+                      theme={{
+                        primary: "#072534",
+                        secondary: "#ffffff",
+                        tertiary: "#73d2d2",
+                        textPrimary: "#ffffff",
+                        textSecondary: "#072534",
+                        textTertiary: "#00000099",
+                        disableThemeScrollbar: false,
+                      }}
+                    />
                   )}
                 </div>
               </div>
