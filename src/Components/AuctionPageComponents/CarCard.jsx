@@ -78,7 +78,7 @@ const CarCard = () => {
 
               <div className="flex items-center gap-2 text-blue-600 mb-4 justify-center md:justify-start">
                 <ClockIcon className="w-5 h-5" />
-                <span className="text-center md:text-left">
+                <span className="text-center md:text-left text-xs md:text-base">
                   Termina tra 2 giorno(i) 10 ora(e) 44 minuto(i)
                 </span>
               </div>
