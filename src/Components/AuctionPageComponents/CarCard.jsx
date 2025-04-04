@@ -47,7 +47,7 @@ const CarCard = () => {
               className="w-full h-[200px] md:h-full object-cover"
             />
             <div className="absolute bottom-2 left-2 bg-white rounded-full w-8 h-8 flex items-center justify-center">
-              <span className="text-sm font-medium">24</span>
+              <span className="text-sm font-medium text-[#072534]">24</span>
             </div>
           </div>
 
@@ -66,7 +66,9 @@ const CarCard = () => {
                       }}
                     />
                   </div>
-                  <span className="font-bold text-xl font-chillax">1.</span>
+                  <span className="font-bold text-xl text-[#072534] font-chillax">
+                    1.
+                  </span>
                 </div>
                 <h2 className="text-teal-700 text-xl font-bold font-chillax">
                   AUDI AUDI A3 30 TDI S tronic Business S.Back Hatchback 5-door
