@@ -37,11 +37,6 @@ export default defineConfig({
           });
         },
       },
-      "/pdf": {
-        target: "http://localhost:5173",
-        changeOrigin: false,
-        rewrite: (path) => path.replace(/^\/pdf/, "/public/pdf"),
-      },
     },
   },
   build: {
@@ -50,7 +45,7 @@ export default defineConfig({
         manualChunks: undefined,
         assetFileNames: (assetInfo) => {
           if (assetInfo.name.endsWith(".pdf")) {
-            return "assets/pdf/[name][extname]";
+            return "pdf/[name][extname]";
           }
           return "assets/[name]-[hash][extname]";
         },
