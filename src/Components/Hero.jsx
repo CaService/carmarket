@@ -13,7 +13,7 @@ const Hero = () => {
         <img
           src="/images/banner-1680px.jpg"
           alt="Banner"
-          className="w-full h-[250px] md:h-full object-cover"
+          className="w-full h-[300px] md:h-full object-cover"
           onError={(e) => {
             console.error("Errore caricamento banner:", e.target.src);
             // Fallback temporaneo
