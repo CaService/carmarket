@@ -9,7 +9,7 @@ export default defineConfig({
   server: {
     port: 5173,
     fs: {
-      allow: ["src", "public", "node_modules", path.resolve(__dirname)],
+      allow: ["src", "public", "node_modules", "pdf", path.resolve(__dirname)],
       strict: false,
     },
     proxy: {
@@ -45,9 +45,9 @@ export default defineConfig({
         manualChunks: undefined,
         assetFileNames: (assetInfo) => {
           if (assetInfo.name.endsWith(".pdf")) {
-            return "pdf/[name][extname]";
+            return "../pdf/[name][extname]";
           }
-          return "pdf/[name]-[hash][extname]";
+          return "assets/[name]-[hash][extname]";
         },
       },
     },
