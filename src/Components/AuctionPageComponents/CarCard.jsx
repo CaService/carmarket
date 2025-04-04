@@ -55,7 +55,7 @@ const CarCard = () => {
           <div className="flex flex-col md:flex-row p-4 md:p-6 w-full">
             <div className="flex-col w-full">
               <div className="flex flex-col md:flex-row md:items-center gap-2 mb-4">
-                <div className="flex items-center gap-2 mb-2 md:mb-0">
+                <div className="flex items-center gap-2 mb-2 md:mb-0 justify-center md:justify-start">
                   <div className="w-8 md:w-10 overflow-hidden rounded-full">
                     <Flag
                       code="IT"
@@ -70,17 +70,17 @@ const CarCard = () => {
                     1.
                   </span>
                 </div>
-                <h2 className="text-teal-700 text-xl font-bold font-chillax">
+                <h2 className="text-teal-700 text-xl font-bold font-chillax text-center md:text-left">
                   AUDI AUDI A3 30 TDI S tronic Business S.Back Hatchback 5-door
                   (Euro 6D)
                 </h2>
               </div>
 
-              <div className="flex items-center gap-2 text-blue-600 mb-4">
+              <div className="flex items-center gap-2 text-blue-600 mb-4 justify-center md:justify-start">
                 <ClockIcon className="w-5 h-5" />
                 <span>Termina tra 2 giorno(i) 10 ora(e) 44 minuto(i)</span>
               </div>
-              <div className="flex flex-col md:flex-row gap-2 text-gray-700 text-sm font-['Source_Sans_Pro']">
+              <div className="flex flex-col md:flex-row gap-2 text-gray-700 text-sm font-['Source_Sans_Pro'] text-center md:text-left">
                 <span>103.940 Chilometri | 10/11/2021</span>
                 <span>Diesel | Automatico</span>
               </div>
