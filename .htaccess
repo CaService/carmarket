@@ -1,0 +1,27 @@
+# Imposta il tipo MIME corretto per i file JavaScript
+AddType application/javascript .js
+AddType application/javascript .mjs
+AddType text/javascript .js
+AddType text/javascript .mjs
+
+# Per i file source map
+AddType application/json .map
+
+# Per i file di manifest
+AddType application/manifest+json .webmanifest
+
+# Abilita la compressione
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml application/xml application/javascript text/javascript text/css application/json
+</IfModule>
+
+# Gestione routing React
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+    RewriteRule ^index\.html$ - [L]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-l
+    RewriteRule . /index.html [L]
+</IfModule>
