@@ -3,6 +3,14 @@ AddType application/javascript .js
 AddType application/javascript .mjs
 AddType text/javascript .js
 AddType text/javascript .mjs
+# Aggiungi questa riga per i moduli ES
+AddType application/javascript .jsx
+AddType text/javascript .jsx
+
+# Aggiungi questa riga specifica per i moduli ES
+AddHandler application/javascript .js
+AddHandler application/javascript .mjs
+AddHandler application/javascript .jsx
 
 # Per i file source map
 AddType application/json .map
@@ -25,3 +33,8 @@ AddType application/manifest+json .webmanifest
     RewriteCond %{REQUEST_FILENAME} !-l
     RewriteRule . /index.html [L]
 </IfModule>
+
+# Forza il tipo MIME per JavaScript
+<FilesMatch "\.(js|mjs|jsx)$">
+    ForceType application/javascript
+</FilesMatch>
