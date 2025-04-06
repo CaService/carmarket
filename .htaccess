@@ -23,31 +23,21 @@ AddType application/manifest+json .webmanifest
     AddOutputFilterByType DEFLATE text/html text/plain text/xml application/xml application/javascript text/javascript text/css application/json
 </IfModule>
 
-# Directory index
-DirectoryIndex index.html
-
-# Abilita la riscrittura URL
+# Gestione routing React
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteBase /
-    
-    # Se il file richiesto non esiste, reindirizza a index.html
+    RewriteRule ^index\.html$ - [L]
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^ index.html [QSA,L]
+    RewriteCond %{REQUEST_FILENAME} !-l
+    RewriteRule . /index.html [L]
 </IfModule>
 
-# Headers per i file statici
-<FilesMatch "\.(js|jsx|mjs|css|json)$">
-    Header set Cache-Control "max-age=31536000"
-    Header set Content-Type "application/javascript" env=IS_JS
-    Header set Content-Type "text/css" env=IS_CSS
-    Header set Content-Type "application/json" env=IS_JSON
+# Configurazione specifica per moduli ES
+<FilesMatch "\.(js|mjs|jsx)$">
+    Header set Content-Type "application/javascript"
 </FilesMatch>
-
-SetEnvIf Request_URI "\.js$" IS_JS
-SetEnvIf Request_URI "\.css$" IS_CSS
-SetEnvIf Request_URI "\.json$" IS_JSON
 
 # Forza il tipo MIME per JavaScript
 <IfModule mod_headers.c>
