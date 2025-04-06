@@ -3,3 +3,6 @@ deployment:
   tasks:
     - export DEPLOYPATH=/home/CaService/public_html/
     - /bin/cp -R * $DEPLOYPATH
+    - /bin/chmod 755 $DEPLOYPATH
+    - /bin/find $DEPLOYPATH -type d -exec /bin/chmod 755 {} \;
+    - /bin/find $DEPLOYPATH -type f -exec /bin/chmod 644 {} \;
