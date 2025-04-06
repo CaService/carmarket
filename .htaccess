@@ -34,12 +34,7 @@ AddType application/manifest+json .webmanifest
     RewriteRule . /index.html [L]
 </IfModule>
 
-# Configurazione specifica per moduli ES
-<FilesMatch "\.(js|mjs|jsx)$">
-    Header set Content-Type "application/javascript"
-</FilesMatch>
-
 # Forza il tipo MIME per JavaScript
-<IfModule mod_headers.c>
-    Header set X-Content-Type-Options "nosniff"
-</IfModule>
+<FilesMatch "\.(js|mjs|jsx)$">
+    ForceType application/javascript
+</FilesMatch>
