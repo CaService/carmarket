@@ -2,7 +2,8 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/carmarke/public_html/
-    - /bin/cp -R * $DEPLOYPATH
+    - /bin/cp -R dist/* $DEPLOYPATH
+    - /bin/cp .htaccess $DEPLOYPATH
     - /bin/chmod 755 $DEPLOYPATH
     - /bin/find $DEPLOYPATH -type d -exec /bin/chmod 755 {} \;
     - /bin/find $DEPLOYPATH -type f -exec /bin/chmod 644 {} \;
