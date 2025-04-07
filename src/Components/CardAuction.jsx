@@ -121,7 +121,7 @@ const CardAuction = ({ vehicles = [] }) => {
                     to="/auction"
                     className="w-1/2 bg-[#072534] border border-[#072534] text-white px-3 py-3 rounded-full font-semibold transition duration-300 hover:bg-white hover:border hover:border-[#072534] hover:text-[#072534] text-center flex items-center justify-center font-chillax"
                   >
-                    OFFERTE - AYVENS ITALIA
+                    MOSTRA DI PIÙ
                   </Link>
                 </div>
               </div>
