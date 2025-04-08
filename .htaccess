@@ -29,9 +29,13 @@ DirectoryIndex index.html
 # Abilita la riscrittura URL
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /
+    RewriteBase /carmarket/
     
-    # Se il file richiesto non esiste, reindirizza a index.html
+    # Permetti l'accesso diretto ai file nell'API
+    RewriteCond %{REQUEST_URI} ^/carmarket/server/api/ [NC]
+    RewriteRule ^ - [L]
+
+    # Se il file richiesto non esiste (e non è nell'API), reindirizza a index.html
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^ index.html [QSA,L]
@@ -40,4 +44,9 @@ DirectoryIndex index.html
 # Headers per i file statici
 <FilesMatch "\.(js|mjs)$">
     Header set Content-Type "application/javascript"
+</FilesMatch>
+
+# Permetti l'esecuzione di file PHP (di solito già configurato in XAMPP)
+<FilesMatch "\.php$">
+    SetHandler application/x-httpd-php
 </FilesMatch>

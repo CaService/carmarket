@@ -7,13 +7,28 @@ import { useState, useEffect } from "react";
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import "@cyntler/react-doc-viewer/dist/index.css";
 
-const CarCard = () => {
+const CarCard = ({ vehicleData = {} }) => {
   const [showDetails, setShowDetails] = useState(false);
   const [pdfError, setPdfError] = useState(null);
   const { isAuthenticated } = useSelector((state) => state.auth);
 
-  const filename = "GB604HG"; // Rimuovi il prefisso /pdf/
-  const pdfUrl = `/static/pdf/${filename}.PDF`;
+  // Destructuring con valori di default
+  const {
+    title = "",
+    price = "",
+    imageUrl = "/images/Ayvens.svg", // Immagine di default
+    specs = {
+      mileage: "",
+      registrationDate: new Date(),
+      fuel: "",
+      transmission: "",
+    },
+    pdf = { url: "" },
+    endDate = Date.now(),
+    auctionNumber = "1",
+  } = vehicleData || {};
+
+  const pdfUrl = pdf?.url || "";
 
   const docs = [
     {
@@ -62,12 +77,14 @@ const CarCard = () => {
           {/* Immagine Auto */}
           <div className="relative w-full md:w-96">
             <img
-              src="/images/Ayvens.svg"
-              alt="Ayvens"
+              src={imageUrl}
+              alt={title}
               className="w-full h-[160px] md:h-full object-fit"
             />
             <div className="absolute bottom-2 left-2 bg-white rounded-full w-8 h-8 flex items-center justify-center">
-              <span className="text-sm font-medium text-[#072534]">24</span>
+              <span className="text-sm font-medium text-[#072534]">
+                {auctionNumber}
+              </span>
             </div>
           </div>
 
@@ -91,20 +108,26 @@ const CarCard = () => {
                   </span>
                 </div>
                 <h2 className="text-teal-700 text-xl font-bold font-chillax text-center md:text-left">
-                  AUDI AUDI A3 30 TDI S tronic Business S.Back Hatchback 5-door
-                  (Euro 6D)
+                  {title}
                 </h2>
               </div>
 
               <div className="flex items-center gap-2 text-blue-600 mb-4 justify-center md:justify-start">
                 <ClockIcon className="w-5 h-5" />
                 <span className="text-center md:text-left text-xs md:text-base">
-                  Termina tra 2 giorno(i) 10 ora(e) 44 minuto(i)
+                  Termina tra {Math.floor(endDate / 1000 / 60 / 60 / 24)}{" "}
+                  giorno(i) {Math.floor(endDate / 1000 / 60 / 60) % 24} ora(e){" "}
+                  {Math.floor(endDate / 1000 / 60) % 60} minuto(i)
                 </span>
               </div>
               <div className="flex flex-col md:flex-row gap-2 text-gray-700 text-sm font-['Source_Sans_Pro'] text-center md:text-left">
-                <span>103.940 Chilometri | 10/11/2021</span>
-                <span>Diesel | Automatico</span>
+                <span>
+                  {specs.mileage} Chilometri |{" "}
+                  {new Date(specs.registrationDate).toLocaleDateString()}
+                </span>
+                <span>
+                  {specs.fuel} | {specs.transmission}
+                </span>
               </div>
 
               <div className="mt-6 md:mt-4 block md:hidden">

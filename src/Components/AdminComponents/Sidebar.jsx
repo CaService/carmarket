@@ -7,6 +7,7 @@ import {
 } from "@material-tailwind/react";
 import { DocumentArrowUpIcon, UserIcon } from "@heroicons/react/24/solid";
 import AdminContainer from "./AdimnContainer";
+import { CardStackIcon } from "@radix-ui/react-icons";
 
 const DefaultSidebar = ({ onViewChange }) => {
   return (
@@ -20,12 +21,12 @@ const DefaultSidebar = ({ onViewChange }) => {
         <List>
           <ListItem
             className="cursor-pointer hover:text-blue-500"
-            onClick={() => onViewChange("vehicles")}
+            onClick={() => onViewChange("cardForm")}
           >
             <ListItemPrefix>
-              <DocumentArrowUpIcon className="h-5 w-5 mr-2" />
+              <CardStackIcon className="h-5 w-5 mr-2" />
             </ListItemPrefix>
-            CSV upload
+            Card Form
           </ListItem>
           <ListItem
             className="cursor-pointer hover:text-blue-500"

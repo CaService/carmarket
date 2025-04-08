@@ -3,9 +3,19 @@ import Navbar from "../Components/Navbar";
 import AuctionBanner from "../Components/AuctionPageComponents/AuctionBanner";
 import CarCard from "../Components/AuctionPageComponents/CarCard";
 import Footer from "../Components/Footer";
+import { useState, useEffect } from "react";
 
 const AuctionPage = () => {
-  const numberOfCars = 10; // Numero preso dallo span in CardAuction
+  const [vehicles, setVehicles] = useState([]);
+
+  useEffect(() => {
+    // Recupera i dati dal localStorage
+    const savedData = localStorage.getItem("cardAuctionData");
+    if (savedData) {
+      const parsedData = JSON.parse(savedData);
+      setVehicles(parsedData.vehicles || []);
+    }
+  }, []);
 
   return (
     <>
@@ -15,9 +25,29 @@ const AuctionPage = () => {
       <Navbar />
       <AuctionBanner />
       <div className="space-y-4">
-        {Array.from({ length: numberOfCars }).map((_, index) => (
-          <CarCard key={index} />
-        ))}
+        {vehicles.length > 0 ? (
+          vehicles.map((vehicle, index) => (
+            <CarCard key={index} vehicleData={vehicle} />
+          ))
+        ) : (
+          // Mostra un CarCard di esempio o un messaggio
+          <CarCard
+            vehicleData={{
+              title: "AUDI A3 30 TDI S tronic Business S.Back",
+              price: "25000",
+              imageUrl: "/images/Ayvens.svg",
+              specs: {
+                mileage: "103.940",
+                registrationDate: "2021-11-10",
+                fuel: "Diesel",
+                transmission: "Automatico",
+              },
+              pdf: { url: "" },
+              endDate: Date.now() + 86400000, // 24 ore da ora
+              auctionNumber: "1",
+            }}
+          />
+        )}
       </div>
       <div className="mt-10">
         <Footer />
