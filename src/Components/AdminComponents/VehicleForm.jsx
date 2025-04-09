@@ -18,7 +18,6 @@ const VehicleForm = ({ onSubmit }) => {
     location: "",
     description: "",
     imageUrl: "",
-    endDate: "", // Per il countdown
     fuel: "", // Diesel o altro
     transmission: "", // Automatico o manuale
     registrationDate: "", // Data immatricolazione
@@ -54,7 +53,6 @@ const VehicleForm = ({ onSubmit }) => {
       pdf: {
         url: formData.pdfUrl,
       },
-      endDate: new Date(formData.endDate).getTime(),
       countryCode: formData.countryCode,
       auctionNumber: formData.auctionNumber,
     };
@@ -113,7 +111,6 @@ const VehicleForm = ({ onSubmit }) => {
           location: "",
           description: "",
           imageUrl: "",
-          endDate: "",
           fuel: "",
           transmission: "",
           registrationDate: "",
@@ -177,14 +174,6 @@ const VehicleForm = ({ onSubmit }) => {
             label="Località"
             name="location"
             value={formData.location}
-            onChange={handleChange}
-            required
-          />
-          <Input
-            type="datetime-local"
-            label="Data Fine Asta"
-            name="endDate"
-            value={formData.endDate}
             onChange={handleChange}
             required
           />

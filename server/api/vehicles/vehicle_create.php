@@ -63,30 +63,31 @@ try {
 
     $conn = $result['connection'];
 
-    // Prepara la query
+    // Prepara la query senza il campo end_date
     $query = "INSERT INTO vehicles (
         title, price, year, mileage, location, description, 
-        image_url, end_date, fuel, transmission, 
+        image_url, fuel, transmission, 
         registration_date, pdf_url, country_code, auction_number
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = $conn->prepare($query);
     if (!$stmt) {
         error_log("Errore nella preparazione della query: " . $conn->error);
-        throw new Exception("Errore nella preparazione della query");
+        throw new Exception("Errore nella preparazione della query: " . $conn->error);
     }
 
     // Estrai e valida i dati
-    $endDate = !empty($data['endDate']) ? date('Y-m-d H:i:s', $data['endDate'] / 1000) : null;
     $mileage = isset($data['specs']['mileage']) ? $data['specs']['mileage'] : null;
     $fuel = isset($data['specs']['fuel']) ? $data['specs']['fuel'] : null;
     $transmission = isset($data['specs']['transmission']) ? $data['specs']['transmission'] : null;
     $registrationDate = isset($data['specs']['registrationDate']) ? $data['specs']['registrationDate'] : null;
     $pdfUrl = isset($data['pdf']['url']) ? $data['pdf']['url'] : null;
 
-    // Bind dei parametri
-    $stmt->bind_param(
-        "sdisssssssssss",
+    // Debug: Mostriamo i dettagli della query e dei parametri
+    error_log("Query SQL: " . $query);
+    error_log("Numero di '?' nella query: " . substr_count($query, '?'));
+    error_log("Lunghezza stringa tipi: " . strlen("sdissssssssss"));
+    error_log("Numero di parametri: " . count([
         $data['title'],
         $data['price'],
         $data['year'],
@@ -94,7 +95,24 @@ try {
         $data['location'],
         $data['description'],
         $data['imageUrl'],
-        $endDate,
+        $fuel,
+        $transmission,
+        $registrationDate,
+        $pdfUrl,
+        $data['countryCode'],
+        $data['auctionNumber']
+    ]));
+    
+    // Bind dei parametri senza il campo endDate
+    $stmt->bind_param(
+        "sdissssssssss",
+        $data['title'],
+        $data['price'],
+        $data['year'],
+        $mileage,
+        $data['location'],
+        $data['description'],
+        $data['imageUrl'],
         $fuel,
         $transmission,
         $registrationDate,
@@ -125,6 +143,7 @@ try {
     echo json_encode($response);
 
 } catch (Exception $e) {
+    error_log("Errore completo: " . $e->getMessage() . "\n" . $e->getTraceAsString());
     error_log("Errore in vehicle_create.php: " . $e->getMessage());
     error_log("Stack trace: " . $e->getTraceAsString());
     

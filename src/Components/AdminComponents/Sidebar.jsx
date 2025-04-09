@@ -5,7 +5,11 @@ import {
   ListItem,
   ListItemPrefix,
 } from "@material-tailwind/react";
-import { DocumentArrowUpIcon, UserIcon } from "@heroicons/react/24/solid";
+import {
+  DocumentArrowUpIcon,
+  UserIcon,
+  TruckIcon,
+} from "@heroicons/react/24/solid";
 import AdminContainer from "./AdimnContainer";
 import { CardStackIcon } from "@radix-ui/react-icons";
 
@@ -36,6 +40,15 @@ const DefaultSidebar = ({ onViewChange }) => {
               <DocumentArrowUpIcon className="h-5 w-5 mr-2" />
             </ListItemPrefix>
             PDF upload
+          </ListItem>
+          <ListItem
+            className="cursor-pointer hover:text-blue-500"
+            onClick={() => onViewChange("vehiclesTable")}
+          >
+            <ListItemPrefix>
+              <TruckIcon className="h-5 w-5 mr-2" />
+            </ListItemPrefix>
+            Vehicles Table
           </ListItem>
           <ListItem
             className="cursor-pointer hover:text-blue-500"

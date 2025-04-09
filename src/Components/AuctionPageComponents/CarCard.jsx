@@ -24,7 +24,6 @@ const CarCard = ({ vehicleData = {} }) => {
       transmission: "",
     },
     pdf = { url: "" },
-    endDate = Date.now(),
     auctionNumber = "1",
   } = vehicleData || {};
 
@@ -113,11 +112,8 @@ const CarCard = ({ vehicleData = {} }) => {
               </div>
 
               <div className="flex items-center gap-2 text-blue-600 mb-4 justify-center md:justify-start">
-                <ClockIcon className="w-5 h-5" />
                 <span className="text-center md:text-left text-xs md:text-base">
-                  Termina tra {Math.floor(endDate / 1000 / 60 / 60 / 24)}{" "}
-                  giorno(i) {Math.floor(endDate / 1000 / 60 / 60) % 24} ora(e){" "}
-                  {Math.floor(endDate / 1000 / 60) % 60} minuto(i)
+                  Auto disponibile
                 </span>
               </div>
               <div className="flex flex-col md:flex-row gap-2 text-gray-700 text-sm font-['Source_Sans_Pro'] text-center md:text-left">
