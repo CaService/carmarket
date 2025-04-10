@@ -14,7 +14,7 @@ export default defineConfig({
     },
     proxy: {
       "/api": {
-        target: "https://7bc9-82-84-9-104.ngrok-free.app/carmarket",
+        target: "https://64f5-82-84-9-104.ngrok-free.app/carmarket",
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/api/, "/server/api"),
