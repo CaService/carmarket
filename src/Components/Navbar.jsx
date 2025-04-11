@@ -97,10 +97,10 @@ const Navbar = () => {
                   Veicoli
                 </Link>
                 <Link
-                  to="/"
+                  to="/contact"
                   className="underline-animation text-black font-medium hover:text-cyan-800 font-['Source_Sans_Pro']"
                 >
-                  Vendite
+                  Contattaci
                 </Link>
               </div>
             </div>
@@ -133,10 +133,10 @@ const Navbar = () => {
                   Veicoli
                 </Link>
                 <Link
-                  to="/"
+                  to="/contact"
                   className="text-black font-medium hover:text-cyan-800 font-['Source_Sans_Pro']"
                 >
-                  Vendite
+                  Contattaci
                 </Link>
                 <div className="flex flex-col gap-3 pt-4 border-t">
                   {isAuthenticated ? (

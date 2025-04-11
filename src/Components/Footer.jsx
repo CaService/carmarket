@@ -17,9 +17,7 @@ const Footer = () => {
 
             <div className="grid grid-cols-2 md:grid-cols-2 gap-8 w-full md:w-auto">
               <div className="text-center md:text-left">
-                <h2 className="text-white text-xl font-medium mb-4">
-                  Chi Siamo
-                </h2>
+                <h2 className="text-white text-xl font-medium mb-4">Veicoli</h2>
                 <ul className="space-y-3 md:space-y-1 font-medium font-['Source_Sans_Pro'] text-base">
                   <li>
                     <a href="#" className="font-medium">
@@ -36,7 +34,7 @@ const Footer = () => {
 
               <div className="text-center md:text-left">
                 <h2 className="text-white font-medium mb-4 text-xl">
-                  Help Center
+                  Contattaci
                 </h2>
                 <ul className="space-y-3 md:space-y-1 font-medium font-['Source_Sans_Pro'] text-base">
                   <li>
