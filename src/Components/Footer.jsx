@@ -18,36 +18,12 @@ const Footer = () => {
             <div className="grid grid-cols-2 md:grid-cols-2 gap-8 w-full md:w-auto">
               <div className="text-center md:text-left">
                 <h2 className="text-white text-xl font-medium mb-4">Veicoli</h2>
-                <ul className="space-y-3 md:space-y-1 font-medium font-['Source_Sans_Pro'] text-base">
-                  <li>
-                    <a href="#" className="font-medium">
-                      La società
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="font-medium">
-                      Come funziona
-                    </a>
-                  </li>
-                </ul>
               </div>
 
               <div className="text-center md:text-left">
                 <h2 className="text-white font-medium mb-4 text-xl">
                   Contattaci
                 </h2>
-                <ul className="space-y-3 md:space-y-1 font-medium font-['Source_Sans_Pro'] text-base">
-                  <li>
-                    <a href="#" className="">
-                      FAQ
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="">
-                      Contattaci
-                    </a>
-                  </li>
-                </ul>
               </div>
             </div>
           </div>
@@ -65,11 +41,6 @@ const Footer = () => {
               <li>
                 <a href="#" className="">
                   Cookie Policy
-                </a>
-              </li>
-              <li>
-                <a href="#" className="">
-                  Note Legali
                 </a>
               </li>
               <li>

@@ -2,7 +2,7 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require 'vendor/autoload.php'; // Assicurati che il percorso sia corretto
+require __DIR__ . '/../../vendor/autoload.php'; // Assicurati che il percorso sia corretto
 
 // Abilita il reporting degli errori
 error_reporting(E_ALL);

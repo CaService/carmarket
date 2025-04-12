@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import MessagePopup from "./MessagePopup";
+import emailjs from "@emailjs/browser";
 
 const ContactForm = () => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -34,18 +35,19 @@ const ContactForm = () => {
     }
 
     try {
-      const response = await fetch(
-        "http://localhost/carmarket/server/api/send_email.php",
+      const result = await emailjs.send(
+        "service_0wdsp4r", // Il tuo Service ID
+        "template_s0584f7", // Il Template ID che devi ancora creare
         {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ ...formData, email: userEmail }),
-        }
+          from_name: formData.name,
+          from_email: userEmail,
+          message: formData.message,
+          to_email: "ca.management2025@proton.me",
+        },
+        "ALUJ-WnNsgugFAiOR" // La tua Public Key che trovi in Account > API Keys
       );
 
-      if (response.ok) {
+      if (result.text === "OK") {
         setPopupMessage("Messaggio inviato con successo!");
         setFormData({ name: "", email: "", message: "" });
       } else {
@@ -59,14 +61,25 @@ const ContactForm = () => {
     }
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSubmit(e);
+    }
+  };
+
   return (
     <>
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-md bg-white space-y-4 shadow-lg rounded-lg p-8"
+        className="w-full max-w-2xl bg-white space-y-4 shadow-lg rounded-lg p-8 font-chillax"
       >
+        <p className="text-center text-teal-500 font-medium pb-8">
+          Hai bisogno di più informazioni? Compila il form per essere
+          ricontattato
+        </p>
         <div>
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-semibold text-gray-700">
             Nome
           </label>
           <input
@@ -74,12 +87,13 @@ const ContactForm = () => {
             name="name"
             value={formData.name}
             onChange={handleChange}
+            onKeyDown={handleKeyDown}
             required
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            className="mt-1 block w-full border p-1 font-medium border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-semibold text-gray-700">
             Email
           </label>
           <input
@@ -87,26 +101,28 @@ const ContactForm = () => {
             name="email"
             value={formData.email}
             onChange={handleChange}
+            onKeyDown={handleKeyDown}
             required
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            className="mt-1 block w-full border p-1 font-medium border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-semibold text-gray-700">
             Messaggio
           </label>
           <textarea
             name="message"
             value={formData.message}
             onChange={handleChange}
+            onKeyDown={handleKeyDown}
             required
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            className="mt-1 block w-full border p-1 font-medium border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             rows="4"
           />
         </div>
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white py-2 px-4 rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 cursor-pointer"
+          className="w-full bg-[#73d2d2] hover:bg-[#5cb9b9] text-gray-700 hover:text-white font-semibold py-2 px-4 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 cursor-pointer"
         >
           Invia
         </button>
