@@ -204,10 +204,10 @@ const AboutUsBody = () => {
               mobilità più fluida, più sostenibile e più accessibile.
             </p>
           </div>
-          {/* PoweUp 2026 */}
+          {/* PowerUp 2026 */}
           <div>
             <h2 className="font-chillax text-gray-700 text-4xl pt-32 font-medium">
-              PoweUp 2026
+              PowerUp 2026
             </h2>
             <p className="text-gray-700 text-lg w-2/3 font-medi pt-8">
               Nel 2023 abbiamo lanciato PowerUP 2026: il piano strategico di
