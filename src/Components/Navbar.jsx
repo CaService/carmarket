@@ -89,16 +89,22 @@ const Navbar = () => {
                   className="w-26.5 h-26.5"
                 />
               </Link>
-              <div className="hidden md:flex items-center gap-10">
+              <div className="hidden md:flex items-center gap-8">
+                <Link
+                  to="/about"
+                  className="underline-animation text-black font-medium hover:text-cyan-800 font-['Source_Sans_Pro'] whitespace-nowrap"
+                >
+                  Chi siamo
+                </Link>
                 <Link
                   to="/auction"
-                  className="underline-animation text-black font-medium hover:text-cyan-800 font-['Source_Sans_Pro']"
+                  className="underline-animation text-black font-medium hover:text-cyan-800 font-['Source_Sans_Pro'] whitespace-nowrap"
                 >
                   Veicoli
                 </Link>
                 <Link
                   to="/contact"
-                  className="underline-animation text-black font-medium hover:text-cyan-800 font-['Source_Sans_Pro']"
+                  className="underline-animation text-black font-medium hover:text-cyan-800 font-['Source_Sans_Pro'] whitespace-nowrap"
                 >
                   Contattaci
                 </Link>

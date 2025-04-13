@@ -4,6 +4,8 @@ import SignUpPage from "./pages/SignUpPage";
 import AdminPage from "./pages/AdminPage";
 import AuctionPage from "./pages/AuctionPage";
 import ContactPage from "./pages/ContactPage";
+import AboutUsPage from "./pages/AboutUsPage";
+
 const AppRoutes = () => {
   return (
     <Router>
@@ -13,6 +15,7 @@ const AppRoutes = () => {
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/auction" element={<AuctionPage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/about" element={<AboutUsPage />} />
       </Routes>
     </Router>
   );
