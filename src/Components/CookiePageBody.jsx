@@ -213,7 +213,7 @@ const CookiePageBody = () => {
         Per maggiori dettagli sul modo in cui vengono trattati i tuoi dati
         personali raccolti su questo sito consultate la nostra{" "}
         <a
-          href="https://www.ayvens.com/it-it/informativa-privacy/"
+          href="#"
           className="text-teal-600 cursor-pointer underline hover:bg-teal-100"
         >
           Informativa Privacy
