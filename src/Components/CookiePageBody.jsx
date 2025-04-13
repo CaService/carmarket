@@ -222,7 +222,7 @@ const CookiePageBody = () => {
         nostro sito web, accettate la presente Informativa dei Cookie e la
         nostra Informativa Privacy.
       </p>
-      <p className="w-3/4 font-chillax font-regular text-lg text-gray-700 pb-4">
+      <p className="w-3/4 font-chillax font-regular text-lg text-gray-700 pb-32">
         Qualche domanda? Contattateci all’indirizzo{" "}
         <a
           href="mailto:communications@ayvens.com"
