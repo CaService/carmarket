@@ -1,4 +1,3 @@
-import Flag from "react-world-flags";
 import Container from "./Container";
 import { Link } from "react-router-dom";
 
@@ -16,15 +15,31 @@ const Footer = () => {
               />
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-2 gap-8 w-full md:w-auto">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-8 w-full md:w-auto">
               <div className="text-center md:text-left">
-                <h2 className="text-white text-xl font-medium mb-4">Veicoli</h2>
+                <Link
+                  className="text-white text-xl font-medium mb-4"
+                  to="/about"
+                >
+                  Chi siamo
+                </Link>
+              </div>
+              <div className="text-center md:text-left">
+                <Link
+                  className="text-white text-xl font-medium mb-4"
+                  to="/auction"
+                >
+                  Veicoli
+                </Link>
               </div>
 
               <div className="text-center md:text-left">
-                <h2 className="text-white font-medium mb-4 text-xl">
+                <Link
+                  className="text-white text-xl font-medium mb-4"
+                  to="/contact"
+                >
                   Contattaci
-                </h2>
+                </Link>
               </div>
             </div>
           </div>
@@ -35,19 +50,14 @@ const Footer = () => {
             </p>
             <ul className="flex flex-col md:flex-row md:space-x-8 space-y-4 md:space-y-0 font-medium font-['Source_Sans_Pro'] text-sm text-center md:text-left">
               <li>
-                <a href="#" className="">
+                <Link to="/privacy" className="">
                   Privacy Policy
-                </a>
+                </Link>
               </li>
               <li>
                 <Link to="/cookie" className="">
                   Cookie Policy
                 </Link>
-              </li>
-              <li>
-                <a href="#" className="">
-                  Impostazioni Cookie
-                </a>
               </li>
             </ul>
           </div>

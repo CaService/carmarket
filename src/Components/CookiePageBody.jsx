@@ -209,11 +209,11 @@ const CookiePageBody = () => {
       <h3 className="font-chillax font-semibold text-lg pb-4">
         Informativa Privacy
       </h3>
-      <p className="w-3/4 font-chillax font-regular text-lg text-gray-700 pb-4">
+      <p className="w-3/4 font-chillax font-regular text-lg text-gray-700 pb-32">
         Per maggiori dettagli sul modo in cui vengono trattati i tuoi dati
         personali raccolti su questo sito consultate la nostra{" "}
         <a
-          href="#"
+          href="/privacy"
           className="text-teal-600 cursor-pointer underline hover:bg-teal-100"
         >
           Informativa Privacy
@@ -221,15 +221,6 @@ const CookiePageBody = () => {
         , nella quale è contenuta la presente Cookie Policy. Utilizzando il
         nostro sito web, accettate la presente Informativa dei Cookie e la
         nostra Informativa Privacy.
-      </p>
-      <p className="w-3/4 font-chillax font-regular text-lg text-gray-700 pb-32">
-        Qualche domanda? Contattateci all’indirizzo{" "}
-        <a
-          href="mailto:communications@ayvens.com"
-          className="text-teal-600 cursor-pointer underline hover:bg-teal-100"
-        >
-          communications@ayvens.com
-        </a>
       </p>
     </>
   );
