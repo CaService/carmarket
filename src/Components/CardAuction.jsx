@@ -108,7 +108,7 @@ const CardAuction = () => {
                   </div>
                   <div className="flex items-center">
                     <span className="text-sm font-medium text-[#072534] font-['Source_Sans_Pro']">
-                      10
+                      {vehicles.length}
                     </span>
                     <FontAwesomeIcon
                       icon={faCarSide}
