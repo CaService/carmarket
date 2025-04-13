@@ -102,7 +102,7 @@ const AboutUsBody = () => {
             <div className="col-span-1">
               <img
                 alt="man and woman pushing bikes"
-                src="public/images/man-and-woman-pushing-bikes.jpg"
+                src="/images/man-and-woman-pushing-bikes.jpg"
                 className="rounded-lg w-full h-[600px] object-cover"
               ></img>
             </div>
@@ -112,7 +112,7 @@ const AboutUsBody = () => {
             <div className="col-span-1">
               <img
                 alt="man charging car and looking into the phone"
-                src="public/images/man-charging-car-and-looking-into-the-phone.jpg"
+                src="/images/man-charging-car-and-looking-into-the-phone.jpg"
                 className="rounded-lg w-full h-[600px] object-cover"
               ></img>
             </div>
@@ -153,8 +153,8 @@ const AboutUsBody = () => {
             </div>
             <div className="col-span-1">
               <img
-                alt="man charging car and looking into the phone"
-                src="public/images/woman-looking-in-the-phone-and-smiling.jpg"
+                alt="woman looking in the phone and smiling"
+                src="/images/woman-looking-in-the-phone-and-smiling.jpg"
                 className="rounded-lg w-full h-[600px] object-cover"
               ></img>
             </div>

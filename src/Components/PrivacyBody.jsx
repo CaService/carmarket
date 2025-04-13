@@ -7,10 +7,7 @@ const PrivacyBody = () => {
     <>
       {/* Hero Section */}
       <div className="w-full h-[400px] pt-16 relative">
-        <img
-          src="public/images/hero-guy-with-headphones.jpg"
-          alt="Privacy Hero"
-        />
+        <img src="/images/hero-guy-with-headphones.jpg" alt="Privacy Hero" />
         <h1 className="font-chillax w-1/3 text-4xl font-medium text-gray-700 absolute top-3/4 left-1/4 -translate-x-1/2 -translate-y-1/2 bg-white p-12 rounded-br-4xl ml-8">
           Informativa privacy Ayvens Italia
         </h1>
