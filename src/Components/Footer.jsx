@@ -1,5 +1,6 @@
 import Flag from "react-world-flags";
 import Container from "./Container";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -39,9 +40,9 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="#" className="">
+                <Link to="/cookie" className="">
                   Cookie Policy
-                </a>
+                </Link>
               </li>
               <li>
                 <a href="#" className="">

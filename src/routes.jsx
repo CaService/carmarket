@@ -5,6 +5,7 @@ import AdminPage from "./pages/AdminPage";
 import AuctionPage from "./pages/AuctionPage";
 import ContactPage from "./pages/ContactPage";
 import AboutUsPage from "./pages/AboutUsPage";
+import CookiePage from "./pages/CookiePage";
 
 const AppRoutes = () => {
   return (
@@ -16,6 +17,7 @@ const AppRoutes = () => {
         <Route path="/auction" element={<AuctionPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/about" element={<AboutUsPage />} />
+        <Route path="/cookie" element={<CookiePage />} />
       </Routes>
     </Router>
   );
