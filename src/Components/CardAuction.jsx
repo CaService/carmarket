@@ -6,11 +6,45 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCarSide } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
-const CardAuction = ({ vehicles = [] }) => {
+const CardAuction = () => {
   const [isOpen, setIsOpen] = useState(true);
   const [timeLeft, setTimeLeft] = useState("");
+  const [vehicles, setVehicles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Modificare la endDate qui per far partire il count down
+  // Fetch dei veicoli
+  useEffect(() => {
+    const fetchVehicles = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost/carmarket/server/api/vehicles/get_vehicles.php"
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (data.status === "success") {
+          // Rimuoviamo il .slice(0, 4) per ottenere tutti i veicoli
+          setVehicles(data.vehicles);
+        } else {
+          throw new Error(data.message || "Errore nel recupero dei veicoli");
+        }
+      } catch (error) {
+        console.error("Errore nel caricamento dei veicoli:", error);
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchVehicles();
+  }, []);
+
+  // Timer countdown
   useEffect(() => {
     const endDate = new Date("2025-04-15T10:00:00");
     const updateCountdown = () => {
@@ -38,7 +72,6 @@ const CardAuction = ({ vehicles = [] }) => {
     };
 
     const intervalId = setInterval(updateCountdown, 1000);
-
     return () => clearInterval(intervalId);
   }, []);
 
@@ -70,7 +103,7 @@ const CardAuction = ({ vehicles = [] }) => {
                       />
                     </div>
                     <h2 className="text-lg font-bold text-[#072534] font-chillax">
-                      ASTA
+                      VEICOLI IN VENDITA
                     </h2>
                   </div>
                   <div className="flex items-center">
@@ -106,7 +139,7 @@ const CardAuction = ({ vehicles = [] }) => {
                     </span>
                   </div>
                   <p className="text-xs mt-4 border-t font-semibold border-gray-200 pt-4 pb-24 text-[#072534] font-chillax">
-                    VEICOLO ASTA IN ITALIA - 12424
+                    VEICOLO IN VENDITA IN ITALIA - 12424
                   </p>
                 </div>
 
@@ -128,29 +161,60 @@ const CardAuction = ({ vehicles = [] }) => {
             </div>
 
             <div className="p-6 md:w-2/3">
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                {vehicles.map((vehicle, index) => (
-                  <div
-                    key={index}
-                    className="rounded-lg overflow-hidden text-gray-800"
-                  >
-                    <img
-                      src={vehicle.image || "https://placehold.co/200x150"}
-                      alt={vehicle.name}
-                      className="w-full h-32 object-cover"
-                    />
-                    <div className="p-3">
-                      <h4 className="text-lg font-semibold">{vehicle.name}</h4>
-                      <span className="block text-xs font-medium">
-                        {vehicle.km} Chilometri
-                      </span>
-                      <span className="block text-xs font-medium">
-                        {vehicle.registration}
-                      </span>
+              {loading ? (
+                <div className="flex justify-center items-center h-full">
+                  <span>Caricamento veicoli...</span>
+                </div>
+              ) : error ? (
+                <div className="text-red-500">
+                  Errore nel caricamento dei veicoli: {error}
+                </div>
+              ) : (
+                <div className="relative">
+                  {/* Indicatore di scroll */}
+                  <div className="absolute right-0 top-1/2 -translate-y-1/2 flex flex-col gap-2 pr-2">
+                    <div className="w-2 h-2 rounded-full bg-gray-300"></div>
+                    <div className="w-2 h-2 rounded-full bg-teal-700"></div>
+                  </div>
+
+                  {/* Container scrollabile */}
+                  <div className="overflow-x-auto pb-4 hide-scrollbar">
+                    <div
+                      className="flex gap-4"
+                      style={{ minWidth: "min-content" }}
+                    >
+                      {vehicles.map((vehicle) => (
+                        <div
+                          key={vehicle.id}
+                          className="w-[250px] flex-shrink-0 rounded-lg overflow-hidden text-gray-800 bg-white shadow-sm hover:shadow-md transition-shadow"
+                        >
+                          <img
+                            src={
+                              vehicle.imageUrl || "https://placehold.co/200x150"
+                            }
+                            alt={vehicle.title}
+                            className="w-full h-32 object-cover"
+                          />
+                          <div className="p-3">
+                            <h4 className="text-lg font-semibold truncate">
+                              {vehicle.title}
+                            </h4>
+                            <span className="block text-xs font-medium">
+                              Anno: {vehicle.year}
+                            </span>
+                            <span className="block text-xs font-medium">
+                              Prezzo: € {vehicle.price}
+                            </span>
+                            <span className="block text-xs font-medium mt-1 text-teal-700">
+                              {vehicle.specs?.fuel || "N/D"}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
-                ))}
-              </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
