@@ -119,29 +119,29 @@ const CookiePageBody = () => {
         Per maggiori informazioni:
       </p>
       <ul className="w-full md:w-3/4 font-chillax font-regular text-base md:text-lg text-gray-700 pb-8 list-disc px-4 md:px-0">
-        <li className="mx-2 md:mx-4">
+        <li className="mx-2 md:mx-4 break-words">
           Facebook:{" "}
           <a
             href="https://fr-fr.facebook.com/policy.php"
-            className="text-teal-600 cursor-pointer underline hover:bg-teal-100"
+            className="text-teal-600 cursor-pointer underline hover:bg-teal-100 break-all"
           >
             https://fr-fr.facebook.com/policy.php
           </a>
         </li>
-        <li className="mx-2 md:mx-4">
+        <li className="mx-2 md:mx-4 break-words">
           X:{" "}
           <a
-            href="https://fr-fr.facebook.com/policy.php"
-            className="text-teal-600 cursor-pointer underline hover:bg-teal-100"
+            href="https://twitter.com/fr/privacy"
+            className="text-teal-600 cursor-pointer underline hover:bg-teal-100 break-all"
           >
             https://twitter.com/fr/privacy
           </a>
         </li>
-        <li className="mx-2 md:mx-4">
+        <li className="mx-2 md:mx-4 break-words">
           LinkedIn:{" "}
           <a
-            href="https://fr-fr.facebook.com/policy.php"
-            className="text-teal-600 cursor-pointer underline hover:bg-teal-100"
+            href="https://www.linkedin.com/legal/privacy-policy"
+            className="text-teal-600 cursor-pointer underline hover:bg-teal-100 break-all"
           >
             https://www.linkedin.com/legal/privacy-policy?_l=fr_FR
           </a>
@@ -156,11 +156,11 @@ const CookiePageBody = () => {
         maggiori informazioni:
       </p>
       <ul className="w-full md:w-3/4 font-chillax font-regular text-base md:text-lg text-gray-700 pb-8 list-disc px-4 md:px-0">
-        <li className="mx-2 md:mx-4">
+        <li className="mx-2 md:mx-4 break-words">
           Youtube:{" "}
           <a
             href="https://www.youtube.com/policies"
-            className="text-teal-600 cursor-pointer underline hover:bg-teal-100"
+            className="text-teal-600 cursor-pointer underline hover:bg-teal-100 break-all"
           >
             https://www.youtube.com/intl/ALL_fr/howyoutubeworks/our-commitments/protecting-user-data/
           </a>
