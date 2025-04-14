@@ -5,7 +5,7 @@ import { Helmet } from "react-helmet-async";
 
 const AboutUsPage = () => {
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <Helmet>
         <title>Chi siamo | Ayvens Italia</title>
       </Helmet>
@@ -20,9 +20,11 @@ const AboutUsPage = () => {
           class="sc-1893p0a-0 jVxZLy"
         ></img>
       </figure> */}
-      <AboutUsBody />
+      <main className="flex-grow">
+        <AboutUsBody />
+      </main>
       <Footer />
-    </>
+    </div>
   );
 };
 
