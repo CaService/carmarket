@@ -5,14 +5,16 @@ import Footer from "../Components/Footer";
 
 const PrivacyPage = () => {
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <Helmet>
         <title>Informativa sulla Privacy - Ayvens Italia</title>
       </Helmet>
       <Navbar />
-      <PrivacyBody />
+      <main className="flex-grow">
+        <PrivacyBody />
+      </main>
       <Footer />
-    </>
+    </div>
   );
 };
 

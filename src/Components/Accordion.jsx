@@ -9,7 +9,7 @@ const Accordion = ({ title, children }) => {
         className="w-full px-6 py-4 flex justify-between items-center text-left cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <span className="font-chillax text-navy-700 text-lg font-medium">
+        <span className="font-chillax text-navy-700 text-lg font-medium text-gray-700">
           {title}
         </span>
         <svg
