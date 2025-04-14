@@ -6,16 +6,18 @@ import { Helmet } from "react-helmet-async";
 
 const CookiePage = () => {
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <Helmet>
         <title>Informativa Cookie - Ayvens Italia</title>
       </Helmet>
       <Container>
         <Navbar />
-        <CookiePageBody />
+        <div className="flex-1">
+          <CookiePageBody />
+        </div>
       </Container>
       <Footer />
-    </>
+    </div>
   );
 };
 
