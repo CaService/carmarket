@@ -72,73 +72,80 @@ const PrivacyBody = () => {
 
           <ol className="list-decimal list-inside text-gray-700 text-base md:text-lg font-regular w-full md:w-2/3 pt-4 md:pt-8">
             <li className="text-teal-700 underline pt-4">
-              <a href="#1">Ambito di applicazione della presente Informativa</a>
+              <a href="#section1">
+                Ambito di applicazione della presente Informativa
+              </a>
             </li>
             <li className="text-teal-700 underline pt-4">
-              <a href="#2">Chi siamo?</a>
+              <a href="#section2">Chi siamo?</a>
             </li>
             <li className="text-teal-700 underline pt-4">
-              <a href="#3">Come raccogliamo i dati personali?</a>
+              <a href="#section3">Come raccogliamo i dati personali?</a>
             </li>
             <li className="text-teal-700 pt-4">
-              <a href="#4">
+              <a href="#section4">
                 Perchè e su quale base giuridica utilizziamo i dati personali?
               </a>
               <div className="ml-6 mt-4">
                 <div className="text-teal-700 underline pt-4">
                   <span className="mr-2">4.1</span>
-                  <a href="#4.1">DATI RELATIVI AI VISITATORI DEL SITO WEB</a>
+                  <a href="#section4.1">
+                    DATI RELATIVI AI VISITATORI DEL SITO WEB
+                  </a>
                 </div>
               </div>
               <div className="ml-6 mt-4">
                 <div className="text-teal-700 underline pt-4">
                   <span className="mr-2">4.2</span>
-                  <a href="#4.2">DATI RELATIVI AI CLIENTI</a>
+                  <a href="#section4.2">DATI RELATIVI AI CLIENTI</a>
                 </div>
               </div>
             </li>
             <li className="text-teal-700 underline pt-4">
-              <a href="#5">Chi ha accesso ai dati dell&apos;utente?</a>
+              <a href="#section5">Chi ha accesso ai dati dell&apos;utente?</a>
             </li>
             <li className="text-teal-700 underline pt-4">
-              <a href="#6">
+              <a href="#section6">
                 Perchè i dati personali possono essere trasferiti a Paesi terzi?
               </a>
             </li>
             <li className="text-teal-700 underline pt-4">
-              <a href="#7">Privacy dei minorenni</a>
+              <a href="#section7">Privacy dei minorenni</a>
             </li>
             <li className="text-teal-700 underline pt-4">
-              <a href="#8">
+              <a href="#section8">
                 {" "}
                 Utilizziamo i dati dell&apos;utente per altri scopi?
               </a>
             </li>
             <li className="text-teal-700 underline pt-4">
-              <a href="#9">
+              <a href="#section9">
                 Per quanto tempo conserveremo i dati dell&apos;utente?
               </a>
             </li>
             <li className="text-teal-700 underline pt-4">
-              <a href="#10">
+              <a href="#section10">
                 Per quanto tempo conserveremo i dati dell&apos;utente?
               </a>
             </li>
             <li className="text-teal-700 underline pt-4">
-              <a href="#11">Modifiche alla presente informativa</a>
+              <a href="#section11">Modifiche alla presente informativa</a>
             </li>
             <li className="text-teal-700 underline pt-4">
-              <a href="#12">Come è possibile contattarci?</a>
+              <a href="#section12">Come è possibile contattarci?</a>
             </li>
             <li className="text-teal-700 underline pt-4">
-              <a href="#13">
+              <a href="#section13">
                 Come è possibile esercitare i propri diritti sui dati personali?
               </a>
             </li>
           </ol>
 
-          {/* Sezioni numerate */}
-          <h2 className="w-full md:w-2/3 font-chillax font-medium text-gray-700 text-2xl md:text-4xl pt-6 md:pt-8">
+          {/* Sezioni con ID per i link */}
+          <h2
+            id="section1"
+            className="w-full md:w-2/3 font-chillax font-medium text-gray-700 text-2xl md:text-4xl pt-16 md:pt-24 scroll-mt-20"
+          >
             <span>1. </span>
             Ambito di applicazione della presente Informativa
           </h2>
@@ -242,7 +249,7 @@ const PrivacyBody = () => {
                 </p>
                 <p className="mb-4">
                   Vedere la sezione 5 &quot;
-                  <a href="#5" className="text-teal-700 underline">
+                  <a href="#section5" className="text-teal-700 underline">
                     Chi ha accesso ai dati dell&apos;utente?
                   </a>
                   &quot;.
@@ -272,7 +279,7 @@ const PrivacyBody = () => {
                   interessati, disponibile sul sito web locale, oppure
                   consultare le informazioni di contatto generali riportate di
                   seguito. In seguito alla sua visita a un sito web di Ayvens,
-                  potremo mostrare all&apos;utente annunci pubblicitari
+                  potremmo mostrare all&apos;utente annunci pubblicitari
                   personalizzati al di fuori del sito web di Ayvens. Per
                   comprendere cosa è rilevante per l&apos;utente, possiamo
                   utilizzare strumenti manuali e automatizzati per analizzare le
@@ -292,7 +299,7 @@ const PrivacyBody = () => {
                 </p>
                 <p className="mb-4">
                   Vedere la sezione 5 &quot;
-                  <a href="#5" className="text-teal-700 underline">
+                  <a href="#section5" className="text-teal-700 underline">
                     Chi ha accesso ai dati dell&apos;utente?
                   </a>
                   &quot;.
@@ -359,7 +366,7 @@ const PrivacyBody = () => {
                 </p>
                 <p className="mb-4">
                   Vedere la sezione 5 &quot;
-                  <a href="#5" className="text-teal-700 underline">
+                  <a href="#section5" className="text-teal-700 underline">
                     Chi ha accesso ai dati dell&apos;utente?
                   </a>
                   &quot;.
@@ -425,7 +432,7 @@ const PrivacyBody = () => {
                 </p>
                 <p className="mb-4">
                   Vedere la sezione 5 &quot;
-                  <a href="#5" className="text-teal-700 underline">
+                  <a href="#section5" className="text-teal-700 underline">
                     Chi ha accesso ai dati dell&apos;utente?
                   </a>
                   &quot;.
@@ -480,7 +487,245 @@ const PrivacyBody = () => {
                   legittimo interesse in tal senso, i Dati personali
                   dell&apos;utente saranno forniti a enti di vigilanza, autorità
                   fiscali e agenzie investigative. Vedere la sezione 5 &quot;
-                  <a href="#5" className="text-teal-700 underline">
+                  <a href="#section5" className="text-teal-700 underline">
+                    Chi ha accesso ai dati dell&apos;utente?
+                  </a>
+                  &quot;.
+                </p>
+              </div>
+            </Accordion>
+          </div>
+
+          {/* Sezione 4.2 con Accordion */}
+          <h3
+            id="section4.2"
+            className="w-2/3 font-chillax font-medium text-gray-700 text-2xl pt-16 md:pt-24 scroll-mt-20"
+          >
+            4.2 DATI RELATIVI AI CLIENTI
+          </h3>
+
+          <div className="w-full pt-4 md:pt-8">
+            <Accordion title="4.2.1 GESTIONE DELL'ACCOUNT DEL CLIENTE">
+              <div>
+                <h4 className="font-bold text-navy-700 mb-4">
+                  4.2.1.a Per fornire, gestire e amministrare l&apos;account del
+                  Cliente
+                </h4>
+
+                <p className="italic">Cosa comporta questa finalità?</p>
+                <p className="mb-4">
+                  Elaboriamo i Dati personali dell&apos;utente per gestire e
+                  amministrare quotidianamente gli account dei Clienti, ad
+                  esempio per mantenere i contratti e tenere l&apos;utente
+                  informato di tutti gli sviluppi importanti sui Servizi e
+                  fornirgli altre informazioni pertinenti per il contratto e
+                  l&apos;account del Cliente. Questo trattamento si basa
+                  sull&apos;esecuzione del contratto di leasing che abbiamo
+                  stipulato con l&apos;utente o su un obbligo di legge.
+                </p>
+
+                <p className="italic">
+                  Quali Dati personali trattiamo per conseguire questa finalità?
+                </p>
+                <p className="mb-4">
+                  Per conseguire questa finalità, potremmo trattare le
+                  informazioni aziendali di contatto e i dati di accesso agli
+                  account online dei nostri Clienti.
+                </p>
+
+                <p className="italic">
+                  Con chi condividiamo i Dati personali dell&apos;utente?
+                </p>
+                <p className="mb-4">
+                  Vedere la sezione 5 &quot;
+                  <a href="#section5" className="text-teal-700 underline">
+                    Chi ha accesso ai dati dell&apos;utente?
+                  </a>
+                  &quot;.
+                </p>
+
+                <h4 className="font-bold text-navy-700 mb-4 pt-8">
+                  4.2.1.b Per comunicare con l&apos;utente
+                </h4>
+
+                <p className="italic">Cosa comporta questa finalità?</p>
+                <p className="mb-4">
+                  L&apos;utente può contattarci in diversi modi (ad esempio via
+                  e-mail, al telefono o tramite il nostro sito web). In questo
+                  caso, utilizzeremo i Dati personali dell&apos;utente per
+                  rispondere alle sue domande o richieste. Inoltre, potremmo
+                  contattare l&apos;utente, ad esempio, in merito alla gestione
+                  e all&apos;amministrazione quotidiana del suo account Cliente.
+                  Questo trattamento si basa sul nostro legittimo interesse
+                  commerciale ed è correlato all&apos;esecuzione del contratto
+                  di leasing che abbiamo stipulato con l&apos;utente o è
+                  effettuato con il suo consenso.
+                </p>
+
+                <p className="italic">
+                  Quali Dati personali trattiamo per conseguire questa finalità?
+                </p>
+                <p className="mb-4">
+                  Per conseguire questa finalità, potremmo trattare nome e
+                  cognome, informazioni aziendali di contatto, corrispondenza
+                  con Ayvens relativa a una domanda/richiesta e tutte le altre
+                  informazioni personali dell&apos;utente che ci fornisce e/o
+                  che sono necessarie per rispondergli in modo appropriato.
+                </p>
+
+                <p className="italic">
+                  Con chi condividiamo i Dati personali dell&apos;utente?
+                </p>
+                <p className="mb-4">
+                  Vedere la sezione 5 &quot;
+                  <a href="#section5" className="text-teal-700 underline">
+                    Chi ha accesso ai dati dell&apos;utente?
+                  </a>
+                  &quot;.
+                </p>
+
+                <h4 className="font-bold text-navy-700 mb-4 pt-8">
+                  4.2.1.c Per sondaggi o altre comunicazioni (di marketing)
+                </h4>
+
+                <p className="italic">Cosa comporta questa finalità?</p>
+                <p className="mb-4">
+                  Elaboriamo i Dati personali dell&apos;utente per inviargli
+                  sondaggi per i quali abbiamo un legittimo interesse al
+                  trattamento dei relativi dati (migliorare o modificare i
+                  nostri Servizi). Con il suo consenso o laddove abbiamo un
+                  legittimo interesse, potremmo inviare all&apos;utente
+                  comunicazioni di marketing per tenerlo aggiornato su eventi,
+                  offerte speciali, promozioni e prodotti e servizi attuali e
+                  futuri di Ayvens. Invieremo all&apos;utente tali sondaggi
+                  sotto forma di e-mail periodiche o un&apos;e-mail per
+                  richiedere il suo feedback sui nostri Servizi e su altri
+                  servizi svolti sul veicolo.
+                </p>
+              </div>
+            </Accordion>
+
+            <Accordion title="4.2.2 SEDI DI AYVENS">
+              <div>
+                <h4 className="font-bold text-navy-700 mb-4">
+                  4.2.2.a Accesso e controllo di sicurezza nelle sedi di Ayvens
+                </h4>
+
+                <p className="italic">Cosa comporta questa finalità?</p>
+                <p className="mb-4">
+                  Potremmo utilizzare i Dati personali dell&apos;utente durante
+                  eventuali visite di quest&apos;ultimo ai nostri locali allo
+                  scopo di garantire adeguati controlli di accesso e sicurezza,
+                  per i quali abbiamo un legittimo interesse (sicurezza e
+                  protezione dei nostri beni).
+                </p>
+
+                <p className="italic">
+                  Quali Dati personali trattiamo per conseguire questa finalità?
+                </p>
+                <p className="mb-4">
+                  Per conseguire questa finalità, potremmo trattare nome e
+                  cognome, informazioni di contatto dell&apos;utente e della
+                  persona con la quale si incontra. Potremmo inoltre elaborare
+                  informazioni video e/o audio che riguardano l&apos;utente
+                  tramite apparecchiature di registrazione video/audio, come le
+                  telecamere di sorveglianza.
+                </p>
+
+                <p className="italic">
+                  Con chi condividiamo i Dati personali dell&apos;utente?
+                </p>
+                <p className="mb-4">
+                  Vedere la sezione 5 &quot;
+                  <a href="#section5" className="text-teal-700 underline">
+                    Chi ha accesso ai dati dell&apos;utente?
+                  </a>
+                  &quot;.
+                </p>
+              </div>
+            </Accordion>
+
+            <Accordion title="4.2.3 REPORTING DEI CLIENTI">
+              <div>
+                <h4 className="font-bold text-navy-700 mb-4">
+                  4.2.3.a Strumento di reporting per la flotta aziendale
+                </h4>
+
+                <p className="italic">Cosa comporta questa finalità?</p>
+                <p className="mb-4">
+                  Forniamo un apposito strumento di reporting per la flotta
+                  aziendale. I referenti dei Clienti possono accedere a questi
+                  strumenti per verificare lo stato della propria flotta
+                  aziendale, segnalare danni, gestire i contratti e utilizzare
+                  altre funzionalità di reporting per la flotta, ad esempio
+                  reporting da dashboard, reporting di analisi sulle tendenze,
+                  chilometraggio dei veicoli e fine del periodo di leasing.
+                  Questo trattamento viene effettuato sulla base del nostro
+                  legittimo interesse (per fornire assistenza ai Conducenti che
+                  sono dipendenti dei nostri Clienti) ed è correlato
+                  all&apos;esecuzione del contratto di leasing stipulato con il
+                  nostro Cliente.
+                </p>
+
+                <p className="italic">
+                  Quali Dati personali trattiamo per conseguire questa finalità?
+                </p>
+                <p className="mb-4">
+                  Per conseguire questa finalità, trattiamo le informazioni di
+                  contatto e la qualifica aziendale (ad esempio, responsabile
+                  della flotta aziendale - internazionale) del referente del
+                  Cliente, nonché i dati di accesso (ad esempio, nome utente e
+                  password).
+                </p>
+
+                <p className="italic">
+                  Con chi condividiamo i Dati personali dell&apos;utente?
+                </p>
+                <p className="mb-4">
+                  Vedere la sezione 5 &quot;
+                  <a href="#section5" className="text-teal-700 underline">
+                    Chi ha accesso ai dati dell&apos;utente?
+                  </a>
+                  &quot;.
+                </p>
+              </div>
+            </Accordion>
+
+            <Accordion title="4.2.4 FINALITÀ COMMERCIALI DI AYVENS">
+              <div>
+                <h4 className="font-bold text-navy-700 mb-4">
+                  4.2.4.a Reporting gestionale
+                </h4>
+
+                <p className="italic">Cosa comporta questa finalità?</p>
+                <p className="mb-4">
+                  Elaboriamo i Dati personali dell&apos;utente per varie
+                  finalità commerciali per le quali abbiamo un legittimo
+                  interesse al loro trattamento, ad esempio analisi dei dati,
+                  attività di audit, sviluppo di nuovi prodotti, potenziamento,
+                  miglioramento o modifica dei nostri Servizi, identificazione
+                  delle tendenze di utilizzo, determinazione dell&apos;efficacia
+                  delle nostre campagne promozionali e gestione ed espansione
+                  delle nostre attività commerciali.
+                </p>
+
+                <p className="italic">
+                  Quali Dati personali trattiamo per conseguire questa finalità?
+                </p>
+                <p className="mb-4">
+                  Per conseguire questa finalità, potremmo trattare varie
+                  informazioni che raccogliamo nell&apos;ambito della fornitura
+                  dei nostri Servizi (ad esempio nome e cognome, informazioni di
+                  contatto, dettagli della flotta aziendale, ecc.), secondo
+                  necessità per le finalità sopra descritte.
+                </p>
+
+                <p className="italic">
+                  Con chi condividiamo i Dati personali dell&apos;utente?
+                </p>
+                <p className="mb-4">
+                  Vedere la sezione 5 &quot;
+                  <a href="#section5" className="text-teal-700 underline">
                     Chi ha accesso ai dati dell&apos;utente?
                   </a>
                   &quot;.
@@ -491,7 +736,10 @@ const PrivacyBody = () => {
 
           {/* Sezioni finali */}
           <div className="space-y-4 md:space-y-8 pb-16 md:pb-32">
-            <h3 className="w-full md:w-2/3 font-chillax font-medium text-gray-700 text-2xl md:text-4xl pt-6 md:pt-8">
+            <h3
+              id="section5"
+              className="w-full md:w-2/3 font-chillax font-medium text-gray-700 text-2xl md:text-4xl pt-16 md:pt-24 scroll-mt-20"
+            >
               5. Chi ha accesso ai dati dell&apos;utente?
             </h3>
             <p className="text-gray-700 text-base md:text-lg font-medium w-full md:w-2/3">
@@ -508,7 +756,11 @@ const PrivacyBody = () => {
                 <p className="mt-8 text-gray-700 text-base md:text-lg font-medium">
                   Per un elenco delle affiliate di Ayvens e delle loro sedi che
                   utilizzano i Dati personali, scegli la bandiera dello stato
-                  nel menù in alto a destra del sito www.Ayvens.com.
+                  nel menù in alto a destra del sito{" "}
+                  <span className="text-teal-700 underline">
+                    www.Ayvens.com
+                  </span>
+                  .
                 </p>
               </li>
               <li>
@@ -618,7 +870,10 @@ const PrivacyBody = () => {
               necessità di conoscerli per le finalità descritte nella presente
               Informativa.
             </p>
-            <h3 className="w-full md:w-2/3 font-chillax font-medium text-gray-700 text-2xl md:text-4xl pt-6 md:pt-8">
+            <h3
+              id="section6"
+              className="w-full md:w-2/3 font-chillax font-medium text-gray-700 text-2xl md:text-4xl pt-16 md:pt-24 scroll-mt-20"
+            >
               6. Perchè i dati personali possono essere trasferiti a paesi
               terzi?
             </h3>
@@ -642,14 +897,20 @@ const PrivacyBody = () => {
               contattandoci all&apos;indirizzo riportato nella successiva
               sezione &quot;Come è possibile contattarci&quot;.
             </p>
-            <h3 className="w-full md:w-2/3 font-chillax font-medium text-gray-700 text-2xl md:text-4xl pt-6 md:pt-8">
+            <h3
+              id="section7"
+              className="w-full md:w-2/3 font-chillax font-medium text-gray-700 text-2xl md:text-4xl pt-16 md:pt-24 scroll-mt-20"
+            >
               7. Privacy dei minorenni
             </h3>
             <p className="text-gray-700 text-base md:text-lg font-medium w-full md:w-2/3">
               I nostri servizi non sono rivolti a individui di età inferiore a
               18 anni.
             </p>
-            <h3 className="w-full md:w-2/3 font-chillax font-medium text-gray-700 text-2xl md:text-4xl pt-6 md:pt-8">
+            <h3
+              id="section8"
+              className="w-full md:w-2/3 font-chillax font-medium text-gray-700 text-2xl md:text-4xl pt-16 md:pt-24 scroll-mt-20"
+            >
               8. Utilizziamo i dati dell&apos;utente per altri scopi?
             </h3>
             <p className="text-gray-700 text-base md:text-lg font-medium w-full md:w-2/3">
@@ -666,7 +927,10 @@ const PrivacyBody = () => {
               dati dell&apos;utente vengono applicate quando i dati
               dell&apos;utente sono utilizzati per le finalità secondarie.
             </p>
-            <h3 className="w-full md:w-2/3 font-chillax font-medium text-gray-700 text-2xl md:text-4xl pt-6 md:pt-8">
+            <h3
+              id="section9"
+              className="w-full md:w-2/3 font-chillax font-medium text-gray-700 text-2xl md:text-4xl pt-16 md:pt-24 scroll-mt-20"
+            >
               9. Per quanto tempo conserveremo i dati dell&apos;utente?
             </h3>
             <p className="text-gray-700 text-base md:text-lg font-medium w-full md:w-2/3">
@@ -687,7 +951,10 @@ const PrivacyBody = () => {
               applicabile, Ayvens renderà anonimi o cancellerà i Dati personali
               dell&apos;utente.
             </p>
-            <h3 className="w-full md:w-2/3 font-chillax font-medium text-gray-700 text-2xl md:text-4xl pt-6 md:pt-8">
+            <h3
+              id="section10"
+              className="w-full md:w-2/3 font-chillax font-medium text-gray-700 text-2xl md:text-4xl pt-16 md:pt-24 scroll-mt-20"
+            >
               10. Come possiamo essere contattati?
             </h3>
             <p className="text-gray-700 text-base md:text-lg font-medium w-full md:w-2/3">
@@ -702,7 +969,10 @@ const PrivacyBody = () => {
               in conformità alle istruzioni riportate nella successiva sezione
               &quot;Come è possibile contattarci&quot;.
             </p>
-            <h3 className="w-full md:w-2/3 font-chillax font-medium text-gray-700 text-2xl md:text-4xl pt-6 md:pt-8">
+            <h3
+              id="section11"
+              className="w-full md:w-2/3 font-chillax font-medium text-gray-700 text-2xl md:text-4xl pt-16 md:pt-24 scroll-mt-20"
+            >
               11. Modifiche alla presente informativa
             </h3>
             <p className="text-gray-700 text-base md:text-lg font-medium w-full md:w-2/3">
@@ -713,7 +983,10 @@ const PrivacyBody = () => {
               all&apos;inizio della presente Informativa indica la data della
               sua revisione più recente.
             </p>
-            <h3 className="w-full md:w-2/3 font-chillax font-medium text-gray-700 text-2xl md:text-4xl pt-6 md:pt-8">
+            <h3
+              id="section12"
+              className="w-full md:w-2/3 font-chillax font-medium text-gray-700 text-2xl md:text-4xl pt-16 md:pt-24 scroll-mt-20"
+            >
               12. Come è possibile contattarci?
             </h3>
             <p className="text-gray-700 text-base md:text-lg font-medium w-full md:w-2/3">
@@ -731,7 +1004,10 @@ const PrivacyBody = () => {
               prega di non includere informazioni personali sensibili nelle
               e-mail.
             </p>
-            <h3 className="w-full md:w-2/3 font-chillax font-medium text-gray-700 text-2xl md:text-4xl pt-6 md:pt-8">
+            <h3
+              id="section13"
+              className="w-full md:w-2/3 font-chillax font-medium text-gray-700 text-2xl md:text-4xl pt-16 md:pt-24 scroll-mt-20"
+            >
               13. Come è possibile esercitare i propri diritti sui dati
               personali?
             </h3>
