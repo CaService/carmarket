@@ -47,7 +47,7 @@ const AboutUsBody = () => {
           </h2>
           <div className="pt-8 md:pt-16 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
             <div className="col-span-1 text-center md:text-left">
-              <span className="font-semibold text-2xl md:text-4xl">
+              <span className="font-semibold text-2xl md:text-4xl text-gray-700">
                 Oltre 14,500
               </span>
               <p className="text-gray-700 text-base md:text-lg font-light pt-2 md:pt-4">
@@ -55,7 +55,7 @@ const AboutUsBody = () => {
               </p>
             </div>
             <div className="col-span-1 text-center md:text-left">
-              <span className="font-semibold text-2xl md:text-4xl">
+              <span className="font-semibold text-2xl md:text-4xl text-gray-700">
                 3,3 milioni
               </span>
               <p className="text-gray-700 text-base md:text-lg font-light pt-2 md:pt-4">
@@ -63,7 +63,7 @@ const AboutUsBody = () => {
               </p>
             </div>
             <div className="col-span-1 text-center md:text-left">
-              <span className="font-semibold text-2xl md:text-4xl">
+              <span className="font-semibold text-2xl md:text-4xl text-gray-700">
                 Oltre 600 mila
               </span>
               <p className="text-gray-700 text-base md:text-lg font-light pt-2 md:pt-4">
@@ -71,7 +71,9 @@ const AboutUsBody = () => {
               </p>
             </div>
             <div className="col-span-1 text-center md:text-left">
-              <span className="font-semibold text-2xl md:text-4xl">42</span>
+              <span className="font-semibold text-2xl md:text-4xl text-gray-700">
+                42
+              </span>
               <p className="text-gray-700 text-base md:text-lg font-light pt-2 md:pt-4">
                 Paesi
               </p>

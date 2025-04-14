@@ -133,6 +133,12 @@ const Navbar = () => {
             <div className="md:hidden absolute top-[72px] left-0 right-0 bg-white shadow-lg z-50">
               <div className="flex flex-col p-4 space-y-4">
                 <Link
+                  to="/about"
+                  className="text-black font-medium hover:text-cyan-800 font-['Source_Sans_Pro']"
+                >
+                  Chi siamo
+                </Link>
+                <Link
                   to="/auction"
                   className="text-black font-medium hover:text-cyan-800 font-['Source_Sans_Pro']"
                 >
