@@ -134,7 +134,10 @@ const CarCard = ({ vehicleData = {} }) => {
                   <p className="text-xl font-bold text-gray-800 mb-4">
                     PREZZO €
                   </p>
-                  <button className="inline-block bg-[#072534] text-center px-8 py-3 mt-16 text-white cursor-pointer rounded-full font-semibold transition duration-300 hover:bg-white hover:text-[#072534] hover:border hover:border-[#072534] font-chillax">
+                  <p className="text-2xl font-bold text-[#072534] mb-4">
+                    {price}
+                  </p>
+                  <button className="inline-block bg-[#072534] text-center px-8 py-3 mt-8 text-white cursor-pointer rounded-full font-semibold transition duration-300 hover:bg-white hover:text-[#072534] hover:border hover:border-[#072534] font-chillax">
                     ACQUISTA
                   </button>
                 </div>
