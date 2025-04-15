@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import Flag from "react-world-flags";
-import { ClockIcon } from "@radix-ui/react-icons";
 import Container from "./Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCarSide } from "@fortawesome/free-solid-svg-icons";
@@ -8,7 +7,6 @@ import { Link } from "react-router-dom";
 
 const CardAuction = () => {
   const [isOpen, setIsOpen] = useState(true);
-  const [timeLeft, setTimeLeft] = useState("");
   const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -42,37 +40,6 @@ const CardAuction = () => {
     };
 
     fetchVehicles();
-  }, []);
-
-  // Timer countdown
-  useEffect(() => {
-    const endDate = new Date("2025-04-15T10:00:00");
-    const updateCountdown = () => {
-      const now = new Date();
-      const difference = endDate - now;
-
-      if (difference <= 0) {
-        setIsOpen(false);
-        setTimeLeft("00:00:00");
-        return;
-      }
-
-      const hours = String(
-        Math.floor((difference / (1000 * 60 * 60)) % 24)
-      ).padStart(2, "0");
-      const minutes = String(
-        Math.floor((difference / (1000 * 60)) % 60)
-      ).padStart(2, "0");
-      const seconds = String(Math.floor((difference / 1000) % 60)).padStart(
-        2,
-        "0"
-      );
-
-      setTimeLeft(`${hours}:${minutes}:${seconds}`);
-    };
-
-    const intervalId = setInterval(updateCountdown, 1000);
-    return () => clearInterval(intervalId);
   }, []);
 
   return (
@@ -116,34 +83,11 @@ const CardAuction = () => {
                     />
                   </div>
                 </div>
+                <p className="text-center font-semibold pt-20 font-[chillax] text-lg">
+                  Registrati per acquistare un veicolo.
+                </p>
 
-                <div className="mt-4">
-                  <div className="flex items-center justify-between pb-2">
-                    <span
-                      className={`text-sm font-semibold ${
-                        isOpen
-                          ? "bg-green-600 text-white text-xs rounded-full px-1.5"
-                          : "bg-red-600 text-white text-xs rounded-full px-1.5"
-                      }`}
-                    >
-                      {isOpen ? "APERTA" : "CHIUSA"}
-                    </span>
-                    <p className="text-sm text-[#072534] font-['Source_Sans_Pro']">
-                      Fine: 15 apr 2025 10h00
-                    </p>
-                  </div>
-                  <div className="flex items-center justify-center mt-2 border text-blue-600 border-gray-200 rounded-full px-2 py-2">
-                    <ClockIcon className="w-4 h-4 mr-1" />
-                    <span className="text-sm font-medium text-blue-600 font-['Source_Sans_Pro']">
-                      {timeLeft}
-                    </span>
-                  </div>
-                  <p className="text-xs mt-4 border-t font-semibold border-gray-200 pt-4 pb-24 text-[#072534] font-chillax">
-                    VEICOLO IN VENDITA IN ITALIA - 12424
-                  </p>
-                </div>
-
-                <div className="mt-4 flex justify-between gap-4">
+                <div className="mt-4 flex justify-between gap-4 pt-16">
                   <Link
                     to="/signup"
                     className="w-1/2 bg-[#73d2d2] text-center border border-[#73d2d2] px-3 py-3 rounded-full font-semibold transition duration-300 hover:bg-white hover:border hover:border-[#072534] flex items-center justify-center font-chillax"

@@ -3,7 +3,7 @@ import Flag from "react-world-flags";
 import { Link } from "react-router-dom";
 import Container from "../Container";
 import { useSelector } from "react-redux";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import "@cyntler/react-doc-viewer/dist/index.css";
 
@@ -35,20 +35,6 @@ const CarCard = ({ vehicleData = {} }) => {
       fileType: "pdf",
     },
   ];
-
-  useEffect(() => {
-    fetch(pdfUrl)
-      .then((response) => {
-        if (!response.ok) {
-          setPdfError("PDF non disponibile al momento");
-          console.error("PDF non trovato:", response.status);
-        }
-      })
-      .catch((error) => {
-        setPdfError("Errore nel caricamento del PDF");
-        console.error("Errore nel caricamento del PDF:", error);
-      });
-  }, [pdfUrl]);
 
   const toggleDetails = () => {
     setShowDetails(!showDetails);

@@ -21,13 +21,32 @@ const VehicleForm = ({ onSubmit }) => {
     fuel: "", // Diesel o altro
     transmission: "", // Automatico o manuale
     registrationDate: "", // Data immatricolazione
-    pdfUrl: "", // URL del PDF
     countryCode: "IT", // Codice paese
     auctionNumber: "", // Numero asta
   });
+  // Stato separato per il file PDF
+  const [pdfFile, setPdfFile] = useState(null);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, files } = e.target;
+    // Gestione specifica per l'input file
+    if (name === "pdfFile" && type === "file") {
+      if (files.length > 0) {
+        setPdfFile(files[0]); // Memorizza l'oggetto File
+      } else {
+        setPdfFile(null);
+      }
+      // Gestione per gli altri input
+    } else if (type !== "file") {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
+  };
+
+  // Gestione del cambiamento per i componenti Select di Material Tailwind
+  const handleSelectChange = (name, value) => {
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -37,72 +56,94 @@ const VehicleForm = ({ onSubmit }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formattedData = {
-      title: formData.title,
-      price: formData.price,
-      year: formData.year,
-      imageUrl: formData.imageUrl,
-      location: formData.location,
-      description: formData.description,
-      specs: {
-        mileage: formData.mileage,
-        registrationDate: formData.registrationDate,
-        fuel: formData.fuel,
-        transmission: formData.transmission,
-      },
-      pdf: {
-        url: formData.pdfUrl,
-      },
-      countryCode: formData.countryCode,
-      auctionNumber: formData.auctionNumber,
-    };
+    // Utilizzo di FormData per l'upload del file
+    const data = new FormData();
+    data.append("title", formData.title);
+    data.append("price", formData.price);
+    data.append("year", formData.year);
+    data.append("imageUrl", formData.imageUrl);
+    data.append("location", formData.location);
+    data.append("description", formData.description);
+    data.append("mileage", formData.mileage);
+    data.append("registrationDate", formData.registrationDate);
+    data.append("fuel", formData.fuel);
+    data.append("transmission", formData.transmission);
+    data.append("countryCode", formData.countryCode);
+    data.append("auctionNumber", formData.auctionNumber);
+
+    // Aggiungi il file PDF se selezionato
+    if (!pdfFile) {
+      alert("Per favore, seleziona un file PDF.");
+      return;
+    }
+    data.append("pdfFile", pdfFile, pdfFile.name);
 
     try {
-      console.log("Invio dati:", formattedData);
+      console.log("Invio FormData...");
 
+      // Utilizzo URL ASSOLUTO che punta al server Apache/XAMPP
       const response = await fetch(
         "http://localhost/carmarket/server/api/vehicles/vehicle_create.php",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify(formattedData),
+          body: data,
         }
       );
 
-      // Log della risposta grezza
       const responseText = await response.text();
       console.log("Risposta grezza:", responseText);
 
-      // Prova a parsare la risposta come JSON
       let result;
       try {
         result = JSON.parse(responseText);
       } catch (parseError) {
         console.error("Errore nel parsing della risposta:", parseError);
-        throw new Error("Risposta non valida dal server");
+        throw new Error(`Risposta non valida dal server: ${responseText}`);
       }
 
       if (!response.ok) {
         throw new Error(
-          result.message || `HTTP error! status: ${response.status}`
+          result?.message || `Errore HTTP! Status: ${response.status}`
         );
       }
 
       console.log("Risposta API:", result);
 
-      if (result.status === "success") {
+      // Assicurati che il backend restituisca l'URL del PDF salvato (es. in result.pdfUrl)
+      if (result.status === "success" && result.pdfUrl) {
         const savedData = localStorage.getItem("cardAuctionData");
         const existingData = savedData
           ? JSON.parse(savedData)
           : { vehicles: [] };
-        existingData.vehicles.push({ ...formattedData, id: result.vehicle_id });
+
+        // Crea l'oggetto da salvare usando l'URL del PDF restituito dal server
+        const vehicleDataToSave = {
+          title: formData.title,
+          price: formData.price,
+          year: formData.year,
+          imageUrl: formData.imageUrl,
+          location: formData.location,
+          description: formData.description,
+          specs: {
+            mileage: formData.mileage,
+            registrationDate: formData.registrationDate,
+            fuel: formData.fuel,
+            transmission: formData.transmission,
+          },
+          pdf: {
+            url: result.pdfUrl, // Usa l'URL dal server
+          },
+          countryCode: formData.countryCode,
+          auctionNumber: formData.auctionNumber,
+          id: result.vehicle_id,
+        };
+
+        existingData.vehicles.push(vehicleDataToSave);
         localStorage.setItem("cardAuctionData", JSON.stringify(existingData));
 
-        onSubmit(formattedData);
+        onSubmit(vehicleDataToSave); // Passa i dati finali al parent
 
+        // Reset del form e dello stato del file
         setFormData({
           title: "",
           price: "",
@@ -114,19 +155,23 @@ const VehicleForm = ({ onSubmit }) => {
           fuel: "",
           transmission: "",
           registrationDate: "",
-          pdfUrl: "",
           countryCode: "IT",
           auctionNumber: "",
         });
+        setPdfFile(null);
+        e.target.reset(); // Resetta il form per pulire l'input file
 
         alert("Veicolo aggiunto con successo!");
       } else {
-        throw new Error(result.message || "Errore durante il salvataggio");
+        throw new Error(
+          result.message ||
+            "Errore durante il salvataggio o URL PDF mancante dalla risposta."
+        );
       }
     } catch (error) {
       console.error("Errore completo:", error);
       console.error("Stack trace:", error.stack);
-      alert("Errore durante il salvataggio del veicolo: " + error.message);
+      alert(`Errore durante il salvataggio del veicolo: ${error.message}`);
     }
   };
 
@@ -181,9 +226,7 @@ const VehicleForm = ({ onSubmit }) => {
             label="Carburante"
             name="fuel"
             value={formData.fuel}
-            onChange={(value) =>
-              handleChange({ target: { name: "fuel", value } })
-            }
+            onChange={(value) => handleSelectChange("fuel", value)}
             required
           >
             <Option value="Diesel">Diesel</Option>
@@ -195,9 +238,7 @@ const VehicleForm = ({ onSubmit }) => {
             label="Trasmissione"
             name="transmission"
             value={formData.transmission}
-            onChange={(value) =>
-              handleChange({ target: { name: "transmission", value } })
-            }
+            onChange={(value) => handleSelectChange("transmission", value)}
             required
           >
             <Option value="Automatico">Automatico</Option>
@@ -228,10 +269,10 @@ const VehicleForm = ({ onSubmit }) => {
             required
           />
           <Input
-            type="url"
-            label="URL PDF"
-            name="pdfUrl"
-            value={formData.pdfUrl}
+            type="file"
+            label="File PDF"
+            name="pdfFile"
+            accept=".pdf"
             onChange={handleChange}
             required
           />

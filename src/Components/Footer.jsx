@@ -14,34 +14,6 @@ const Footer = () => {
                 className="h-24"
               />
             </div>
-
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-8 w-full md:w-auto">
-              <div className="text-center md:text-left">
-                <Link
-                  className="text-white text-xl font-medium mb-4"
-                  to="/about"
-                >
-                  Chi siamo
-                </Link>
-              </div>
-              <div className="text-center md:text-left">
-                <Link
-                  className="text-white text-xl font-medium mb-4"
-                  to="/auction"
-                >
-                  Veicoli
-                </Link>
-              </div>
-
-              <div className="text-center md:text-left">
-                <Link
-                  className="text-white text-xl font-medium mb-4"
-                  to="/contact"
-                >
-                  Contattaci
-                </Link>
-              </div>
-            </div>
           </div>
 
           <div className="border-t border-white pt-4 flex flex-col md:flex-row items-center justify-between">
