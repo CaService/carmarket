@@ -10,6 +10,7 @@ import "@cyntler/react-doc-viewer/dist/index.css";
 const CarCard = ({ vehicleData = {} }) => {
   const [showDetails, setShowDetails] = useState(false);
   const [pdfError, setPdfError] = useState(null);
+  const [showModal, setShowModal] = useState(false);
   const { isAuthenticated } = useSelector((state) => state.auth);
 
   // Destructuring con valori di default
@@ -55,8 +56,44 @@ const CarCard = ({ vehicleData = {} }) => {
       });
   };
 
+  // Funzione per gestire la conferma (puoi personalizzarla)
+  const handleConfirm = () => {
+    setShowModal(false);
+    // Qui puoi aggiungere la logica per completare l'acquisto
+    alert("Acquisto confermato!");
+  };
+
   return (
     <Container>
+      {/* MODAL POPUP */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+          <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
+            <h2 className="text-4xl font-bold text-teal-600 mb-4 text-center">
+              ATTENZIONE
+            </h2>
+            <p className="text-gray-800 text-center mb-8">
+              Stai per confermare l&apos;ordine{" "}
+              <span className="font-bold">#{auctionNumber}</span>.<br />
+              Vuoi procedere con l&apos;acquisto?
+            </p>
+            <div className="flex justify-center gap-4">
+              <button
+                className="px-6 py-2 rounded-full bg-gray-200 text-gray-800 font-semibold hover:bg-gray-300 transition cursor-pointer"
+                onClick={() => setShowModal(false)}
+              >
+                INDIETRO
+              </button>
+              <button
+                className="px-6 py-2 rounded-full bg-[#072534] text-white font-semibold hover:bg-[#0f3549] transition cursor-pointer"
+                onClick={handleConfirm}
+              >
+                CONFERMA
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="w-full mx-auto pr-0 md:pr-6 bg-white rounded-lg shadow-md overflow-hidden mt-8">
         <div className="flex flex-col md:flex md:flex-row">
           {/* Immagine Auto */}
@@ -114,7 +151,10 @@ const CarCard = ({ vehicleData = {} }) => {
 
               <div className="mt-6 md:mt-4 block md:hidden">
                 {isAuthenticated ? (
-                  <button className="w-full bg-[#072534] text-center px-8 py-3 text-white cursor-pointer rounded-full font-semibold transition duration-300 hover:bg-white hover:text-[#072534] hover:border hover:border-[#072534] font-chillax">
+                  <button
+                    className="w-full bg-[#072534] text-center px-8 py-3 text-white cursor-pointer rounded-full font-semibold transition duration-300 hover:bg-white hover:text-[#072534] hover:border hover:border-[#072534] font-chillax"
+                    onClick={() => setShowModal(true)}
+                  >
                     ACQUISTA
                   </button>
                 ) : (
@@ -137,7 +177,10 @@ const CarCard = ({ vehicleData = {} }) => {
                   <p className="text-2xl font-bold text-[#072534] mb-4">
                     {price}
                   </p>
-                  <button className="inline-block bg-[#072534] text-center px-8 py-3 mt-8 text-white cursor-pointer rounded-full font-semibold transition duration-300 hover:bg-white hover:text-[#072534] hover:border hover:border-[#072534] font-chillax">
+                  <button
+                    className="inline-block bg-[#072534] text-center px-8 py-3 mt-8 text-white cursor-pointer rounded-full font-semibold transition duration-300 hover:bg-white hover:text-[#072534] hover:border hover:border-[#072534] font-chillax"
+                    onClick={() => setShowModal(true)}
+                  >
                     ACQUISTA
                   </button>
                 </div>
