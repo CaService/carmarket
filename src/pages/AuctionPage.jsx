@@ -4,6 +4,7 @@ import AuctionBanner from "../Components/AuctionPageComponents/AuctionBanner";
 import CarCard from "../Components/AuctionPageComponents/CarCard";
 import Footer from "../Components/Footer";
 import { useState, useEffect } from "react";
+import { API_BASE_URL } from "../config/api";
 
 const AuctionPage = () => {
   const [vehicles, setVehicles] = useState([]);
@@ -16,7 +17,7 @@ const AuctionPage = () => {
       try {
         setLoading(true);
         const response = await fetch(
-          "http://localhost/carmarket/server/api/vehicles/get_vehicles.php"
+          `${API_BASE_URL}/vehicles/get_vehicles.php`
         );
 
         if (!response.ok) {
