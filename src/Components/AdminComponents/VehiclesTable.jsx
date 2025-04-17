@@ -8,7 +8,7 @@ import {
 } from "@material-tailwind/react";
 import AdminContainer from "./AdimnContainer";
 import { Link } from "react-router-dom";
-import { API_BASE_URL } from "../../config/api";
+import { API_BASE_URL, fetchConfig } from "../../config/api";
 
 const VehiclesTable = () => {
   const [vehicles, setVehicles] = useState([]);
@@ -20,15 +20,32 @@ const VehiclesTable = () => {
     const fetchVehicles = async () => {
       try {
         setLoading(true);
+        setError(null);
         const response = await fetch(
-          `${API_BASE_URL}/vehicles/get_vehicles.php`
+          `${API_BASE_URL}/vehicles/get_vehicles.php`,
+          {
+            method: "GET",
+            headers: fetchConfig.headers,
+            credentials: fetchConfig.credentials,
+          }
         );
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+        const responseText = await response.text();
+        console.log("Risposta dal server (get_vehicles):", responseText);
+
+        let data;
+        try {
+          data = JSON.parse(responseText);
+        } catch (parseError) {
+          console.error("Errore parsing JSON:", parseError);
+          throw new Error(
+            `Risposta non JSON dal server: ${responseText.substring(0, 100)}...`
+          );
         }
 
-        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.message || `Errore HTTP: ${response.status}`);
+        }
 
         if (data.status === "success") {
           setVehicles(data.vehicles);
@@ -50,15 +67,14 @@ const VehiclesTable = () => {
     if (window.confirm("Sei sicuro di voler eliminare questo veicolo?")) {
       try {
         setLoading(true);
+        setError(null);
 
         const response = await fetch(
-          `http://localhost/carmarket/server/api/vehicles/delete_vehicle.php?id=${id}`,
+          `${API_BASE_URL}/vehicles/delete_vehicle.php?id=${id}`,
           {
             method: "DELETE",
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-            },
+            headers: fetchConfig.headers,
+            credentials: fetchConfig.credentials,
           }
         );
 
@@ -70,31 +86,20 @@ const VehiclesTable = () => {
           result = JSON.parse(responseText);
         } catch (parseError) {
           console.error("Errore nel parsing della risposta:", parseError);
-          throw new Error("Risposta non valida dal server");
+          throw new Error(
+            `Risposta non valida dal server: ${responseText.substring(
+              0,
+              100
+            )}...`
+          );
         }
 
         if (!response.ok) {
-          throw new Error(
-            result.message || `HTTP error! status: ${response.status}`
-          );
+          throw new Error(result.message || `Errore HTTP: ${response.status}`);
         }
 
         if (result.status === "success") {
           setVehicles(vehicles.filter((vehicle) => vehicle.id !== id));
-
-          const savedData = localStorage.getItem("cardAuctionData");
-          if (savedData) {
-            const existingData = JSON.parse(savedData);
-            if (existingData.vehicles) {
-              existingData.vehicles = existingData.vehicles.filter(
-                (v) => v.id !== id
-              );
-              localStorage.setItem(
-                "cardAuctionData",
-                JSON.stringify(existingData)
-              );
-            }
-          }
 
           alert("Veicolo eliminato con successo!");
         } else {
@@ -102,10 +107,10 @@ const VehiclesTable = () => {
         }
       } catch (error) {
         console.error("Errore durante l'eliminazione:", error);
+        setError(error.message || "Errore durante l'eliminazione del veicolo");
         alert("Errore durante l'eliminazione del veicolo: " + error.message);
       } finally {
         setLoading(false);
-        setRefreshTrigger((prev) => prev + 1);
       }
     }
   };
@@ -115,7 +120,7 @@ const VehiclesTable = () => {
       <AdminContainer>
         <div className="flex justify-center items-center h-96">
           <Spinner className="h-12 w-12" />
-          <span className="ml-4 text-lg">Caricamento veicoli...</span>
+          <span className="ml-4 text-lg">Caricamento...</span>
         </div>
       </AdminContainer>
     );
@@ -127,6 +132,14 @@ const VehiclesTable = () => {
         <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded relative mb-4">
           <strong className="font-bold">Errore!</strong>
           <span className="block sm:inline"> {error}</span>
+          <Button
+            color="blue"
+            size="sm"
+            onClick={() => setRefreshTrigger((t) => t + 1)}
+            className="ml-4"
+          >
+            Riprova
+          </Button>
         </div>
       </AdminContainer>
     );
@@ -137,15 +150,16 @@ const VehiclesTable = () => {
       <Card className="w-full overflow-auto p-4">
         <div className="flex justify-between items-center mb-4">
           <Typography variant="h5" color="blue-gray">
-            Tabella Veicoli
+            Tabella Veicoli ({vehicles.length})
           </Typography>
           <Button
             color="blue"
             size="sm"
             onClick={() => setRefreshTrigger((prev) => prev + 1)}
             className="flex items-center gap-1 cursor-pointer"
+            disabled={loading}
           >
-            Aggiorna
+            {loading ? <Spinner className="h-4 w-4" /> : "Aggiorna"}
           </Button>
         </div>
 
@@ -227,7 +241,7 @@ const VehiclesTable = () => {
                       color="blue-gray"
                       className="font-normal"
                     >
-                      Nessun veicolo disponibile
+                      Nessun veicolo disponibile nel database.
                     </Typography>
                   </td>
                 </tr>
@@ -251,13 +265,18 @@ const VehiclesTable = () => {
                         src={vehicle.imageUrl}
                         alt={vehicle.title}
                         className="h-12 w-20 object-cover rounded"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = "/placeholder.png";
+                        }}
                       />
                     </td>
-                    <td className="p-4">
+                    <td className="p-4 max-w-xs truncate">
                       <Typography
                         variant="small"
                         color="blue-gray"
                         className="font-normal"
+                        title={vehicle.title}
                       >
                         {vehicle.title}
                       </Typography>
@@ -268,7 +287,11 @@ const VehiclesTable = () => {
                         color="blue-gray"
                         className="font-normal"
                       >
-                        € {vehicle.price}
+                        €{" "}
+                        {Number(vehicle.price).toLocaleString("it-IT", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}
                       </Typography>
                     </td>
                     <td className="p-4">
@@ -288,19 +311,27 @@ const VehiclesTable = () => {
                             ? "blue"
                             : vehicle.specs.fuel === "Benzina"
                             ? "red"
-                            : "green"
+                            : vehicle.specs.fuel === "Elettrico"
+                            ? "green"
+                            : vehicle.specs.fuel === "Ibrido"
+                            ? "teal"
+                            : "gray"
                         }
                         value={vehicle.specs.fuel || "N/D"}
-                        className="w-fit"
+                        className="w-fit capitalize"
                       />
                     </td>
                     <td className="p-4">
-                      <div className="flex gap-2">
-                        <Link to={`/auction`} target="_blank">
+                      <div className="flex flex-col sm:flex-row gap-2">
+                        <Link
+                          to={`/auction#vehicle-${vehicle.id}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
                           <Button
-                            color="blue"
+                            color="light-blue"
                             size="sm"
-                            className="cursor-pointer"
+                            className="cursor-pointer w-full sm:w-auto"
                           >
                             Visualizza
                           </Button>
@@ -308,8 +339,9 @@ const VehiclesTable = () => {
                         <Button
                           color="red"
                           size="sm"
-                          className="cursor-pointer"
+                          className="cursor-pointer w-full sm:w-auto"
                           onClick={() => handleDeleteVehicle(vehicle.id)}
+                          disabled={loading}
                         >
                           Elimina
                         </Button>

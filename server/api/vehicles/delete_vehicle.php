@@ -14,10 +14,13 @@ $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
 
 if (in_array($origin, $allowedOrigins)) {
     header('Access-Control-Allow-Origin: ' . $origin);
+    header('Access-Control-Allow-Credentials: true');
+} else {
+    // Opzionale: se l'origine non è permessa, non inviare l'header o invia un'origine specifica/nulla
+    // header('Access-Control-Allow-Origin: https://carmarket-ayvens.com'); // O non inviare nulla
 }
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE'); // Includi DELETE
-header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
-header('Access-Control-Allow-Credentials: true');
+header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With, Accept'); // Assicurati Accept sia presente
 header('Content-Type: application/json; charset=UTF-8');
 
 // Log iniziale per debug
@@ -27,7 +30,7 @@ error_log("Method: " . $_SERVER['REQUEST_METHOD']);
 
 // Gestisci la richiesta OPTIONS (preflight)
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
+    http_response_code(204); // No Content - standard per preflight
     exit();
 }
 
@@ -79,14 +82,67 @@ try {
         throw new Exception("Veicolo non trovato o già eliminato");
     }
 
-    // Risposta di successo
-    echo json_encode([
-        'status' => 'success',
-        'message' => 'Veicolo eliminato con successo'
-    ]);
+    // --- Logica per eliminare file associati (immagine, PDF) ---
+    // 1. Trova gli URL dei file prima di eliminare dal DB
+    $findStmt = $conn->prepare("SELECT image_url, pdf_url FROM vehicles WHERE id = ?");
+    if(!$findStmt) throw new Exception("Prepare find failed: " . $conn->error);
+    $findStmt->bind_param("i", $vehicleId);
+    if(!$findStmt->execute()) throw new Exception("Execute find failed: " . $findStmt->error);
+    $fileResult = $findStmt->get_result();
+    $fileRow = $fileResult->fetch_assoc();
+    $findStmt->close();
 
-    $stmt->close();
-    $conn->close();
+    // 2. Elimina il record dal DB
+    $deleteStmt = $conn->prepare("DELETE FROM vehicles WHERE id = ?");
+    if (!$deleteStmt) throw new Exception("Prepare delete failed: " . $conn->error);
+    $deleteStmt->bind_param("i", $vehicleId);
+
+    if ($deleteStmt->execute()) {
+        $affectedRows = $deleteStmt->affected_rows;
+        $deleteStmt->close(); // Chiudi lo statement qui
+
+        if ($affectedRows > 0) {
+            // 3. Se il record è stato eliminato, prova a eliminare i file fisici
+            if ($fileRow) {
+                // Definisci la base path della root del sito (potrebbe servire una costante globale)
+                $basePath = realpath(__DIR__ . '/../../../'); // Assumendo che l'API sia 3 livelli sotto la root
+
+                if ($fileRow['image_url']) {
+                    // Estrai il percorso relativo dall'URL completo
+                    $imageUrlPath = parse_url($fileRow['image_url'], PHP_URL_PATH);
+                    // Rimuovi il base path (es. /repositories/carmarket) se presente nell'URL salvato
+                    $relativePath = str_replace('/repositories/carmarket', '', $imageUrlPath);
+                    $imagePath = $basePath . $relativePath;
+                    if (file_exists($imagePath)) {
+                        unlink($imagePath); // Elimina file immagine
+                        error_log("Deleted image file: " . $imagePath);
+                    } else {
+                         error_log("Image file not found for deletion: " . $imagePath);
+                    }
+                }
+                if ($fileRow['pdf_url']) {
+                     $pdfUrlPath = parse_url($fileRow['pdf_url'], PHP_URL_PATH);
+                     $relativePath = str_replace('/repositories/carmarket', '', $pdfUrlPath);
+                     $pdfPath = $basePath . $relativePath;
+                     if (file_exists($pdfPath)) {
+                        unlink($pdfPath); // Elimina file PDF
+                        error_log("Deleted PDF file: " . $pdfPath);
+                     } else {
+                         error_log("PDF file not found for deletion: " . $pdfPath);
+                     }
+                }
+            }
+            echo json_encode(['status' => 'success', 'message' => 'Veicolo e file associati eliminati con successo.']);
+
+        } else {
+            // Nessuna riga eliminata, veicolo non trovato
+            http_response_code(404); // Not Found
+            echo json_encode(['status' => 'error', 'message' => 'Veicolo non trovato o già eliminato.']);
+        }
+    } else {
+         $deleteStmt->close(); // Chiudi anche in caso di errore execute
+        throw new Exception("Errore durante l'eliminazione del veicolo: " . $deleteStmt->error);
+    }
 
 } catch (Exception $e) {
     error_log("Errore in delete_vehicle.php: " . $e->getMessage());

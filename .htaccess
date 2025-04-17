@@ -31,15 +31,14 @@ DirectoryIndex index.html
     RewriteEngine On
     RewriteBase /repositories/carmarket/
 
-    # Se è una richiesta API, processala normalmente
+    # Se è una richiesta API (file PHP dentro /server/api/), non riscrivere
     RewriteCond %{REQUEST_URI} ^/repositories/carmarket/server/api/ [NC]
     RewriteRule ^ - [L]
 
-    # Se il file richiesto esiste, servilo direttamente
-    RewriteCond %{REQUEST_FILENAME} -f
-    RewriteRule ^ - [L]
-
-    # Per tutte le altre richieste (SPA routing)
+    # Se il file o la directory richiesta NON esiste fisicamente
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    # Riscrivi tutte le altre richieste a index.html per la SPA
     RewriteRule . index.html [L]
 </IfModule>
 
@@ -53,7 +52,7 @@ DirectoryIndex index.html
     SetHandler application/x-httpd-php
 </FilesMatch>
 
-# Rimuovi o commenta questo blocco se gestisci CORS in PHP
+# Rimosso blocco CORS statico - Gestito in PHP ora
 # <IfModule mod_headers.c>
 #    Header set Access-Control-Allow-Origin "https://carmarket-ayvens.com" # o "*"
 #    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE"
