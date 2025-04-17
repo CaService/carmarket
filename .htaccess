@@ -39,8 +39,9 @@ DirectoryIndex index.html
     RewriteCond %{REQUEST_FILENAME} -f
     RewriteRule ^ - [L]
 
-    # Per tutte le altre richieste, incluse le directory e i percorsi come /admin
-    RewriteRule . index.html [L]
+    # Per tutte le altre richieste, incluse /admin, reindirizza a index.html
+    RewriteRule ^repositories/carmarket/(.*)$ /repositories/carmarket/index.html [L]
+    RewriteRule ^(.*)$ /repositories/carmarket/index.html [L]
 </IfModule>
 
 # Headers per i file statici

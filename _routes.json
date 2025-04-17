@@ -7,6 +7,11 @@
   ],
   "rules": [
     {
+      "pattern": "/repositories/carmarket/admin",
+      "serve": "/repositories/carmarket/index.html",
+      "status": 200
+    },
+    {
       "pattern": "/repositories/carmarket/**",
       "serve": "/repositories/carmarket/index.html",
       "status": 200
