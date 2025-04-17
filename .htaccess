@@ -31,15 +31,15 @@ DirectoryIndex index.html
     RewriteEngine On
     RewriteBase /repositories/carmarket/
 
-    # Se è una richiesta API, processala normalmente
-    RewriteCond %{REQUEST_URI} ^/repositories/carmarket/server/api/ [NC]
-    RewriteRule ^ - [L]
-
-    # Se il file richiesto esiste, servilo direttamente
+    # Serve i file statici direttamente
     RewriteCond %{REQUEST_FILENAME} -f
     RewriteRule ^ - [L]
 
-    # Per tutte le altre richieste, incluso /admin
+    # API requests
+    RewriteCond %{REQUEST_URI} ^/repositories/carmarket/server/api/ [NC]
+    RewriteRule ^ - [L]
+
+    # Tutte le altre richieste a index.html
     RewriteRule . index.html [L]
 </IfModule>
 
@@ -59,3 +59,8 @@ DirectoryIndex index.html
     Header set Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE"
     Header set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
 </IfModule>
+
+# Cache control
+<FilesMatch "\.(css|js)$">
+    Header set Cache-Control "max-age=31536000, public"
+</FilesMatch>
