@@ -8,21 +8,13 @@ export default defineConfig({
   base: "/repositories/carmarket/",
   build: {
     outDir: "dist",
+    emptyOutDir: true,
     assetsDir: "",
     rollupOptions: {
       output: {
-        entryFileNames: "[name]-[hash].js",
-        chunkFileNames: "[name]-[hash].js",
-        assetFileNames: (assetInfo) => {
-          const ext = path.extname(assetInfo.name);
-          if (assetInfo.name.endsWith(".pdf")) {
-            return "static/pdf/[name][extname]";
-          }
-          if (ext === ".css" || ext === ".js") {
-            return `[name]-[hash][extname]`;
-          }
-          return `assets/[name]-[hash][extname]`;
-        },
+        entryFileNames: `[name].[hash].js`,
+        chunkFileNames: `[name].[hash].js`,
+        assetFileNames: `[name].[hash].[ext]`,
       },
     },
     cssCodeSplit: false,
