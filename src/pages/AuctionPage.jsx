@@ -13,7 +13,6 @@ const AuctionPage = () => {
 
   useEffect(() => {
     // Funzione per recuperare i veicoli dal database
-    // qualcosa
     const fetchVehicles = async () => {
       try {
         setLoading(true);
