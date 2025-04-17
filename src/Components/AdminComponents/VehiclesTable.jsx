@@ -20,7 +20,7 @@ const VehiclesTable = () => {
       try {
         setLoading(true);
         const response = await fetch(
-          "http://localhost/carmarket/server/api/vehicles/get_vehicles.php"
+          `${API_BASE_URL}/vehicles/get_vehicles.php`
         );
 
         if (!response.ok) {

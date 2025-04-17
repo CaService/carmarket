@@ -83,7 +83,7 @@ const VehicleForm = ({ onSubmit }) => {
 
       // Utilizzo URL ASSOLUTO che punta al server Apache/XAMPP
       const response = await fetch(
-        "http://localhost/carmarket/server/api/vehicles/vehicle_create.php",
+        `${API_BASE_URL}/vehicles/vehicle_create.php`,
         {
           method: "POST",
           body: data,

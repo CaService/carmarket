@@ -4,7 +4,7 @@ import AuctionBanner from "../Components/AuctionPageComponents/AuctionBanner";
 import CarCard from "../Components/AuctionPageComponents/CarCard";
 import Footer from "../Components/Footer";
 import { useState, useEffect } from "react";
-import { API_BASE_URL } from "../config/api";
+import { API_BASE_URL, fetchConfig } from "../config/api";
 
 const AuctionPage = () => {
   const [vehicles, setVehicles] = useState([]);
@@ -17,10 +17,13 @@ const AuctionPage = () => {
       try {
         setLoading(true);
         const response = await fetch(
-          `${API_BASE_URL}/vehicles/get_vehicles.php`
+          `${API_BASE_URL}/vehicles/get_vehicles.php`,
+          fetchConfig
         );
 
         if (!response.ok) {
+          const errorText = await response.text();
+          console.error("Risposta server:", errorText);
           throw new Error(`HTTP error! status: ${response.status}`);
         }
 
@@ -32,7 +35,7 @@ const AuctionPage = () => {
           throw new Error(data.message || "Errore nel recupero dei veicoli");
         }
       } catch (error) {
-        console.error("Errore nel caricamento dei veicoli:", error);
+        console.error("Errore dettagliato:", error);
         setError("Impossibile caricare i veicoli dal database");
       } finally {
         setLoading(false);
