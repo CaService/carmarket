@@ -31,20 +31,16 @@ DirectoryIndex index.html
     RewriteEngine On
     RewriteBase /repositories/carmarket/
 
-    # Abilita il cross-origin
-    Header set Access-Control-Allow-Origin "*"
-
     # Se è una richiesta all'API, processala normalmente
     RewriteCond %{REQUEST_URI} ^/repositories/carmarket/server/api/ [NC]
     RewriteRule ^ - [L]
 
-    # Se il file o la directory esistono fisicamente, servili direttamente
-    RewriteCond %{REQUEST_FILENAME} -f [OR]
-    RewriteCond %{REQUEST_FILENAME} -d
+    # Se è una richiesta a un file statico esistente, servilo direttamente
+    RewriteCond %{REQUEST_FILENAME} -f
     RewriteRule ^ - [L]
 
-    # Per qualsiasi altra richiesta, reindirizza a index.html
-    RewriteRule ^(.*)$ index.html [L,QSA]
+    # Per TUTTE le altre richieste, inclusi i percorsi come /admin, servi index.html
+    RewriteRule ^ index.html [L]
 </IfModule>
 
 # Headers per i file statici
