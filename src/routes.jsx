@@ -9,12 +9,9 @@ import CookiePage from "./pages/CookiePage";
 import PrivacyPage from "./pages/PrivacyPage";
 
 const AppRoutes = () => {
-  // Determina il basename in base all'ambiente
-  const basename =
-    process.env.NODE_ENV === "development" ? "/" : "/repositories/carmarket";
-
+  // Rimuoviamo il basename condizionale poiché il server gestisce già il path base
   return (
-    <Router basename={basename}>
+    <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/signup" element={<SignUpPage />} />
