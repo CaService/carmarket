@@ -8,6 +8,7 @@ import {
 } from "@material-tailwind/react";
 import AdminContainer from "./AdimnContainer";
 import { Link } from "react-router-dom";
+import { API_BASE_URL } from "../../config/api";
 
 const VehiclesTable = () => {
   const [vehicles, setVehicles] = useState([]);
