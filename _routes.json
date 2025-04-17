@@ -1,10 +1,10 @@
 {
   "version": 1,
   "include": ["/*"],
-  "exclude": [],
+  "exclude": ["/static/*", "/api/*"],
   "rules": [
     {
-      "pattern": "/static/pdf/*",
+      "pattern": "/carmarket/static/pdf/*",
       "cache": {
         "browser": {
           "maxAgeSeconds": 3600
@@ -13,6 +13,11 @@
           "maxAgeSeconds": 86400
         }
       }
+    },
+    {
+      "pattern": "/carmarket/**",
+      "serve": "/carmarket/index.html",
+      "status": 200
     }
   ]
 }

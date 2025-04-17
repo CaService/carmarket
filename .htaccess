@@ -30,15 +30,18 @@ DirectoryIndex index.html
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteBase /carmarket/
-    
-    # Permetti l'accesso diretto ai file nell'API
+
+    # Permetti l'accesso diretto ai file e cartelle esistenti
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Permetti l'accesso diretto all'API
     RewriteCond %{REQUEST_URI} ^/carmarket/server/api/ [NC]
     RewriteRule ^ - [L]
 
-    # Se il file richiesto non esiste (e non è nell'API), reindirizza a index.html
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^ index.html [QSA,L]
+    # Per tutte le altre richieste, reindirizza a index.html
+    RewriteRule ^ index.html [L]
 </IfModule>
 
 # Headers per i file statici
@@ -50,3 +53,8 @@ DirectoryIndex index.html
 <FilesMatch "\.php$">
     SetHandler application/x-httpd-php
 </FilesMatch>
+
+# Aggiungi headers per CORS se necessario
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+</IfModule>
