@@ -5,18 +5,21 @@ import path from "path";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: "https://carmarket-ayvens.com/repositories/carmarket/",
+  base: "/repositories/carmarket/",
   build: {
     outDir: "dist",
     emptyOutDir: true,
     assetsDir: "",
     rollupOptions: {
       output: {
-        entryFileNames: `[name]-[hash].js`,
-        chunkFileNames: `[name]-[hash].js`,
+        entryFileNames: (chunkInfo) => {
+          return `[name]-[hash].js`;
+        },
+        chunkFileNames: (chunkInfo) => {
+          return `[name]-[hash].js`;
+        },
         assetFileNames: (assetInfo) => {
-          const ext = assetInfo.name.split(".").pop();
-          if (ext === "css") {
+          if (assetInfo.name.endsWith(".css")) {
             return `style-[hash].css`;
           }
           return `[name]-[hash].[ext]`;

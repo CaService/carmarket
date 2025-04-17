@@ -29,24 +29,15 @@ DirectoryIndex index.html
 # Abilita la riscrittura URL
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    
-    # Forza HTTPS
-    RewriteCond %{HTTPS} off
-    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-
-    # Base path
     RewriteBase /repositories/carmarket/
 
     # Permetti l'accesso diretto ai file esistenti
-    RewriteCond %{REQUEST_FILENAME} -f
-    RewriteRule ^ - [L]
-
-    # Permetti l'accesso alle directory esistenti
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
 
     # Gestisci le richieste API
-    RewriteCond %{REQUEST_URI} ^/repositories/carmarket/server/api/
+    RewriteCond %{REQUEST_URI} ^/repositories/carmarket/server/api/ [NC]
     RewriteRule ^ - [L]
 
     # Tutte le altre richieste vanno a index.html
@@ -65,15 +56,9 @@ DirectoryIndex index.html
 
 # Aggiungi headers per CORS e tipi di contenuto
 <IfModule mod_headers.c>
-    Header set X-Content-Type-Options "nosniff"
-    Header set X-XSS-Protection "1; mode=block"
-    Header set X-Frame-Options "SAMEORIGIN"
-    Header set Strict-Transport-Security "max-age=31536000; includeSubDomains"
-    
-    # Cors headers
     Header set Access-Control-Allow-Origin "*"
     Header set Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE"
-    Header set Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept"
+    Header set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
 </IfModule>
 
 # Cache control
