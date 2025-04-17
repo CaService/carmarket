@@ -29,16 +29,34 @@ DirectoryIndex index.html
 # Abilita la riscrittura URL
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    # RewriteBase /repositories/carmarket/ # Commenta anche questo temporaneamente
 
-    # Permetti l'accesso diretto ai file PHP nell'API
-    # RewriteCond %{REQUEST_URI} ^/repositories/carmarket/server/api/ [NC] # Commenta Cond
-    # RewriteRule ^ - [L] # Commenta Rule
+    # Imposta il percorso base per le regole di riscrittura relative
+    RewriteBase /repositories/carmarket/
 
-    # Commenta le regole SPA
-    # RewriteCond %{REQUEST_FILENAME} !-f
-    # RewriteCond %{REQUEST_FILENAME} !-d
-    # RewriteRule . index.html [L]
+    # --- Gestione API ---
+    # Permetti accesso diretto ai file PHP dentro /server/api/
+    RewriteCond %{REQUEST_URI} ^/repositories/carmarket/server/api/ [NC]
+    RewriteRule ^ - [L]
+
+    # --- Gestione File Statici ---
+    # Se la richiesta è per un file esistente nelle cartelle assets, static, images, ecc.
+    # (Adatta i nomi delle cartelle se necessario)
+    RewriteCond %{REQUEST_URI} ^/repositories/carmarket/(assets|static|images)/ [NC]
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^ - [L]
+
+    # Permetti anche l'accesso a file comuni nella root (es. favicon, immagini da /public)
+    RewriteCond %{REQUEST_URI} ^/repositories/carmarket/[^/]+\.(js|css|png|jpg|jpeg|gif|ico|svg|webp|woff|woff2|ttf|eot|pdf)$ [NC]
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^ - [L]
+
+    # --- Routing SPA ---
+    # Se la richiesta NON è per un file esistente E NON è per una directory esistente
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    # Reindirizza a index.html per React Router
+    RewriteRule . index.html [L]
+
 </IfModule>
 
 # Headers per i file statici
@@ -48,9 +66,9 @@ DirectoryIndex index.html
 
 # Permetti l'esecuzione di file PHP (di solito già configurato in XAMPP)
 <FilesMatch "\.php$">
-    SetHandler application/x-httpd-php # O il gestore corretto per LiteSpeed/PHP
+    SetHandler application/x-httpd-php # Modifica se necessario per LiteSpeed
 </FilesMatch>
-AddType application/x-httpd-php .php # Potrebbe essere necessario
+AddType application/x-httpd-php .php
 
 # Rimosso blocco CORS statico - Gestito in PHP ora
 # <IfModule mod_headers.c>
