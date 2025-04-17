@@ -31,16 +31,13 @@ DirectoryIndex index.html
     RewriteEngine On
     RewriteBase /repositories/carmarket/
 
-    # Se è una richiesta all'API, processala normalmente
-    RewriteCond %{REQUEST_URI} ^/repositories/carmarket/server/api/ [NC]
-    RewriteRule ^ - [L]
-
-    # Se il file richiesto esiste fisicamente, servilo direttamente
+    # Permetti l'accesso diretto ai file PHP nell'API
+    RewriteCond %{REQUEST_URI} ^/repositories/carmarket/server/api/
     RewriteCond %{REQUEST_FILENAME} -f
     RewriteRule ^ - [L]
 
-    # Una singola regola per tutte le altre richieste
-    RewriteRule . /repositories/carmarket/index.html [L]
+    # Tutte le altre richieste vanno a index.html
+    RewriteRule . index.html [L]
 </IfModule>
 
 # Headers per i file statici
@@ -53,7 +50,10 @@ DirectoryIndex index.html
     SetHandler application/x-httpd-php
 </FilesMatch>
 
-# Aggiungi headers per CORS se necessario
+# Aggiungi headers per CORS e tipi di contenuto
 <IfModule mod_headers.c>
-    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Origin "https://carmarket-ayvens.com"
+    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE"
+    Header set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
+    Header set Access-Control-Allow-Credentials "true"
 </IfModule>

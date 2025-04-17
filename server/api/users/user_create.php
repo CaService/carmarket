@@ -4,7 +4,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // CORS headers standardizzati
-header('Access-Control-Allow-Origin: https://carmarket.pages.dev');
+header('Access-Control-Allow-Origin: https://carmarket-ayvens.com');
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE');
 header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
 header('Access-Control-Allow-Credentials: true');

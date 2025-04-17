@@ -6,6 +6,7 @@ export const API_BASE_URL = isDevelopment
 
 // Configurazione comune per le chiamate fetch
 export const fetchConfig = {
+  credentials: "include",
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
