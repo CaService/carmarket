@@ -2,19 +2,19 @@
   "version": 1,
   "include": ["/*"],
   "exclude": [
-    "/repositories/carmarket/static/*",
-    "/repositories/carmarket/server/api/*"
+    "/repositories/carmarket/server/api/*",
+    "/repositories/carmarket/static/*"
   ],
   "rules": [
     {
-      "pattern": "/repositories/carmarket/admin",
+      "pattern": "/repositories/carmarket/*",
       "serve": "/repositories/carmarket/index.html",
-      "status": 200
-    },
-    {
-      "pattern": "/repositories/carmarket/**",
-      "serve": "/repositories/carmarket/index.html",
-      "status": 200
+      "status": 200,
+      "headers": {
+        "Cache-Control": "no-cache",
+        "Content-Type": "text/html; charset=utf-8",
+        "X-Frame-Options": "DENY"
+      }
     }
   ]
 }
