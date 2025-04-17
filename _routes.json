@@ -4,7 +4,7 @@
   "exclude": ["/static/*", "/api/*"],
   "rules": [
     {
-      "pattern": "/carmarket/static/pdf/*",
+      "pattern": "/repositories/carmarket/static/pdf/*",
       "cache": {
         "browser": {
           "maxAgeSeconds": 3600
@@ -15,8 +15,8 @@
       }
     },
     {
-      "pattern": "/carmarket/**",
-      "serve": "/carmarket/index.html",
+      "pattern": "/repositories/carmarket/**",
+      "serve": "/repositories/carmarket/index.html",
       "status": 200
     }
   ]

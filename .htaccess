@@ -29,15 +29,15 @@ DirectoryIndex index.html
 # Abilita la riscrittura URL
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /carmarket/
+    RewriteBase /repositories/carmarket/
 
-    # Permetti l'accesso diretto ai file e cartelle esistenti
+    # Permetti l'accesso diretto ai file esistenti
     RewriteCond %{REQUEST_FILENAME} -f [OR]
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
 
     # Permetti l'accesso diretto all'API
-    RewriteCond %{REQUEST_URI} ^/carmarket/server/api/ [NC]
+    RewriteCond %{REQUEST_URI} ^/repositories/carmarket/server/api/ [NC]
     RewriteRule ^ - [L]
 
     # Per tutte le altre richieste, reindirizza a index.html
