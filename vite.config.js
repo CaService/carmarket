@@ -11,7 +11,7 @@ export default defineConfig(({ mode }) => ({
   server: {
     port: 5173,
     fs: {
-      allow: ["src", "public", "node_modules", "pdf", path.resolve(__dirname)],
+      allow: ["src", "public"],
       strict: false,
     },
     proxy: {
@@ -30,15 +30,20 @@ export default defineConfig(({ mode }) => ({
     assetsDir: "assets",
     rollupOptions: {
       output: {
-        manualChunks: undefined,
         assetFileNames: (assetInfo) => {
           if (assetInfo.name.endsWith(".pdf")) {
             return "static/pdf/[name][extname]";
           }
+          if (assetInfo.name.endsWith(".css")) {
+            return "assets/css/[name]-[hash][extname]";
+          }
+          if (assetInfo.name.endsWith(".js")) {
+            return "assets/js/[name]-[hash][extname]";
+          }
           return "assets/[name]-[hash][extname]";
         },
-        entryFileNames: "assets/[name]-[hash].js",
-        chunkFileNames: "assets/[name]-[hash].js",
+        entryFileNames: "assets/js/[name]-[hash].js",
+        chunkFileNames: "assets/js/[name]-[hash].js",
       },
     },
     cssCodeSplit: false,

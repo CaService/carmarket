@@ -29,34 +29,22 @@ DirectoryIndex index.html
 # Abilita la riscrittura URL
 <IfModule mod_rewrite.c>
     RewriteEngine On
-
-    # Imposta il percorso base per le regole di riscrittura relative
     RewriteBase /repositories/carmarket/
 
-    # --- Gestione API ---
-    # Permetti accesso diretto ai file PHP dentro /server/api/
-    RewriteCond %{REQUEST_URI} ^/repositories/carmarket/server/api/ [NC]
-    RewriteRule ^ - [L]
-
-    # --- Gestione File Statici ---
-    # Se la richiesta è per un file esistente nelle cartelle assets, static, images, ecc.
-    # (Adatta i nomi delle cartelle se necessario)
-    RewriteCond %{REQUEST_URI} ^/repositories/carmarket/(assets|static|images)/ [NC]
+    # Permetti l'accesso diretto ai file esistenti
     RewriteCond %{REQUEST_FILENAME} -f
     RewriteRule ^ - [L]
 
-    # Permetti anche l'accesso a file comuni nella root (es. favicon, immagini da /public)
-    RewriteCond %{REQUEST_URI} ^/repositories/carmarket/[^/]+\.(js|css|png|jpg|jpeg|gif|ico|svg|webp|woff|woff2|ttf|eot|pdf)$ [NC]
-    RewriteCond %{REQUEST_FILENAME} -f
+    # Permetti l'accesso diretto alle directory esistenti
+    RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
 
-    # --- Routing SPA ---
-    # Se la richiesta NON è per un file esistente E NON è per una directory esistente
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    # Reindirizza a index.html per React Router
+    # Gestisci le richieste API
+    RewriteCond %{REQUEST_URI} ^/repositories/carmarket/server/api/
+    RewriteRule ^ - [L]
+
+    # Tutte le altre richieste vanno a index.html
     RewriteRule . index.html [L]
-
 </IfModule>
 
 # Headers per i file statici
@@ -77,3 +65,8 @@ AddType application/x-httpd-php .php
 #    Header set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
 #    Header set Access-Control-Allow-Credentials "true" # Attenzione con "*" e credenziali
 # </IfModule>
+
+# Cache control per file statici
+<FilesMatch "\.(css|js|jpg|jpeg|png|gif|svg|ico)$">
+    Header set Cache-Control "max-age=31536000, public"
+</FilesMatch>
