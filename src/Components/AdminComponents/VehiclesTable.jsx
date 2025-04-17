@@ -23,11 +23,7 @@ const VehiclesTable = () => {
         setError(null);
         const response = await fetch(
           `${API_BASE_URL}/vehicles/get_vehicles.php`,
-          {
-            method: "GET",
-            headers: fetchConfig.headers,
-            credentials: fetchConfig.credentials,
-          }
+          fetchConfig
         );
 
         const responseText = await response.text();
@@ -73,8 +69,7 @@ const VehiclesTable = () => {
           `${API_BASE_URL}/vehicles/delete_vehicle.php?id=${id}`,
           {
             method: "DELETE",
-            headers: fetchConfig.headers,
-            credentials: fetchConfig.credentials,
+            ...fetchConfig,
           }
         );
 

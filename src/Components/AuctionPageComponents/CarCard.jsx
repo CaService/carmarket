@@ -46,15 +46,12 @@ const CarCard = ({ vehicleData = {} }) => {
     e.preventDefault();
     e.stopPropagation();
 
-    fetch(pdfUrl)
-      .then((response) => {
-        if (!response.ok) throw new Error("PDF non trovato");
-        window.open(pdfUrl, "_blank");
-      })
-      .catch((error) => {
-        console.error("Errore nel caricamento del PDF:", error);
-        setPdfError("PDF non disponibile al momento");
-      });
+    // Assicurati che pdfUrl sia un URL completo
+    const fullPdfUrl = pdfUrl.startsWith("http")
+      ? pdfUrl
+      : `https://carmarket-ayvens.com/repositories/carmarket${pdfUrl}`;
+
+    window.open(fullPdfUrl, "_blank");
   };
 
   // Funzione per gestire la conferma

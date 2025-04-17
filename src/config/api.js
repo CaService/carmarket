@@ -1,9 +1,6 @@
-const isDevelopment = process.env.NODE_ENV === "development";
-
-// In produzione, usa l'URL completo del dominio
-export const API_BASE_URL = isDevelopment
-  ? "http://localhost/carmarket/server/api"
-  : "https://carmarket-ayvens.com/repositories/carmarket/server/api";
+// Rimuoviamo la logica di development/production e usiamo sempre l'URL di produzione
+export const API_BASE_URL =
+  "https://carmarket-ayvens.com/repositories/carmarket/server/api";
 
 // Configurazione comune per le chiamate fetch
 export const fetchConfig = {

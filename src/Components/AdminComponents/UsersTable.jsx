@@ -19,14 +19,10 @@ const UsersTable = () => {
         `${API_BASE_URL}/users/get_users.php`
       );
 
-      const response = await fetch(`${API_BASE_URL}/users/get_users.php`, {
-        ...fetchConfig,
-        credentials: "include",
-        headers: {
-          ...fetchConfig.headers,
-          Accept: "application/json",
-        },
-      });
+      const response = await fetch(
+        `${API_BASE_URL}/users/get_users.php`,
+        fetchConfig
+      );
 
       if (!response.ok) {
         // Leggi il contenuto della risposta anche se non è OK

@@ -10,7 +10,7 @@ import {
   Spinner,
 } from "@material-tailwind/react";
 import AdminContainer from "./AdimnContainer";
-import { API_BASE_URL } from "../../config/api";
+import { API_BASE_URL, fetchConfig } from "../../config/api";
 
 const VehicleForm = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
@@ -82,9 +82,8 @@ const VehicleForm = ({ onSubmit }) => {
         `${API_BASE_URL}/vehicles/vehicle_create.php`,
         {
           method: "POST",
-          body: data, // Invia FormData direttamente
-          // NON impostare Content-Type quando usi FormData, il browser lo fa automaticamente
-          // credentials: 'include' // Aggiungi se necessario per i cookie/sessioni
+          ...fetchConfig,
+          body: data, // FormData non necessita Content-Type, il browser lo imposta
         }
       );
 
