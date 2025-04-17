@@ -31,16 +31,16 @@ DirectoryIndex index.html
     RewriteEngine On
     RewriteBase /repositories/carmarket/
 
-    # Serve static files directly
+    # Permetti l'accesso diretto ai file esistenti
     RewriteCond %{REQUEST_FILENAME} -f [OR]
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
 
-    # Handle API requests
+    # Gestisci le richieste API
     RewriteCond %{REQUEST_URI} ^/repositories/carmarket/server/api/ [NC]
     RewriteRule ^ - [L]
 
-    # All other requests go to index.html
+    # Tutte le altre richieste vanno a index.html
     RewriteRule . index.html [L]
 </IfModule>
 
@@ -62,6 +62,6 @@ DirectoryIndex index.html
 </IfModule>
 
 # Cache control
-<FilesMatch "\.(js|css|jpg|jpeg|png|gif|ico|svg)$">
+<FilesMatch "\.(js|css|jpg|jpeg|png|gif|ico)$">
     Header set Cache-Control "max-age=31536000, public"
 </FilesMatch>
