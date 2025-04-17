@@ -12,13 +12,23 @@ export default defineConfig({
     assetsDir: "",
     rollupOptions: {
       output: {
-        entryFileNames: `[name].[hash].js`,
-        chunkFileNames: `[name].[hash].js`,
-        assetFileNames: `[name].[hash].[ext]`,
+        entryFileNames: (chunkInfo) => {
+          return `[name]-[hash].js`;
+        },
+        chunkFileNames: (chunkInfo) => {
+          return `[name]-[hash].js`;
+        },
+        assetFileNames: (assetInfo) => {
+          if (assetInfo.name.endsWith(".css")) {
+            return `style-[hash].css`;
+          }
+          return `[name]-[hash].[ext]`;
+        },
       },
     },
     cssCodeSplit: false,
-    sourcemap: true,
+    minify: process.env.NODE_ENV === "production",
+    sourcemap: process.env.NODE_ENV !== "production",
   },
   publicDir: "public",
   assetsInclude: ["**/*.pdf"],
