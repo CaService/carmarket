@@ -29,22 +29,22 @@ DirectoryIndex index.html
 # Abilita la riscrittura URL
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /carmarket/
+    RewriteBase /repositories/carmarket/
 
-    # Se la richiesta è per l'API, processala normalmente
-    RewriteCond %{REQUEST_URI} ^/carmarket/server/api/ [NC]
+    # Abilita il cross-origin
+    Header set Access-Control-Allow-Origin "*"
+
+    # Se è una richiesta all'API, processala normalmente
+    RewriteCond %{REQUEST_URI} ^/repositories/carmarket/server/api/ [NC]
     RewriteRule ^ - [L]
 
-    # Se la richiesta è per un file esistente, servilo direttamente
-    RewriteCond %{REQUEST_FILENAME} -f
-    RewriteRule ^ - [L]
-
-    # Se la richiesta è per una directory esistente, servila direttamente
+    # Se il file o la directory esistono fisicamente, servili direttamente
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
 
-    # Per TUTTE le altre richieste, servi index.html
-    RewriteRule ^ index.html [L]
+    # Per qualsiasi altra richiesta, reindirizza a index.html
+    RewriteRule ^(.*)$ index.html [L,QSA]
 </IfModule>
 
 # Headers per i file statici
