@@ -1,19 +1,11 @@
 {
   "version": 1,
   "include": ["/*"],
-  "exclude": ["/static/*", "/api/*"],
+  "exclude": [
+    "/repositories/carmarket/static/*",
+    "/repositories/carmarket/server/api/*"
+  ],
   "rules": [
-    {
-      "pattern": "/repositories/carmarket/static/pdf/*",
-      "cache": {
-        "browser": {
-          "maxAgeSeconds": 3600
-        },
-        "edge": {
-          "maxAgeSeconds": 86400
-        }
-      }
-    },
     {
       "pattern": "/repositories/carmarket/**",
       "serve": "/repositories/carmarket/index.html",
