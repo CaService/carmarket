@@ -1,13 +1,21 @@
 <?php
 // Abilita il reporting degli errori
 error_reporting(E_ALL);
-ini_set('display_errors', 0);
+ini_set('display_errors', 1); // Attiva per debug, disattiva in produzione stabile
 ini_set('log_errors', 1);
 ini_set('error_log', __DIR__ . '/vehicle_errors.log');
 
-// CORS headers semplificati per sviluppo locale
-header('Access-Control-Allow-Origin: http://localhost:5173');
-header('Access-Control-Allow-Methods: DELETE, OPTIONS');
+// CORS headers dinamici
+$allowedOrigins = [
+    'http://localhost:5173',
+    'https://carmarket-ayvens.com'
+];
+$origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
+
+if (in_array($origin, $allowedOrigins)) {
+    header('Access-Control-Allow-Origin: ' . $origin);
+}
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE'); // Includi DELETE
 header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
 header('Access-Control-Allow-Credentials: true');
 header('Content-Type: application/json; charset=UTF-8');
@@ -17,7 +25,7 @@ error_log("=== Nuova richiesta DELETE_VEHICLE ===");
 error_log("Data e ora: " . date('Y-m-d H:i:s'));
 error_log("Method: " . $_SERVER['REQUEST_METHOD']);
 
-// Gestione preflight OPTIONS
+// Gestisci la richiesta OPTIONS (preflight)
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();
@@ -26,7 +34,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 try {
     // Verifica metodo DELETE
     if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
-        throw new Exception('Metodo non permesso');
+        http_response_code(405); // Method Not Allowed
+        echo json_encode(['status' => 'error', 'message' => 'Metodo non permesso. Richiesto DELETE.']);
+        exit();
     }
 
     // Ottieni l'ID del veicolo da eliminare

@@ -39,7 +39,7 @@ DirectoryIndex index.html
     RewriteCond %{REQUEST_FILENAME} -f
     RewriteRule ^ - [L]
 
-    # Per tutte le altre richieste, incluso /admin
+    # Per tutte le altre richieste (SPA routing)
     RewriteRule . index.html [L]
 </IfModule>
 
@@ -53,9 +53,10 @@ DirectoryIndex index.html
     SetHandler application/x-httpd-php
 </FilesMatch>
 
-# Aggiungi headers per CORS e tipi di contenuto
-<IfModule mod_headers.c>
-    Header set Access-Control-Allow-Origin "*"
-    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE"
-    Header set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
-</IfModule>
+# Rimuovi o commenta questo blocco se gestisci CORS in PHP
+# <IfModule mod_headers.c>
+#    Header set Access-Control-Allow-Origin "https://carmarket-ayvens.com" # o "*"
+#    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE"
+#    Header set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
+#    Header set Access-Control-Allow-Credentials "true" # Attenzione con "*" e credenziali
+# </IfModule>
