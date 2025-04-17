@@ -10,7 +10,7 @@ import PrivacyPage from "./pages/PrivacyPage";
 
 const AppRoutes = () => {
   return (
-    <Router basename="/carmarket">
+    <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/signup" element={<SignUpPage />} />
