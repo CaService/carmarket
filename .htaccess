@@ -31,19 +31,15 @@ DirectoryIndex index.html
     RewriteEngine On
     RewriteBase /repositories/carmarket/
 
-    # Permetti l'accesso diretto ai file esistenti
+    # Se è una richiesta API, processala normalmente
+    RewriteCond %{REQUEST_URI} ^/repositories/carmarket/server/api/ [NC]
+    RewriteRule ^ - [L]
+
+    # Se il file richiesto esiste, servilo direttamente
     RewriteCond %{REQUEST_FILENAME} -f
     RewriteRule ^ - [L]
 
-    # Permetti l'accesso diretto alle directory esistenti
-    RewriteCond %{REQUEST_FILENAME} -d
-    RewriteRule ^ - [L]
-
-    # Gestisci le richieste API
-    RewriteCond %{REQUEST_URI} ^/repositories/carmarket/server/api/
-    RewriteRule ^ - [L]
-
-    # Tutte le altre richieste vanno a index.html
+    # Per tutte le altre richieste, incluso /admin
     RewriteRule . index.html [L]
 </IfModule>
 
@@ -54,19 +50,12 @@ DirectoryIndex index.html
 
 # Permetti l'esecuzione di file PHP (di solito già configurato in XAMPP)
 <FilesMatch "\.php$">
-    SetHandler application/x-httpd-php # Modifica se necessario per LiteSpeed
+    SetHandler application/x-httpd-php
 </FilesMatch>
-AddType application/x-httpd-php .php
 
-# Rimosso blocco CORS statico - Gestito in PHP ora
-# <IfModule mod_headers.c>
-#    Header set Access-Control-Allow-Origin "https://carmarket-ayvens.com" # o "*"
-#    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE"
-#    Header set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
-#    Header set Access-Control-Allow-Credentials "true" # Attenzione con "*" e credenziali
-# </IfModule>
-
-# Cache control per file statici
-<FilesMatch "\.(css|js|jpg|jpeg|png|gif|svg|ico)$">
-    Header set Cache-Control "max-age=31536000, public"
-</FilesMatch>
+# Aggiungi headers per CORS e tipi di contenuto
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE"
+    Header set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
+</IfModule>
