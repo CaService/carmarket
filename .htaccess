@@ -29,17 +29,16 @@ DirectoryIndex index.html
 # Abilita la riscrittura URL
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /repositories/carmarket/
+    # RewriteBase /repositories/carmarket/ # Commenta anche questo temporaneamente
 
-    # Se è una richiesta API (file PHP dentro /server/api/), non riscrivere
-    RewriteCond %{REQUEST_URI} ^/repositories/carmarket/server/api/ [NC]
-    RewriteRule ^ - [L]
+    # Permetti l'accesso diretto ai file PHP nell'API
+    # RewriteCond %{REQUEST_URI} ^/repositories/carmarket/server/api/ [NC] # Commenta Cond
+    # RewriteRule ^ - [L] # Commenta Rule
 
-    # Se il file o la directory richiesta NON esiste fisicamente
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    # Riscrivi tutte le altre richieste a index.html per la SPA
-    RewriteRule . index.html [L]
+    # Commenta le regole SPA
+    # RewriteCond %{REQUEST_FILENAME} !-f
+    # RewriteCond %{REQUEST_FILENAME} !-d
+    # RewriteRule . index.html [L]
 </IfModule>
 
 # Headers per i file statici
@@ -49,8 +48,9 @@ DirectoryIndex index.html
 
 # Permetti l'esecuzione di file PHP (di solito già configurato in XAMPP)
 <FilesMatch "\.php$">
-    SetHandler application/x-httpd-php
+    SetHandler application/x-httpd-php # O il gestore corretto per LiteSpeed/PHP
 </FilesMatch>
+AddType application/x-httpd-php .php # Potrebbe essere necessario
 
 # Rimosso blocco CORS statico - Gestito in PHP ora
 # <IfModule mod_headers.c>
