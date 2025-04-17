@@ -35,12 +35,12 @@ DirectoryIndex index.html
     RewriteCond %{REQUEST_URI} ^/repositories/carmarket/server/api/ [NC]
     RewriteRule ^ - [L]
 
-    # Se il file richiesto esiste fisicamente e NON è una directory, servilo direttamente
+    # Se il file richiesto esiste fisicamente, servilo direttamente
     RewriteCond %{REQUEST_FILENAME} -f
     RewriteRule ^ - [L]
 
     # Per tutte le altre richieste, incluse le directory e i percorsi come /admin
-    RewriteRule ^(.*)$ /repositories/carmarket/index.html [L,QSA]
+    RewriteRule . index.html [L]
 </IfModule>
 
 # Headers per i file statici
