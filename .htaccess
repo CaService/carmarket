@@ -26,28 +26,20 @@ AddType application/manifest+json .webmanifest
 # Directory index
 DirectoryIndex index.html
 
-# Forza HTTPS
+# Abilita la riscrittura URL
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    
-    # Forza HTTPS per tutto il sito
-    RewriteCond %{HTTPS} !=on
-    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-    
     RewriteBase /repositories/carmarket/
-    
-    # Serve files statici direttamente se esistono
-    RewriteCond %{REQUEST_FILENAME} -f
-    RewriteRule ^ - [L]
-    
-    # Serve directory se esistono
+
+    # Permetti l'accesso diretto ai file esistenti
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
-    
+
     # Gestisci le richieste API
-    RewriteCond %{REQUEST_URI} ^/repositories/carmarket/server/api/
+    RewriteCond %{REQUEST_URI} ^/repositories/carmarket/server/api/ [NC]
     RewriteRule ^ - [L]
-    
+
     # Tutte le altre richieste vanno a index.html
     RewriteRule . index.html [L]
 </IfModule>
@@ -62,27 +54,14 @@ DirectoryIndex index.html
     SetHandler application/x-httpd-php
 </FilesMatch>
 
-# Aggiungi headers di sicurezza
+# Aggiungi headers per CORS e tipi di contenuto
 <IfModule mod_headers.c>
-    # Force HTTPS
-    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
-    
-    # Prevent MIME-type sniffing
-    Header set X-Content-Type-Options "nosniff"
-    
-    # XSS Protection
-    Header set X-XSS-Protection "1; mode=block"
-    
-    # Prevent clickjacking
-    Header set X-Frame-Options "SAMEORIGIN"
-    
-    # CORS headers
     Header set Access-Control-Allow-Origin "*"
-    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
-    Header set Access-Control-Allow-Headers "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type"
+    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE"
+    Header set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
 </IfModule>
 
 # Cache control
-<FilesMatch "\.(js|css|jpg|jpeg|png|gif|ico|svg)$">
-    Header set Cache-Control "public, max-age=31536000"
+<FilesMatch "\.(js|css|jpg|jpeg|png|gif|ico)$">
+    Header set Cache-Control "max-age=31536000, public"
 </FilesMatch>
