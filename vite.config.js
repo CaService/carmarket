@@ -12,9 +12,15 @@ export default defineConfig({
     assetsDir: "",
     rollupOptions: {
       output: {
-        entryFileNames: "[name].[hash].js",
-        chunkFileNames: "[name].[hash].js",
-        assetFileNames: "[name].[hash].[ext]",
+        entryFileNames: "[name]-[hash].js",
+        chunkFileNames: "[name]-[hash].js",
+        assetFileNames: (assetInfo) => {
+          const ext = assetInfo.name.split(".").pop();
+          if (ext === "css") {
+            return `style-[hash].${ext}`;
+          }
+          return "[name]-[hash].${ext}";
+        },
       },
     },
     cssCodeSplit: false,
