@@ -20,7 +20,7 @@ AddType application/manifest+json .webmanifest
 
 # Abilita la compressione
 <IfModule mod_deflate.c>
-    AddOutputFilterByType DEFLATE text/html text/css application/javascript
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml application/xml application/javascript text/javascript text/css application/json
 </IfModule>
 
 # Directory index
@@ -31,19 +31,15 @@ DirectoryIndex index.html
     RewriteEngine On
     RewriteBase /repositories/carmarket/
 
-    # Se il file esiste, servilo direttamente
+    # Se è una richiesta API, processala normalmente
+    RewriteCond %{REQUEST_URI} ^/repositories/carmarket/server/api/ [NC]
+    RewriteRule ^ - [L]
+
+    # Se il file richiesto esiste, servilo direttamente
     RewriteCond %{REQUEST_FILENAME} -f
     RewriteRule ^ - [L]
 
-    # Se la directory esiste, servila direttamente
-    RewriteCond %{REQUEST_FILENAME} -d
-    RewriteRule ^ - [L]
-
-    # Gestisci le richieste API
-    RewriteCond %{REQUEST_URI} ^/repositories/carmarket/server/api/
-    RewriteRule ^ - [L]
-
-    # Tutte le altre richieste vanno a index.html
+    # Per tutte le altre richieste, incluso /admin
     RewriteRule . index.html [L]
 </IfModule>
 
@@ -63,8 +59,3 @@ DirectoryIndex index.html
     Header set Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE"
     Header set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
 </IfModule>
-
-# Cache control
-<FilesMatch "\.(js|css|jpg|jpeg|png|gif|ico|svg)$">
-    Header set Cache-Control "max-age=31536000, public"
-</FilesMatch>
