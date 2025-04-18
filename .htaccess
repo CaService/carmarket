@@ -51,22 +51,15 @@ DirectoryIndex index.html
     Header set Content-Type "application/javascript"
 </FilesMatch>
 
-# Permetti l'esecuzione di file PHP (di solito già configurato in XAMPP)
+# Permetti l'esecuzione di file PHP
 <FilesMatch "\.php$">
     SetHandler application/x-httpd-php
-    
-    # Headers CORS specifici per le API
-    <IfModule mod_headers.c>
-        Header set Access-Control-Allow-Origin "*"
-        Header set Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE"
-        Header set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
-        Header set Access-Control-Allow-Credentials "true"
-    </IfModule>
 </FilesMatch>
 
-# Aggiungi headers per CORS e tipi di contenuto
+# Headers CORS centralizzati
 <IfModule mod_headers.c>
-    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Origin "https://carmarket-ayvens.com"
     Header set Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE"
     Header set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
+    Header set Access-Control-Allow-Credentials "true"
 </IfModule>

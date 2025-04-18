@@ -10,9 +10,7 @@ function setupAPI() {
     
     // CORS
     $allowedOrigins = [
-        'http://localhost:5173',
-        'https://carmarket-ayvens.com',
-        'https://carmarket-ayvens.com/repositories/carmarket'
+        'https://carmarket-ayvens.com'
     ];
     
     $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
