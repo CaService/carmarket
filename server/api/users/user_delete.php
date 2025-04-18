@@ -1,28 +1,10 @@
 <?php
-// Abilita il reporting degli errori all'inizio del file
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-// CORS headers standardizzati
-header('Access-Control-Allow-Origin: https://carmarket.pages.dev');
-header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE');
-header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
-header('Access-Control-Allow-Credentials: true');
-header('Access-Control-Expose-Headers: Content-Type');
-header('Content-Type: application/json');
-
-// Gestisci la richiesta OPTIONS
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit();
-}
+require_once __DIR__ . '/../../config/api_config.php';
+setupAPI();
 
 try {
-    // Log per debug
-    error_log("Metodo richiesta: " . $_SERVER['REQUEST_METHOD']);
-    
     if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
-        http_response_code(405);  // Method Not Allowed
+        http_response_code(405);
         throw new Exception('Metodo non permesso');
     }
 
@@ -30,12 +12,12 @@ try {
         throw new Exception('ID utente non specificato');
     }
 
-    require_once '../../config/database.php';
+    require_once __DIR__ . '/../../config/database.php';
     $database = new Database();
     $result = $database->connect();
 
     if ($result['status'] !== 'success') {
-        throw new Exception("Errore di connessione al database: " . $result['message']);
+        throw new Exception("Errore di connessione al database");
     }
 
     $conn = $result['connection'];
@@ -43,34 +25,33 @@ try {
 
     $stmt = $conn->prepare("DELETE FROM users WHERE id = ?");
     if (!$stmt) {
-        throw new Exception("Errore nella preparazione della query: " . $conn->error);
+        throw new Exception("Errore nella preparazione della query");
     }
 
     $stmt->bind_param("i", $id);
     
     if ($stmt->execute()) {
         if ($stmt->affected_rows > 0) {
-            http_response_code(200);  // OK
             echo json_encode([
                 'status' => 'success',
                 'message' => 'Utente eliminato con successo'
             ]);
         } else {
-            http_response_code(404);  // Not Found
+            http_response_code(404);
             throw new Exception('Utente non trovato');
         }
     } else {
-        throw new Exception("Errore durante l'eliminazione: " . $stmt->error);
+        throw new Exception("Errore durante l'eliminazione");
     }
 
 } catch (Exception $e) {
-    error_log("Errore nell'API delete: " . $e->getMessage());
+    logError("Errore in user_delete.php: " . $e->getMessage());
     if (http_response_code() === 200) {
-        http_response_code(500);  // Internal Server Error
+        http_response_code(500);
     }
     echo json_encode([
         'status' => 'error',
-        'message' => $e->getMessage()
+        'message' => 'Operazione non riuscita'
     ]);
 }
 ?>

@@ -1,8 +1,11 @@
 <?php
+require_once __DIR__ . '/../../config/api_config.php';
+setupAPI();
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require __DIR__ . '/../../vendor/autoload.php'; // Assicurati che il percorso sia corretto
+require __DIR__ . '/../../vendor/autoload.php';
 
 // Abilita il reporting degli errori
 error_reporting(E_ALL);
@@ -24,47 +27,60 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 try {
-    // Verifica metodo POST
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         throw new Exception('Metodo non permesso');
     }
 
-    // Ottieni i dati dal corpo della richiesta
     $input = file_get_contents('php://input');
     $data = json_decode($input, true);
 
     if (json_last_error() !== JSON_ERROR_NONE) {
-        throw new Exception('Errore nella decodifica JSON: ' . json_last_error_msg());
+        throw new Exception('Errore nella decodifica JSON');
     }
 
     $name = $data['name'] ?? '';
     $email = $data['email'] ?? '';
     $message = $data['message'] ?? '';
 
-    // Configura PHPMailer
+    if (empty($name) || empty($email) || empty($message)) {
+        throw new Exception('Tutti i campi sono obbligatori');
+    }
+
+    // Carica configurazione email da file esterno
+    require_once __DIR__ . '/../../config/email_config.php';
+    
     $mail = new PHPMailer(true);
     $mail->isSMTP();
-    $mail->Host = 'smtp.gmail.com'; // Cambia con il tuo host SMTP
+    $mail->Host = SMTP_HOST;
     $mail->SMTPAuth = true;
-    $mail->Username = 'tuoindirizzo@gmail.com'; // Il tuo indirizzo email
-    $mail->Password = 'tuapassword'; // La tua password o app password
+    $mail->Username = SMTP_USERNAME;
+    $mail->Password = SMTP_PASSWORD;
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-    $mail->Port = 587;
+    $mail->Port = SMTP_PORT;
 
-    // Imposta il mittente e il destinatario
-    $mail->setFrom($email, 'Nome Mittente');
-    $mail->addAddress('ca.management2025@proton.me', 'Admin');
+    $mail->setFrom(SMTP_FROM_EMAIL, SMTP_FROM_NAME);
+    $mail->addAddress(ADMIN_EMAIL, ADMIN_NAME);
 
-    // Contenuto dell'email
     $mail->isHTML(true);
     $mail->Subject = 'Nuovo messaggio dal modulo di contatto';
-    $mail->Body    = "Nome: $name<br>Email: $email<br>Messaggio: $message";
+    $mail->Body = "
+        <h2>Nuovo messaggio da: $name</h2>
+        <p><strong>Email:</strong> $email</p>
+        <p><strong>Messaggio:</strong><br>$message</p>
+    ";
 
     $mail->send();
-    echo json_encode(['status' => 'success', 'message' => 'Email inviata con successo']);
+    echo json_encode([
+        'status' => 'success',
+        'message' => 'Email inviata con successo'
+    ]);
+    
 } catch (Exception $e) {
-    error_log("Errore nell'invio dell'email: " . $e->getMessage());
+    logError("Errore in send_email.php: " . $e->getMessage());
     http_response_code(500);
-    echo json_encode(['status' => 'error', 'message' => 'Errore nell\'invio dell\'email: ' . $e->getMessage()]);
+    echo json_encode([
+        'status' => 'error',
+        'message' => 'Errore nell\'invio dell\'email'
+    ]);
 }
 ?> 
