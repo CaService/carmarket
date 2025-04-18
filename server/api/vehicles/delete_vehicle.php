@@ -1,14 +1,15 @@
 <?php
 // Abilita il reporting degli errori
 error_reporting(E_ALL);
-ini_set('display_errors', 1); // Attiva per debug, disattiva in produzione stabile
+ini_set('display_errors', 0); // Disattivato in produzione
 ini_set('log_errors', 1);
 ini_set('error_log', __DIR__ . '/vehicle_errors.log');
 
-// CORS headers dinamici
+// CORS headers
 $allowedOrigins = [
     'http://localhost:5173',
-    'https://carmarket-ayvens.com'
+    'https://carmarket-ayvens.com',
+    'https://carmarket-ayvens.com/repositories/carmarket'
 ];
 $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
 
@@ -50,7 +51,7 @@ try {
     $vehicleId = intval($_GET['id']);
     
     // Connessione al database
-    require_once '../../config/database.php';
+    require_once __DIR__ . '/../../config/database.php';
     $database = new Database();
     $result = $database->connect();
 

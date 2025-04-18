@@ -12,8 +12,17 @@ error_log("Method: " . $_SERVER['REQUEST_METHOD']);
 error_log("Content-Type: " . (isset($_SERVER['CONTENT_TYPE']) ? $_SERVER['CONTENT_TYPE'] : 'none'));
 
 // CORS headers
-header('Access-Control-Allow-Origin: http://localhost:5173'); // SCOMMENTA SE SERVE PER SVILUPPO LOCALE
-header('Access-Control-Allow-Origin: *'); // Permetti tutte le origini (per test, da restringere in produzione)
+$allowedOrigins = [
+    'http://localhost:5173',
+    'https://carmarket-ayvens.com',
+    'https://carmarket-ayvens.com/repositories/carmarket'
+];
+
+$origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
+
+if (in_array($origin, $allowedOrigins)) {
+    header('Access-Control-Allow-Origin: ' . $origin);
+}
 header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
 header('Access-Control-Allow-Credentials: true');
@@ -143,7 +152,7 @@ try {
     if (empty($auctionNumber)) throw new Exception('Numero asta obbligatorio');
 
     // Connessione al database
-    require_once '../../config/database.php'; // Il percorso rimane lo stesso
+    require_once __DIR__ . '/../../config/database.php';
     $database = new Database();
     $db_result = $database->connect(); // Rinominato per evitare conflitto con $result
 

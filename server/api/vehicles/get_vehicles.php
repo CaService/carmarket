@@ -8,7 +8,8 @@ ini_set('error_log', __DIR__ . '/vehicle_errors.log');
 // CORS headers
 $allowedOrigins = [
     'http://localhost:5173',
-    'https://carmarket-ayvens.com'
+    'https://carmarket-ayvens.com',
+    'https://carmarket-ayvens.com/repositories/carmarket'
 ];
 
 $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
@@ -25,6 +26,7 @@ header('Content-Type: application/json; charset=UTF-8');
 error_log("=== Nuova richiesta GET_VEHICLES ===");
 error_log("Data e ora: " . date('Y-m-d H:i:s'));
 error_log("Method: " . $_SERVER['REQUEST_METHOD']);
+error_log("Origin: " . $origin);
 
 // Gestione preflight OPTIONS
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -38,8 +40,8 @@ try {
         throw new Exception('Metodo non permesso');
     }
 
-    // Connessione al database
-    require_once '../../config/database.php';
+    // Connessione al database usando percorso assoluto
+    require_once __DIR__ . '/../../config/database.php';
     $database = new Database();
     $result = $database->connect();
 
@@ -67,7 +69,7 @@ try {
     $result = $stmt->get_result();
     $vehicles = [];
 
-    // Formatta i dati in modo che corrispondano al formato atteso da CarCard
+    // Formatta i dati
     while ($row = $result->fetch_assoc()) {
         $vehicles[] = [
             'id' => $row['id'],
@@ -102,6 +104,7 @@ try {
 
 } catch (Exception $e) {
     error_log("Errore in get_vehicles.php: " . $e->getMessage());
+    error_log("Stack trace: " . $e->getTraceAsString());
     
     http_response_code(500);
     echo json_encode([
