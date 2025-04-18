@@ -1,4 +1,4 @@
-// Rimuoviamo la logica di development/production e usiamo sempre l'URL di produzione
+// URL di produzione
 export const API_BASE_URL =
   "https://carmarket-ayvens.com/repositories/carmarket/server/api";
 
