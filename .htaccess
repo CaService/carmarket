@@ -31,15 +31,18 @@ DirectoryIndex index.html
     RewriteEngine On
     RewriteBase /repositories/carmarket/
 
-    # Se è una richiesta API, processala normalmente
-    RewriteCond %{REQUEST_URI} ^/repositories/carmarket/server/api/ [NC]
-    RewriteRule ^ - [L]
+    # Gestisci le richieste API
+    RewriteCond %{REQUEST_URI} ^/repositories/carmarket/server/api/
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^server/api/(.*)$ server/api/$1 [L,QSA]
 
     # Se il file richiesto esiste, servilo direttamente
     RewriteCond %{REQUEST_FILENAME} -f
     RewriteRule ^ - [L]
 
-    # Per tutte le altre richieste, incluso /admin
+    # Per tutte le altre richieste non-API
+    RewriteCond %{REQUEST_URI} !^/repositories/carmarket/server/api/
     RewriteRule . index.html [L]
 </IfModule>
 
@@ -51,6 +54,14 @@ DirectoryIndex index.html
 # Permetti l'esecuzione di file PHP (di solito già configurato in XAMPP)
 <FilesMatch "\.php$">
     SetHandler application/x-httpd-php
+    
+    # Headers CORS specifici per le API
+    <IfModule mod_headers.c>
+        Header set Access-Control-Allow-Origin "*"
+        Header set Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE"
+        Header set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
+        Header set Access-Control-Allow-Credentials "true"
+    </IfModule>
 </FilesMatch>
 
 # Aggiungi headers per CORS e tipi di contenuto
