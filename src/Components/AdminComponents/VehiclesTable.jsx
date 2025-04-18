@@ -8,7 +8,7 @@ import {
 } from "@material-tailwind/react";
 import AdminContainer from "./AdimnContainer";
 import { Link } from "react-router-dom";
-import { API_BASE_URL, fetchConfig } from "../../config/api";
+import { API_BASE_URL, fetchConfig, handleApiResponse } from "../../config/api";
 
 const VehiclesTable = () => {
   const [vehicles, setVehicles] = useState([]);
@@ -21,36 +21,18 @@ const VehiclesTable = () => {
       try {
         setLoading(true);
         setError(null);
+
         const response = await fetch(
           `${API_BASE_URL}/vehicles/get_vehicles.php`,
           fetchConfig
         );
-
-        const responseText = await response.text();
-        console.log("Risposta dal server (get_vehicles):", responseText);
-
-        let data;
-        try {
-          data = JSON.parse(responseText);
-        } catch (parseError) {
-          console.error("Errore parsing JSON:", parseError);
-          throw new Error(
-            `Risposta non JSON dal server: ${responseText.substring(0, 100)}...`
-          );
-        }
-
-        if (!response.ok) {
-          throw new Error(data.message || `Errore HTTP: ${response.status}`);
-        }
+        const data = await handleApiResponse(response);
 
         if (data.status === "success") {
           setVehicles(data.vehicles);
-        } else {
-          throw new Error(data.message || "Errore nel recupero dei veicoli");
         }
       } catch (error) {
-        console.error("Errore nel caricamento dei veicoli:", error);
-        setError(error.message || "Errore durante il caricamento dei veicoli");
+        setError(error.message);
       } finally {
         setLoading(false);
       }
@@ -73,35 +55,17 @@ const VehiclesTable = () => {
           }
         );
 
-        const responseText = await response.text();
-        console.log("Risposta eliminazione:", responseText);
+        const data = await handleApiResponse(response);
 
-        let result;
-        try {
-          result = JSON.parse(responseText);
-        } catch (parseError) {
-          console.error("Errore nel parsing della risposta:", parseError);
-          throw new Error(
-            `Risposta non valida dal server: ${responseText.substring(
-              0,
-              100
-            )}...`
-          );
-        }
-
-        if (!response.ok) {
-          throw new Error(result.message || `Errore HTTP: ${response.status}`);
-        }
-
-        if (result.status === "success") {
+        if (data.status === "success") {
           setVehicles(vehicles.filter((vehicle) => vehicle.id !== id));
-
+          setRefreshTrigger((prev) => prev + 1);
           alert("Veicolo eliminato con successo!");
         } else {
-          throw new Error(result.message || "Errore durante l'eliminazione");
+          throw new Error(data.message || "Errore durante l'eliminazione");
         }
       } catch (error) {
-        console.error("Errore durante l'eliminazione:", error);
+        console.error("Errore durante l'eliminazione:", error.message);
         setError(error.message || "Errore durante l'eliminazione del veicolo");
         alert("Errore durante l'eliminazione del veicolo: " + error.message);
       } finally {

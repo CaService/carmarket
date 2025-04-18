@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { API_BASE_URL, fetchConfig } from "../../config/api";
+import { API_BASE_URL, fetchConfig, handleApiResponse } from "../../config/api";
 
 const UsersTable = () => {
   const [users, setUsers] = useState([]);
@@ -14,51 +14,20 @@ const UsersTable = () => {
 
   const fetchUsers = async () => {
     try {
-      console.log(
-        "Iniziando la richiesta a:",
-        `${API_BASE_URL}/users/get_users.php`
-      );
+      setLoading(true);
+      setError(null);
 
       const response = await fetch(
         `${API_BASE_URL}/users/get_users.php`,
         fetchConfig
       );
+      const data = await handleApiResponse(response);
 
-      if (!response.ok) {
-        // Leggi il contenuto della risposta anche se non è OK
-        const textContent = await response.text();
-        console.error("Risposta non OK:", {
-          status: response.status,
-          statusText: response.statusText,
-          content: textContent,
-        });
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      // Prima controlla il contenuto della risposta
-      const textContent = await response.text();
-      console.log("Risposta ricevuta:", textContent);
-
-      // Poi prova a parsare come JSON
-      let data;
-      try {
-        data = JSON.parse(textContent);
-      } catch (e) {
-        console.error("Errore nel parsing JSON:", e);
-        throw new Error("Risposta non valida dal server");
-      }
-
-      if (data.status === "success" && Array.isArray(data.data)) {
+      if (data.status === "success") {
         setUsers(data.data);
-      } else if (data.status === "error") {
-        throw new Error(data.message);
-      } else {
-        throw new Error("Formato dati non valido");
       }
     } catch (error) {
-      console.error("Errore nel recupero degli utenti:", error);
-      console.error("Stack trace:", error.stack);
-      setError(error.message || "Errore nel caricamento degli utenti");
+      setError(error.message);
     } finally {
       setLoading(false);
     }
@@ -66,7 +35,6 @@ const UsersTable = () => {
 
   const handleDelete = async (userId) => {
     try {
-      setLoading(true);
       const response = await fetch(
         `${API_BASE_URL}/users/user_delete.php?id=${userId}`,
         {
@@ -75,26 +43,14 @@ const UsersTable = () => {
         }
       );
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
+      const data = await handleApiResponse(response);
 
       if (data.status === "success") {
-        await fetchUsers();
-      } else {
-        throw new Error(data.message || "Errore durante l'eliminazione");
+        setRefreshTrigger((prev) => prev + 1);
       }
     } catch (error) {
-      console.error("Errore durante l'eliminazione:", error);
-      console.error("Dettagli errore:", {
-        message: error.message,
-        status: error.status,
-      });
-    } finally {
-      setLoading(false);
-      setIsDeleteModalOpen(false);
+      console.error("Errore durante l'eliminazione:", error.message);
+      // Mostra un messaggio di errore all'utente
     }
   };
 

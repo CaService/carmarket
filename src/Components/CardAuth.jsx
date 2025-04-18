@@ -8,7 +8,7 @@ import {
   loginFailure,
 } from "../store/slices/authSlice";
 import { useNavigate } from "react-router-dom";
-import { API_BASE_URL, fetchConfig } from "../config/api";
+import { API_BASE_URL, fetchConfig, handleApiResponse } from "../config/api";
 
 const CardAuth = ({ onClose, fromSignUp = false }) => {
   const dispatch = useDispatch();
@@ -35,7 +35,8 @@ const CardAuth = ({ onClose, fromSignUp = false }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(loginStart());
+    setLoading(true);
+    setError(null);
 
     try {
       const response = await fetch(`${API_BASE_URL}/users/user_login.php`, {
@@ -44,28 +45,20 @@ const CardAuth = ({ onClose, fromSignUp = false }) => {
         body: JSON.stringify(formData),
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        if (data.status === "success") {
-          dispatch(loginSuccess(data.user));
-          onClose();
-          if (fromSignUp) {
-            navigate("/");
-          }
-        } else {
-          throw new Error(data.message || "Errore durante il login");
-        }
+      const data = await handleApiResponse(response);
+
+      if (data.status === "success") {
+        dispatch(loginSuccess(data.user));
+        onClose();
+        navigate("/");
       } else {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(data.message || "Errore durante il login");
       }
     } catch (error) {
-      console.error("Errore durante il login:", error);
-      dispatch(
-        loginFailure(
-          error.message ||
-            "Errore durante il login. Verifica le tue credenziali."
-        )
-      );
+      setError(error.message);
+      dispatch(loginFailure(error.message));
+    } finally {
+      setLoading(false);
     }
   };
 

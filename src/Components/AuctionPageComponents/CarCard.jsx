@@ -6,13 +6,16 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import "@cyntler/react-doc-viewer/dist/index.css";
-import { API_BASE_URL, fetchConfig } from "../../config/api";
+import { API_BASE_URL, fetchConfig, handleApiResponse } from "../../config/api";
 
 const CarCard = ({ vehicleData = {} }) => {
   const [showDetails, setShowDetails] = useState(false);
   const [pdfError, setPdfError] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const { isAuthenticated, user } = useSelector((state) => state.auth);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(null);
 
   // Destructuring con valori di default
   const {
@@ -27,6 +30,7 @@ const CarCard = ({ vehicleData = {} }) => {
     },
     pdf = { url: "" },
     auctionNumber = "1",
+    vehicle = { id: "" },
   } = vehicleData || {};
 
   const pdfUrl = pdf?.url || "";
@@ -54,20 +58,9 @@ const CarCard = ({ vehicleData = {} }) => {
     window.open(fullPdfUrl, "_blank");
   };
 
-  // Funzione per gestire la conferma
-  const handleConfirm = async () => {
-    // Verifica che l'utente sia loggato e abbia un'email
-    if (!isAuthenticated || !user?.email) {
-      alert("Errore: Utente non loggato o email non disponibile.");
-      setShowModal(false);
-      return;
-    }
-
-    setShowModal(false); // Chiudi subito il modal
-
+  const handlePurchase = async () => {
     try {
-      // Mostra un feedback (opzionale)
-      console.log("Invio richiesta di conferma acquisto...");
+      setLoading(true);
 
       const response = await fetch(
         `${API_BASE_URL}/orders/confirm_purchase.php`,
@@ -75,35 +68,22 @@ const CarCard = ({ vehicleData = {} }) => {
           method: "POST",
           ...fetchConfig,
           body: JSON.stringify({
-            userEmail: user.email,
-            auctionNumber: auctionNumber,
-            vehicleTitle: title,
-            vehiclePrice: price,
+            vehicleId: vehicle.id,
+            userId: user.id,
           }),
         }
       );
 
-      const responseText = await response.text(); // Leggi la risposta come testo
-      console.log("Risposta Backend:", responseText);
+      const data = await handleApiResponse(response);
 
-      let result;
-      try {
-        result = JSON.parse(responseText); // Prova a fare il parsing
-      } catch (e) {
-        console.error("Errore parsing JSON:", e);
-        throw new Error(`Risposta non valida dal server: ${responseText}`);
+      if (data.status === "success") {
+        // Gestisci il successo
+        setSuccess(true);
       }
-
-      if (!response.ok || result.status !== "success") {
-        throw new Error(result.message || "Errore durante la conferma.");
-      }
-
-      // Successo!
-      alert("Acquisto confermato! Riceverai un'email a breve.");
-      // Qui potresti reindirizzare l'utente o aggiornare lo stato
     } catch (error) {
-      console.error("Errore durante la conferma dell'acquisto:", error);
-      alert(`Errore durante la conferma: ${error.message}`);
+      setError(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -130,7 +110,7 @@ const CarCard = ({ vehicleData = {} }) => {
               </button>
               <button
                 className="px-6 py-2 rounded-full bg-[#072534] text-white font-semibold hover:bg-[#0f3549] transition cursor-pointer"
-                onClick={handleConfirm}
+                onClick={handlePurchase}
               >
                 CONFERMA
               </button>

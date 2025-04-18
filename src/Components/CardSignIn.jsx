@@ -1,5 +1,5 @@
 // import { useState } from "react";
-import { API_BASE_URL, fetchConfig } from "../config/api";
+import { API_BASE_URL, fetchConfig, handleApiResponse } from "../config/api";
 import { useState } from "react";
 import { CardAuth } from "./Navbar"; // Importa CardAuth da Navbar
 // import CardSignInSelector from "./CardSignInSelector";
@@ -21,6 +21,9 @@ const CardSignIn = () => {
   });
 
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,49 +42,37 @@ const CardSignIn = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError(null);
 
     try {
-      console.log("Dati form da inviare:", formData);
-
       const response = await fetch(`${API_BASE_URL}/users/user_create.php`, {
         method: "POST",
         ...fetchConfig,
         body: JSON.stringify(formData),
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          errorData.message || `Errore nella registrazione: ${response.status}`
-        );
-      }
-
-      const data = await response.json();
-      console.log("Dati risposta:", data);
+      const data = await handleApiResponse(response);
 
       if (data.status === "success") {
-        alert("Registrazione completata con successo!");
-        setFormData({
-          country: "",
-          company_name: "",
-          vat_number: "",
-          address: "",
-          postal_code: "",
-          city: "",
-          email: "",
-          password: "",
-        });
-      } else {
-        throw new Error(data.message);
+        setSuccess(true);
+        setTimeout(() => {
+          setFormData({
+            country: "",
+            company_name: "",
+            vat_number: "",
+            address: "",
+            postal_code: "",
+            city: "",
+            email: "",
+            password: "",
+          });
+        }, 2000);
       }
     } catch (error) {
-      console.error("Errore completo:", error);
-      console.error("Dettagli risposta:", {
-        status: error.response?.status,
-        message: error.message,
-        data: error.response?.data,
-      });
-      alert(error.message || "Errore durante la registrazione");
+      setError(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 

@@ -10,7 +10,12 @@ import {
   Spinner,
 } from "@material-tailwind/react";
 import AdminContainer from "./AdimnContainer";
-import { API_BASE_URL, fetchConfig } from "../../config/api";
+import {
+  API_BASE_URL,
+  fetchConfig,
+  uploadConfig,
+  handleApiResponse,
+} from "../../config/api";
 
 const VehicleForm = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
@@ -68,73 +73,59 @@ const VehicleForm = ({ onSubmit }) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    setSuccess(null);
-
-    // Creiamo FormData per inviare i dati del modulo, inclusi i file
-    const data = new FormData();
-    for (const key in formData) {
-      data.append(key, formData[key]);
-    }
 
     try {
-      // Usiamo API_BASE_URL qui
+      const formData = new FormData();
+      // Aggiungi tutti i campi al FormData
+      Object.keys(formData).forEach((key) => {
+        formData.append(key, formData[key]);
+      });
+
+      // Aggiungi il file PDF se presente
+      if (formData.pdf) {
+        formData.append("pdf_file", formData.pdf);
+      }
+
       const response = await fetch(
         `${API_BASE_URL}/vehicles/vehicle_create.php`,
         {
           method: "POST",
-          ...fetchConfig,
-          body: data, // FormData non necessita Content-Type, il browser lo imposta
+          ...uploadConfig,
+          body: formData,
         }
       );
 
-      const responseText = await response.text(); // Leggi la risposta come testo prima
-      console.log("Risposta dal server (vehicle_create):", responseText);
+      const data = await handleApiResponse(response);
 
-      let result;
-      try {
-        result = JSON.parse(responseText); // Prova a fare il parsing JSON
-      } catch (parseError) {
-        console.error("Errore parsing JSON:", parseError);
-        throw new Error(
-          `Risposta non JSON dal server: ${responseText.substring(0, 100)}...`
-        );
-      }
-
-      if (!response.ok) {
-        throw new Error(result.message || `Errore HTTP: ${response.status}`);
-      }
-
-      if (result.status === "success") {
-        setSuccess("Veicolo aggiunto con successo!");
-        // Resetta il form dopo il successo
-        setFormData({
-          title: "",
-          price: "",
-          year: "",
-          mileage: "",
-          location: "Italia",
-          description: "",
-          imageUrl: "",
-          fuel: "Diesel",
-          transmission: "Manuale",
-          registrationDate: "",
-          countryCode: "IT",
-          auctionNumber: "",
-          pdf: null,
-        });
-        e.target.reset(); // Resetta i campi file del form
-        onSubmit(result); // Passa i dati finali al parent
-      } else {
-        throw new Error(
-          result.message || "Errore sconosciuto nell'aggiunta del veicolo."
-        );
+      if (data.status === "success") {
+        setSuccess(true);
+        resetForm();
+        onSubmit(data);
       }
     } catch (error) {
-      console.error("Errore durante l'invio:", error);
-      setError(error.message || "Si è verificato un errore durante l'invio.");
+      setError(error.message);
     } finally {
       setLoading(false);
     }
+  };
+
+  const resetForm = () => {
+    setFormData({
+      title: "",
+      price: "",
+      year: "",
+      mileage: "",
+      location: "Italia",
+      description: "",
+      imageUrl: "",
+      fuel: "Diesel",
+      transmission: "Manuale",
+      registrationDate: "",
+      countryCode: "IT",
+      auctionNumber: "",
+      pdf: null,
+    });
+    e.target.reset();
   };
 
   return (
