@@ -46,20 +46,16 @@ DirectoryIndex index.html
     RewriteRule . index.html [L]
 </IfModule>
 
+# Gestione API
+<FilesMatch "\.php$">
+    SetHandler application/x-httpd-php
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE"
+    Header set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With, Accept"
+    Header set Access-Control-Allow-Credentials "true"
+</FilesMatch>
+
 # Headers per i file statici
 <FilesMatch "\.(js|mjs)$">
     Header set Content-Type "application/javascript"
 </FilesMatch>
-
-# Permetti l'esecuzione di file PHP
-<FilesMatch "\.php$">
-    SetHandler application/x-httpd-php
-</FilesMatch>
-
-# Headers CORS centralizzati
-<IfModule mod_headers.c>
-    Header set Access-Control-Allow-Origin "https://carmarket-ayvens.com"
-    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE"
-    Header set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
-    Header set Access-Control-Allow-Credentials "true"
-</IfModule>
