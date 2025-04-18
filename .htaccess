@@ -29,7 +29,7 @@ DirectoryIndex index.html
 # Abilita la riscrittura URL
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /repositories/carmarket/
+    RewriteBase /carmarket/
 
     # Gestisci le richieste API
     RewriteCond %{REQUEST_URI} ^/repositories/carmarket/server/api/

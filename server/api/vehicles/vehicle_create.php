@@ -160,8 +160,8 @@ try {
 
     // Prepara la query
     $query = "INSERT INTO vehicles (
-        title, price, year, mileage, location, description,
-        image_url, fuel, transmission,
+        title, price, year, mileage, location, description, 
+        image_url, fuel, transmission, 
         registration_date, pdf_url, country_code, auction_number
     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -221,7 +221,7 @@ try {
         'vehicle_id' => $insertedId,
         'pdfUrl' => $pdfUrl // Invia l'URL del PDF al frontend
     ];
-
+    
     error_log("Invio risposta JSON di successo: " . json_encode($response));
     echo json_encode($response);
 
@@ -246,7 +246,7 @@ try {
     ];
     // Assicurati di inviare comunque una risposta JSON valida in caso di errore
     if (!headers_sent()) { // Controlla di nuovo prima di inviare l'echo
-         echo json_encode($errorResponse);
+    echo json_encode($errorResponse);
     } else {
          error_log("Impossibile inviare risposta JSON di errore: headers già inviati.");
     }
