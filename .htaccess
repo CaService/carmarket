@@ -31,11 +31,10 @@ DirectoryIndex index.html
     RewriteEngine On
     RewriteBase /repositories/carmarket/
 
-    # Gestisci le richieste API
-    RewriteCond %{REQUEST_URI} ^/repositories/carmarket/server/api/
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^server/api/(.*)$ server/api/$1 [L,QSA]
+    # Gestisci le richieste API - Modificata questa sezione
+    RewriteCond %{REQUEST_URI} ^/repositories/carmarket/server/api/.*\.php$ [NC]
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^ - [L]
 
     # Se il file richiesto esiste, servilo direttamente
     RewriteCond %{REQUEST_FILENAME} -f
@@ -46,13 +45,18 @@ DirectoryIndex index.html
     RewriteRule . index.html [L]
 </IfModule>
 
-# Gestione API
+# Gestione API - Aggiornata questa sezione
 <FilesMatch "\.php$">
     SetHandler application/x-httpd-php
+    
+    # CORS Headers
     Header set Access-Control-Allow-Origin "*"
     Header set Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE"
     Header set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With, Accept"
     Header set Access-Control-Allow-Credentials "true"
+    
+    # Forza PHP a processare i file
+    AddType application/x-httpd-php .php
 </FilesMatch>
 
 # Headers per i file statici
