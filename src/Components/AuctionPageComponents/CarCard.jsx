@@ -62,9 +62,9 @@ const CarCard = ({ vehicleData = {} }) => {
     // Costruisci l'URL corretto
     const fullPdfUrl = pdfUrl.startsWith("http")
       ? pdfUrl
-      : `${API_BASE_URL}${pdfUrl}`; // Usa API_BASE_URL invece dell'URL hardcoded
+      : `https://carmarket-ayvens.com${pdfUrl}`; // Usa direttamente il percorso del PDF
 
-    console.log("Tentativo download PDF da:", fullPdfUrl); // Per debug
+    console.log("Tentativo download PDF da:", fullPdfUrl);
     window.open(fullPdfUrl, "_blank");
   };
 
