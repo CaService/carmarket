@@ -35,6 +35,9 @@ const CarCard = ({ vehicleData = {} }) => {
 
   const pdfUrl = pdf?.url || "";
 
+  console.log("PDF URL ricevuto:", pdfUrl);
+  console.log("Vehicle Data:", vehicleData);
+
   const docs = [
     {
       uri: pdfUrl,
