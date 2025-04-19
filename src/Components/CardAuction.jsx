@@ -4,6 +4,7 @@ import Container from "./Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCarSide } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import { API_BASE_URL } from "../config/api";
 
 const CardAuction = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -16,7 +17,7 @@ const CardAuction = () => {
     const fetchVehicles = async () => {
       try {
         const response = await fetch(
-          "http://localhost/carmarket/server/api/vehicles/get_vehicles.php"
+          `${API_BASE_URL}/vehicles/get_vehicles.php`
         );
 
         if (!response.ok) {
