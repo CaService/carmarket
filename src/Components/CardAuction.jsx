@@ -84,7 +84,7 @@ const CardAuction = () => {
                     />
                   </div>
                 </div>
-                <p className="text-center font-semibold pt-20 font-[chillax] text-lg">
+                <p className="text-center font-semibold pt-20 font-[chillax] text-lg text-[#072534]">
                   Registrati per acquistare un veicolo.
                 </p>
 

@@ -50,11 +50,18 @@ const CarCard = ({ vehicleData = {} }) => {
     e.preventDefault();
     e.stopPropagation();
 
-    // Assicurati che pdfUrl sia un URL completo
+    // Verifica che ci sia un URL del PDF
+    if (!pdfUrl) {
+      setPdfError("PDF non disponibile");
+      return;
+    }
+
+    // Costruisci l'URL corretto
     const fullPdfUrl = pdfUrl.startsWith("http")
       ? pdfUrl
-      : `https://carmarket-ayvens.com/repositories/carmarket${pdfUrl}`;
+      : `${API_BASE_URL}${pdfUrl}`; // Usa API_BASE_URL invece dell'URL hardcoded
 
+    console.log("Tentativo download PDF da:", fullPdfUrl); // Per debug
     window.open(fullPdfUrl, "_blank");
   };
 
