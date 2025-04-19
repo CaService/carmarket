@@ -47,6 +47,10 @@ if (!file_exists(UPLOAD_DIR)) {
     }
 }
 
+// Aggiungi definizione per il percorso delle immagini
+define('IMAGE_UPLOAD_DIR', __DIR__ . '/../../../public/images/Vehicles/');
+define('IMAGE_BASE_URL', '/images/Vehicles/');
+
 try {
     // Verifica metodo POST
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -136,6 +140,51 @@ try {
     error_log("File PDF salvato con successo in: " . $destinationPath);
     error_log("URL PDF relativo generato: " . $pdfUrl);
 
+    // --- Gestione Upload Immagine ---
+    if (!isset($_FILES['imageFile'])) {
+        error_log("Nessun file immagine ricevuto in _FILES: " . print_r($_FILES, true));
+        throw new Exception('File immagine non ricevuto');
+    }
+
+    if ($_FILES['imageFile']['error'] !== UPLOAD_ERR_OK) {
+        $errorCode = $_FILES['imageFile']['error'];
+        error_log("Errore upload immagine. Codice: " . $errorCode);
+        throw new Exception('Errore durante il caricamento dell\'immagine');
+    }
+
+    $imageFile = $_FILES['imageFile'];
+    $imageTmpPath = $imageFile['tmp_name'];
+    $imageFileName = basename($imageFile['name']);
+
+    // Verifica tipo MIME per l'immagine
+    $finfo = new finfo(FILEINFO_MIME_TYPE);
+    $imageType = $finfo->file($imageTmpPath);
+
+    // Validazione tipo immagine
+    $allowedImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    if (!in_array($imageType, $allowedImageTypes)) {
+        throw new Exception('Tipo di immagine non permesso. Utilizzare JPEG, PNG o GIF.');
+    }
+
+    // Crea un nome univoco per l'immagine
+    $imageExtension = strtolower(pathinfo($imageFileName, PATHINFO_EXTENSION));
+    $newImageName = uniqid('vehicle_', true) . '.' . $imageExtension;
+    $imageDestinationPath = rtrim(IMAGE_UPLOAD_DIR, '/') . '/' . $newImageName;
+
+    // Verifica/crea directory per le immagini
+    if (!is_dir(IMAGE_UPLOAD_DIR)) {
+        if (!mkdir(IMAGE_UPLOAD_DIR, 0775, true)) {
+            throw new Exception('Errore nella creazione della directory per le immagini');
+        }
+    }
+
+    // Sposta l'immagine
+    if (!move_uploaded_file($imageTmpPath, $imageDestinationPath)) {
+        throw new Exception('Errore durante il salvataggio dell\'immagine');
+    }
+
+    // URL relativo dell'immagine per il database
+    $imageUrl = rtrim(IMAGE_BASE_URL, '/') . '/' . $newImageName;
 
     // --- Accesso ai dati del form da $_POST ---
     $title = isset($_POST['title']) ? trim($_POST['title']) : null;
@@ -144,7 +193,6 @@ try {
     $mileage = isset($_POST['mileage']) ? filter_var($_POST['mileage'], FILTER_VALIDATE_INT) : null;
     $location = isset($_POST['location']) ? trim($_POST['location']) : null;
     $description = isset($_POST['description']) ? trim($_POST['description']) : null;
-    $imageUrl = isset($_POST['imageUrl']) ? filter_var($_POST['imageUrl'], FILTER_VALIDATE_URL) : null;
     $fuel = isset($_POST['fuel']) ? trim($_POST['fuel']) : null;
     $transmission = isset($_POST['transmission']) ? trim($_POST['transmission']) : null;
     $registrationDate = isset($_POST['registrationDate']) ? trim($_POST['registrationDate']) : null; // Validare formato data se necessario
@@ -159,7 +207,6 @@ try {
     if ($mileage === false || $mileage < 0) throw new Exception('Chilometraggio non valido');
     if (empty($location)) throw new Exception('Località obbligatoria');
     if (empty($description)) throw new Exception('Descrizione obbligatoria');
-    if ($imageUrl === false) throw new Exception('URL Immagine non valido');
     if (empty($fuel)) throw new Exception('Carburante obbligatorio');
     if (empty($transmission)) throw new Exception('Trasmissione obbligatoria');
     if (empty($registrationDate)) throw new Exception('Data immatricolazione obbligatoria');
@@ -242,7 +289,8 @@ try {
         'status' => 'success',
         'message' => 'Veicolo aggiunto con successo',
         'vehicle_id' => $insertedId,
-        'pdfUrl' => $pdfUrl // Invia l'URL del PDF al frontend
+        'pdfUrl' => $pdfUrl, // Invia l'URL del PDF al frontend
+        'imageUrl' => $imageUrl // Invia l'URL dell'immagine al frontend
     ];
     
     error_log("Invio risposta JSON di successo: " . json_encode($response));

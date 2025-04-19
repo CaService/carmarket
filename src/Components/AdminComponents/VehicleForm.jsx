@@ -25,7 +25,7 @@ const VehicleForm = ({ onSubmit }) => {
     mileage: "",
     location: "Italia",
     description: "",
-    imageUrl: "",
+    imageFile: null,
     fuel: "Diesel",
     transmission: "Manuale",
     registrationDate: "",
@@ -39,21 +39,21 @@ const VehicleForm = ({ onSubmit }) => {
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
-    // Gestione specifica per l'input file
-    if (name === "pdf" && type === "file") {
+    if (type === "file") {
       if (files.length > 0) {
-        setFormData((prev) => ({
-          ...prev,
-          pdf: files[0],
-        }));
-      } else {
-        setFormData((prev) => ({
-          ...prev,
-          pdf: null,
-        }));
+        if (name === "pdf") {
+          setFormData((prev) => ({
+            ...prev,
+            pdf: files[0],
+          }));
+        } else if (name === "imageFile") {
+          setFormData((prev) => ({
+            ...prev,
+            imageFile: files[0],
+          }));
+        }
       }
-      // Gestione per gli altri input
-    } else if (type !== "file") {
+    } else {
       setFormData((prev) => ({
         ...prev,
         [name]: value,
@@ -75,27 +75,30 @@ const VehicleForm = ({ onSubmit }) => {
     setError(null);
 
     try {
-      const formDataObj = new FormData(); // Rinominato per evitare conflitto
-      // Aggiungi tutti i campi al FormData
+      const formDataObj = new FormData();
+
+      // Aggiungi tutti i campi al FormData tranne i file
       Object.keys(formData).forEach((key) => {
-        if (key !== "pdf") {
-          // Gestiamo il PDF separatamente
+        if (key !== "pdf" && key !== "imageFile") {
           formDataObj.append(key, formData[key]);
         }
       });
 
-      // Aggiungi il file PDF con il nome corretto
+      // Aggiungi i file con i nomi corretti
       if (formData.pdf) {
-        formDataObj.append("pdfFile", formData.pdf); // Deve corrispondere a $_FILES['pdfFile'] in PHP
+        formDataObj.append("pdfFile", formData.pdf);
+      }
+      if (formData.imageFile) {
+        formDataObj.append("imageFile", formData.imageFile);
       }
 
-      console.log("Invio dati al server...", formDataObj);
+      console.log("Invio dati al server...");
 
       const response = await fetch(
         `${API_BASE_URL}/vehicles/vehicle_create.php`,
         {
           method: "POST",
-          body: formDataObj, // Non serve ...uploadConfig qui
+          body: formDataObj,
         }
       );
 
@@ -123,7 +126,7 @@ const VehicleForm = ({ onSubmit }) => {
       mileage: "",
       location: "Italia",
       description: "",
-      imageUrl: "",
+      imageFile: null,
       fuel: "Diesel",
       transmission: "Manuale",
       registrationDate: "",
@@ -286,15 +289,15 @@ const VehicleForm = ({ onSubmit }) => {
             {/* File Inputs */}
             <div>
               <label
-                htmlFor="imageUrl"
+                htmlFor="imageFile"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
                 Immagine Veicolo
               </label>
               <input
                 type="file"
-                id="imageUrl"
-                name="imageUrl"
+                id="imageFile"
+                name="imageFile"
                 accept="image/*"
                 onChange={handleChange}
                 required
