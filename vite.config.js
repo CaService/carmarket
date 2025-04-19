@@ -10,7 +10,7 @@ export default defineConfig({
     react(),
     tailwindcss(),
     {
-      name: "copy-server",
+      name: "copy-php-files",
       closeBundle: async () => {
         // Copia la cartella server nella dist
         await fs.copy("server", "dist/server", {
@@ -20,6 +20,17 @@ export default defineConfig({
             return !src.includes(".env") && !src.includes("/logs/");
           },
         });
+
+        // Copia la cartella vendor nella dist
+        await fs.copy("vendor", "dist/vendor", {
+          overwrite: true,
+        });
+
+        // Copia composer.json e composer.lock
+        await fs.copy("composer.json", "dist/composer.json");
+        if (fs.existsSync("composer.lock")) {
+          await fs.copy("composer.lock", "dist/composer.lock");
+        }
       },
     },
   ],
