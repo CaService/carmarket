@@ -85,7 +85,14 @@ try {
     http_response_code(500);
     echo json_encode([
         'status' => 'error',
-        'message' => 'Si è verificato un errore durante la registrazione'
+        'message' => 'Errore: ' . $e->getMessage(),
+        'debug_info' => [
+            'file' => __FILE__,
+            'line' => __LINE__,
+            'db_host' => getenv('DB_HOST'),
+            'db_name' => getenv('DB_NAME'),
+            'db_user' => getenv('DB_USER')
+        ]
     ]);
 }
 ?>
