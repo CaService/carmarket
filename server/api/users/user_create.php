@@ -3,6 +3,21 @@ require_once __DIR__ . '/../../config/api_config.php';
 setupAPI();
 
 try {
+    // Aggiungiamo debug all'inizio del file
+    echo json_encode([
+        'status' => 'debug',
+        'request_method' => $_SERVER['REQUEST_METHOD'],
+        'env_test' => [
+            'file_exists' => file_exists(__DIR__ . '/../../.env'),
+            'db_host' => getenv('DB_HOST'),
+            'db_name' => getenv('DB_NAME'),
+            'db_user' => getenv('DB_USER'),
+            'current_dir' => __DIR__,
+            'parent_dir' => dirname(__DIR__, 2)
+        ]
+    ]);
+    exit;
+
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         throw new Exception('Metodo non permesso');
     }
