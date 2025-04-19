@@ -81,6 +81,7 @@ const VehicleForm = ({ onSubmit }) => {
       Object.keys(formData).forEach((key) => {
         if (key !== "pdf" && key !== "imageFile") {
           formDataObj.append(key, formData[key]);
+          console.log(`Campo ${key} aggiunto:`, formData[key]);
         }
       });
 
@@ -90,17 +91,28 @@ const VehicleForm = ({ onSubmit }) => {
           throw new Error("Il file PDF non è nel formato corretto");
         }
         formDataObj.append("pdfFile", formData.pdf);
-        console.log("PDF aggiunto al FormData:", formData.pdf.name);
+        console.log("PDF aggiunto al FormData:", {
+          name: formData.pdf.name,
+          type: formData.pdf.type,
+          size: formData.pdf.size,
+        });
       }
       if (formData.imageFile) {
         if (!formData.imageFile.type.startsWith("image/")) {
           throw new Error("Il file immagine non è nel formato corretto");
         }
         formDataObj.append("imageFile", formData.imageFile);
-        console.log("Immagine aggiunta al FormData:", formData.imageFile.name);
+        console.log("Immagine aggiunta al FormData:", {
+          name: formData.imageFile.name,
+          type: formData.imageFile.type,
+          size: formData.imageFile.size,
+        });
       }
 
-      console.log("Invio dati al server...");
+      console.log("Invio dati al server...", {
+        url: `${API_BASE_URL}/vehicles/vehicle_create.php`,
+        method: "POST",
+      });
 
       const response = await fetch(
         `${API_BASE_URL}/vehicles/vehicle_create.php`,
@@ -110,15 +122,22 @@ const VehicleForm = ({ onSubmit }) => {
         }
       );
 
+      console.log("Risposta ricevuta:", {
+        status: response.status,
+        statusText: response.statusText,
+        headers: Object.fromEntries(response.headers.entries()),
+      });
+
       // Controlla se la risposta è JSON
       const contentType = response.headers.get("content-type");
       if (!contentType || !contentType.includes("application/json")) {
         const text = await response.text();
+        console.error("Risposta non JSON ricevuta:", text);
         throw new Error(`Risposta non valida dal server: ${text}`);
       }
 
       const data = await response.json();
-      console.log("Risposta dal server:", data);
+      console.log("Risposta JSON dal server:", data);
 
       if (data.status === "success") {
         console.log("URL immagine salvata:", data.imageUrl);

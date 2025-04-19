@@ -36,12 +36,12 @@ const CarCard = ({ vehicleData = {} }) => {
   // Assicuriamoci che gli URL siano corretti
   const correctedImageUrl = imageUrl.startsWith("http")
     ? imageUrl
-    : `/repositories/carmarket${imageUrl}`;
+    : `${API_BASE_URL}${imageUrl}`;
 
   const pdfUrl = pdf?.url || "";
   const correctedPdfUrl = pdfUrl.startsWith("http")
     ? pdfUrl
-    : `/repositories/carmarket${pdfUrl}`;
+    : `${API_BASE_URL}${pdfUrl}`;
 
   const docs = [
     {
