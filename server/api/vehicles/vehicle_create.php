@@ -36,9 +36,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 // Definisci il percorso base per i file PDF relativo alla root del documento web
 // Modifica '/../../../public/static/pdf/' se la struttura delle cartelle è diversa
-define('UPLOAD_DIR', __DIR__ . '/../../../public/static/pdf/'); // Percorso fisico sul server
-// Definisci l'URL base per accedere ai PDF dal frontend
-define('PDF_BASE_URL', '/static/pdf/'); // URL relativo alla root del sito web (/carmarket/ va gestito dal base path nel frontend o config server)
+define('UPLOAD_DIR', __DIR__ . '/../../../dist/static/pdf/');  // Percorso fisico
+define('PDF_BASE_URL', '/static/pdf/');  // URL relativo
+
+// Aggiungi questo dopo la definizione di UPLOAD_DIR
+if (!file_exists(UPLOAD_DIR)) {
+    if (!mkdir(UPLOAD_DIR, 0775, true)) {
+        error_log("Errore: Impossibile creare la directory " . UPLOAD_DIR);
+        throw new Exception("Errore nella configurazione del server per l'upload");
+    }
+}
 
 try {
     // Verifica metodo POST
@@ -51,8 +58,15 @@ try {
     error_log("Dati FILES: " . print_r($_FILES, true));
 
     // --- Gestione Upload File PDF ---
-    if (!isset($_FILES['pdfFile']) || $_FILES['pdfFile']['error'] !== UPLOAD_ERR_OK) {
-        $errorCode = isset($_FILES['pdfFile']['error']) ? $_FILES['pdfFile']['error'] : 'File non presente o errore generico';
+    if (!isset($_FILES['pdfFile'])) {
+        error_log("Nessun file PDF ricevuto in _FILES: " . print_r($_FILES, true));
+        throw new Exception('File PDF non ricevuto');
+    }
+
+    if ($_FILES['pdfFile']['error'] !== UPLOAD_ERR_OK) {
+        $errorCode = $_FILES['pdfFile']['error'];
+        error_log("Errore upload PDF. Codice: " . $errorCode);
+        error_log("Dettagli file: " . print_r($_FILES['pdfFile'], true));
         // Mappa codici errore comuni a messaggi più leggibili
         $uploadErrors = [
             UPLOAD_ERR_INI_SIZE   => "Il file caricato eccede la direttiva upload_max_filesize in php.ini.",

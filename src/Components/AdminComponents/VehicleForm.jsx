@@ -75,35 +75,41 @@ const VehicleForm = ({ onSubmit }) => {
     setError(null);
 
     try {
-      const formData = new FormData();
+      const formDataObj = new FormData(); // Rinominato per evitare conflitto
       // Aggiungi tutti i campi al FormData
       Object.keys(formData).forEach((key) => {
-        formData.append(key, formData[key]);
+        if (key !== "pdf") {
+          // Gestiamo il PDF separatamente
+          formDataObj.append(key, formData[key]);
+        }
       });
 
-      // Aggiungi il file PDF se presente
+      // Aggiungi il file PDF con il nome corretto
       if (formData.pdf) {
-        formData.append("pdf_file", formData.pdf);
+        formDataObj.append("pdfFile", formData.pdf); // Deve corrispondere a $_FILES['pdfFile'] in PHP
       }
+
+      console.log("Invio dati al server...", formDataObj);
 
       const response = await fetch(
         `${API_BASE_URL}/vehicles/vehicle_create.php`,
         {
           method: "POST",
-          ...uploadConfig,
-          body: formData,
+          body: formDataObj, // Non serve ...uploadConfig qui
         }
       );
 
       const data = await handleApiResponse(response);
+      console.log("Risposta dal server:", data);
 
       if (data.status === "success") {
-        setSuccess(true);
+        setSuccess("Veicolo aggiunto con successo!");
         resetForm();
-        onSubmit(data);
+        if (onSubmit) onSubmit(data);
       }
     } catch (error) {
       setError(error.message);
+      console.error("Errore durante il caricamento:", error);
     } finally {
       setLoading(false);
     }
