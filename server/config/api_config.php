@@ -10,7 +10,7 @@ function setupAPI() {
     $isProd = IS_PRODUCTION;
     
     // Configurazione errori
-    error_reporting($isProd ? 0 : E_ALL);
+    error_reporting($isProd ? E_ALL : E_ALL); // Temporaneamente E_ALL per debug
     ini_set('display_errors', $isProd ? 0 : 1);
     ini_set('log_errors', 1);
     ini_set('error_log', __DIR__ . '/../logs/api_errors.log');
@@ -23,8 +23,19 @@ function setupAPI() {
     ];
     
     $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
+    
+    // Log dettagliato della richiesta
+    logError("=== Nuova richiesta API ===");
+    logError("Method: " . $_SERVER['REQUEST_METHOD']);
+    logError("URI: " . $_SERVER['REQUEST_URI']);
+    logError("Origin: " . $origin);
+    logError("Headers: " . json_encode(getallheaders()));
+    
     if (in_array($origin, $allowedOrigins)) {
         header('Access-Control-Allow-Origin: ' . $origin);
+        logError("CORS Origin accettato: " . $origin);
+    } else {
+        logError("CORS Origin non in whitelist: " . $origin);
     }
     
     // Headers standard
@@ -44,14 +55,9 @@ function setupAPI() {
     // Gestione OPTIONS
     if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
         http_response_code(200);
+        logError("Richiesta OPTIONS gestita");
         exit();
     }
-
-    // Log della richiesta
-    logError("=== Nuova richiesta API ===");
-    logError("Method: " . $_SERVER['REQUEST_METHOD']);
-    logError("URI: " . $_SERVER['REQUEST_URI']);
-    logError("Origin: " . $origin);
 }
 
 function logError($message) {
