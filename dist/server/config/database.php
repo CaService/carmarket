@@ -4,8 +4,8 @@ class Database {
     // Credenziali database hardcoded
     private $host = 'localhost';
     private $db_name = 'carmarke_carmarket_db';
-    private $username = 'root';
-    private $password = '';
+    private $username = 'carmarke_admin';
+    private $password = '$y)l?mrM^pq,';
 
     public function connect() {
         try {
