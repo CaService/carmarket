@@ -2,10 +2,27 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import path from "path";
+import fs from "fs-extra";
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [
+    react(),
+    tailwindcss(),
+    {
+      name: "copy-server",
+      closeBundle: async () => {
+        // Copia la cartella server nella dist
+        await fs.copy("server", "dist/server", {
+          overwrite: true,
+          filter: (src) => {
+            // Esclude i file .env e la cartella logs
+            return !src.includes(".env") && !src.includes("/logs/");
+          },
+        });
+      },
+    },
+  ],
   server: {
     port: 5173,
     fs: {
