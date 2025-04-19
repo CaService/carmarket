@@ -33,19 +33,14 @@ const CarCard = ({ vehicleData = {} }) => {
     vehicle = { id: "" },
   } = vehicleData || {};
 
-  // Assicuriamoci che gli URL siano corretti
-  const correctedImageUrl = imageUrl.startsWith("http")
-    ? imageUrl
-    : `${API_BASE_URL}${imageUrl}`;
-
   const pdfUrl = pdf?.url || "";
-  const correctedPdfUrl = pdfUrl.startsWith("http")
-    ? pdfUrl
-    : `${API_BASE_URL}${pdfUrl}`;
+
+  console.log("PDF URL ricevuto:", pdfUrl);
+  console.log("Vehicle Data:", vehicleData);
 
   const docs = [
     {
-      uri: correctedPdfUrl,
+      uri: pdfUrl,
       fileType: "pdf",
     },
   ];
@@ -58,13 +53,19 @@ const CarCard = ({ vehicleData = {} }) => {
     e.preventDefault();
     e.stopPropagation();
 
+    // Verifica che ci sia un URL del PDF
     if (!pdfUrl) {
       setPdfError("PDF non disponibile");
       return;
     }
 
-    console.log("Tentativo download PDF da:", correctedPdfUrl);
-    window.open(correctedPdfUrl, "_blank");
+    // Costruisci l'URL corretto
+    const fullPdfUrl = pdfUrl.startsWith("http")
+      ? pdfUrl
+      : `${API_BASE_URL}${pdfUrl}`; // Usa API_BASE_URL invece dell'URL hardcoded
+
+    console.log("Tentativo download PDF da:", fullPdfUrl); // Per debug
+    window.open(fullPdfUrl, "_blank");
   };
 
   const handlePurchase = async () => {
@@ -132,7 +133,7 @@ const CarCard = ({ vehicleData = {} }) => {
           {/* Immagine Auto */}
           <div className="relative w-full md:w-96">
             <img
-              src={correctedImageUrl}
+              src={imageUrl}
               alt={title}
               className="w-full h-[160px] md:h-full object-fit"
             />
@@ -264,12 +265,7 @@ const CarCard = ({ vehicleData = {} }) => {
                   ) : (
                     <div className="pdf-viewer-container">
                       <DocViewer
-                        documents={[
-                          {
-                            uri: correctedPdfUrl,
-                            fileType: "pdf",
-                          },
-                        ]}
+                        documents={docs}
                         pluginRenderers={DocViewerRenderers}
                         config={{
                           header: {
