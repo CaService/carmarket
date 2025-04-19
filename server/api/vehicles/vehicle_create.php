@@ -51,6 +51,11 @@ if (!file_exists(UPLOAD_DIR)) {
 define('IMAGE_UPLOAD_DIR', __DIR__ . '/../../../public/images/Vehicles/');
 define('IMAGE_BASE_URL', '/images/Vehicles/');
 
+// All'inizio del file, dopo gli altri log
+error_log("Directory corrente: " . __DIR__);
+error_log("Directory upload immagini: " . IMAGE_UPLOAD_DIR);
+error_log("Permessi directory upload immagini: " . substr(sprintf('%o', fileperms(IMAGE_UPLOAD_DIR)), -4));
+
 try {
     // Verifica metodo POST
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -178,8 +183,16 @@ try {
         }
     }
 
+    // Prima di spostare il file
+    error_log("Tentativo di spostamento file da: " . $imageTmpPath);
+    error_log("a: " . $imageDestinationPath);
+
     // Sposta l'immagine
-    if (!move_uploaded_file($imageTmpPath, $imageDestinationPath)) {
+    if (move_uploaded_file($imageTmpPath, $imageDestinationPath)) {
+        error_log("File immagine spostato con successo");
+        error_log("Permessi file: " . substr(sprintf('%o', fileperms($imageDestinationPath)), -4));
+    } else {
+        error_log("Errore nello spostamento del file. Errore PHP: " . error_get_last()['message']);
         throw new Exception('Errore durante il salvataggio dell\'immagine');
     }
 

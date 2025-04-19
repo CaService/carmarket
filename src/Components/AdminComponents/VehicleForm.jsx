@@ -87,9 +87,11 @@ const VehicleForm = ({ onSubmit }) => {
       // Aggiungi i file con i nomi corretti
       if (formData.pdf) {
         formDataObj.append("pdfFile", formData.pdf);
+        console.log("PDF aggiunto al FormData:", formData.pdf.name);
       }
       if (formData.imageFile) {
         formDataObj.append("imageFile", formData.imageFile);
+        console.log("Immagine aggiunta al FormData:", formData.imageFile.name);
       }
 
       console.log("Invio dati al server...");
@@ -134,7 +136,12 @@ const VehicleForm = ({ onSubmit }) => {
       auctionNumber: "",
       pdf: null,
     });
-    e.target.reset();
+
+    // Reset dei campi file usando gli ID dei campi
+    const pdfInput = document.getElementById("pdf");
+    const imageInput = document.getElementById("imageFile");
+    if (pdfInput) pdfInput.value = "";
+    if (imageInput) imageInput.value = "";
   };
 
   return (
