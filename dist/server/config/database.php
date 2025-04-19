@@ -2,10 +2,10 @@
 class Database {
     private $conn;
     // Credenziali database hardcoded
-    private $host = 'localhost:3306';
+    private $host = 'localhost';  
     private $db_name = 'carmarke_carmarket_db';
-    private $username = 'carmarke_admin';
-    private $password = 'n$Bt?ztXvNzt';
+    private $username = 'carmarke_admin';  
+    private $password = '7_1GCm4,]Mc&';  
 
     public function connect() {
         try {
@@ -29,6 +29,9 @@ class Database {
                     "connection" => null
                 ];
             }
+
+            // Imposta il charset corretto
+            $this->conn->set_charset("utf8mb4");
 
             return [
                 "status" => "success",
