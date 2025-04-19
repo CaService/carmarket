@@ -108,6 +108,8 @@ const VehicleForm = ({ onSubmit }) => {
       console.log("Risposta dal server:", data);
 
       if (data.status === "success") {
+        console.log("URL immagine salvata:", data.imageUrl);
+        console.log("URL PDF salvato:", data.pdfUrl);
         setSuccess("Veicolo aggiunto con successo!");
         resetForm();
         if (onSubmit) onSubmit(data);
