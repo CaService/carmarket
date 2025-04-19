@@ -2,17 +2,23 @@
 class Database {
     private $conn;
     // Credenziali database hardcoded
-    private $host = 'localhost';  
+    private $host = 'localhost';
     private $db_name = 'carmarke_carmarket_db';
-    private $username = 'carmarke_admin';  
-    private $password = '7_1GCm4,]Mc&';  
+    private $username = 'cpses_cae60zi8iq';
+    private $password = '7_1GCm4,]Mc&';
 
     public function connect() {
         try {
-            // Log dei parametri di connessione (solo per debug)
-            error_log("Tentativo di connessione al database con host: " . $this->host);
-            error_log("Nome database: " . $this->db_name);
-            error_log("Utente database: " . $this->username);
+            // Log dettagliato pre-connessione
+            error_log("=== Tentativo di connessione al database ===");
+            error_log("Host: " . $this->host);
+            error_log("Database: " . $this->db_name);
+            error_log("Username: " . $this->username);
+            error_log("PHP version: " . PHP_VERSION);
+            error_log("MySQLi enabled: " . (extension_loaded('mysqli') ? 'yes' : 'no'));
+            
+            // Imposta error reporting per mysqli
+            mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
             $this->conn = new mysqli(
                 $this->host,
@@ -21,29 +27,47 @@ class Database {
                 $this->db_name
             );
 
+            // Log post-connessione
+            error_log("Connessione stabilita");
+            error_log("Server info: " . $this->conn->server_info);
+            error_log("Server version: " . $this->conn->server_version);
+
+            // Imposta il charset
+            if (!$this->conn->set_charset("utf8mb4")) {
+                error_log("Error loading character set utf8mb4: " . $this->conn->error);
+            } else {
+                error_log("Character set corrente: " . $this->conn->character_set_name());
+            }
+
             if ($this->conn->connect_error) {
-                error_log("Errore di connessione al database: " . $this->conn->connect_error);
+                error_log("Errore di connessione dettagliato: " . $this->conn->connect_error);
+                error_log("Errno: " . $this->conn->connect_errno);
                 return [
                     "status" => "error",
                     "message" => "Connection failed: " . $this->conn->connect_error,
+                    "errno" => $this->conn->connect_errno,
                     "connection" => null
                 ];
             }
 
-            // Imposta il charset corretto
-            $this->conn->set_charset("utf8mb4");
-
             return [
                 "status" => "success",
                 "message" => "Connected successfully to database",
+                "server_info" => $this->conn->server_info,
                 "connection" => $this->conn
             ];
 
         } catch (Exception $e) {
-            error_log("Eccezione durante la connessione al database: " . $e->getMessage());
+            error_log("=== Eccezione durante la connessione ===");
+            error_log("Messaggio: " . $e->getMessage());
+            error_log("File: " . $e->getFile());
+            error_log("Linea: " . $e->getLine());
+            error_log("Trace: " . $e->getTraceAsString());
             return [
                 "status" => "error",
                 "message" => "Connection error: " . $e->getMessage(),
+                "file" => $e->getFile(),
+                "line" => $e->getLine(),
                 "connection" => null
             ];
         }
@@ -59,6 +83,6 @@ if (basename($_SERVER['PHP_SELF']) == 'database.php') {
     $database = new Database();
     $result = $database->connect();
     header('Content-Type: application/json');
-    echo json_encode($result);
+    echo json_encode($result, JSON_PRETTY_PRINT);
 }
 ?> 
