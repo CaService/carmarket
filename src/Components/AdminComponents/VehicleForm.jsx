@@ -86,10 +86,16 @@ const VehicleForm = ({ onSubmit }) => {
 
       // Aggiungi i file con i nomi corretti
       if (formData.pdf) {
+        if (formData.pdf.type !== "application/pdf") {
+          throw new Error("Il file PDF non è nel formato corretto");
+        }
         formDataObj.append("pdfFile", formData.pdf);
         console.log("PDF aggiunto al FormData:", formData.pdf.name);
       }
       if (formData.imageFile) {
+        if (!formData.imageFile.type.startsWith("image/")) {
+          throw new Error("Il file immagine non è nel formato corretto");
+        }
         formDataObj.append("imageFile", formData.imageFile);
         console.log("Immagine aggiunta al FormData:", formData.imageFile.name);
       }
@@ -104,7 +110,14 @@ const VehicleForm = ({ onSubmit }) => {
         }
       );
 
-      const data = await handleApiResponse(response);
+      // Controlla se la risposta è JSON
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        const text = await response.text();
+        throw new Error(`Risposta non valida dal server: ${text}`);
+      }
+
+      const data = await response.json();
       console.log("Risposta dal server:", data);
 
       if (data.status === "success") {
@@ -113,6 +126,10 @@ const VehicleForm = ({ onSubmit }) => {
         setSuccess("Veicolo aggiunto con successo!");
         resetForm();
         if (onSubmit) onSubmit(data);
+      } else {
+        throw new Error(
+          data.message || "Errore durante il salvataggio del veicolo"
+        );
       }
     } catch (error) {
       setError(error.message);
