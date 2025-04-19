@@ -10,7 +10,7 @@ import VehicleForm from "../Components/AdminComponents/VehicleForm";
 
 const AdminPage = () => {
   const [vehicles, setVehicles] = useState([]);
-  const [currentView, setCurrentView] = useState("vehicles"); // 'vehicles', 'users', 'cardForm', 'vehiclesTable'
+  const [currentView, setCurrentView] = useState("cardForm"); // 'vehicles', 'users', 'cardForm', 'vehiclesTable'
 
   const handleDataParsed = (data) => {
     setVehicles(data);

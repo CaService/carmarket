@@ -176,7 +176,7 @@ const CarCard = ({ vehicleData = {} }) => {
               <div className="mt-6 md:mt-4 block md:hidden">
                 {isAuthenticated ? (
                   <button
-                    className="w-full bg-[#072534] text-center px-8 py-3 text-white cursor-pointer rounded-full font-semibold transition duration-300 hover:bg-white hover:text-[#072534] hover:border hover:border-[#072534] font-chillax"
+                    className="w-full bg-[#072534] text-center px-8 py-3 text-white cursor-pointer rounded-full font-semibold transition duration-300 hover:bg-white hover:text-[#072534] border border-transparent hover:border-[#072534] font-chillax"
                     onClick={() => setShowModal(true)}
                   >
                     ACQUISTA
@@ -184,7 +184,7 @@ const CarCard = ({ vehicleData = {} }) => {
                 ) : (
                   <Link
                     to="/signup"
-                    className="block w-full text-center bg-[#73d2d2] text-white px-8 py-3 cursor-pointer rounded-full font-semibold transition duration-300 hover:bg-white hover:border hover:border-[#072534] font-chillax"
+                    className="block w-full text-center bg-[#73d2d2] text-white px-8 py-3 cursor-pointer rounded-full font-semibold transition duration-300 hover:bg-white hover:border-[#072534] border border-transparent font-chillax"
                   >
                     REGISTRATI
                   </Link>
@@ -202,7 +202,7 @@ const CarCard = ({ vehicleData = {} }) => {
                     {price}
                   </p>
                   <button
-                    className="inline-block bg-[#072534] text-center px-8 py-3 mt-8 text-white cursor-pointer rounded-full font-semibold transition duration-300 hover:bg-white hover:text-[#072534] hover:border hover:border-[#072534] font-chillax"
+                    className="inline-block bg-[#072534] text-center px-8 py-3 mt-8 text-white cursor-pointer rounded-full font-semibold transition duration-300 hover:bg-white hover:text-[#072534] border border-transparent hover:border-[#072534] font-chillax"
                     onClick={() => setShowModal(true)}
                   >
                     ACQUISTA
@@ -211,7 +211,7 @@ const CarCard = ({ vehicleData = {} }) => {
               ) : (
                 <Link
                   to="/signup"
-                  className="inline-block bg-[#73d2d2] text-center px-8 py-3 mt-20 cursor-pointer rounded-full font-semibold transition duration-300 hover:bg-white hover:border hover:border-[#072534] font-chillax"
+                  className="inline-block bg-[#73d2d2] text-center px-8 py-3 cursor-pointer rounded-full font-semibold transition duration-300 hover:bg-white hover:border-[#072534] border border-transparent font-chillax"
                 >
                   REGISTRATI
                 </Link>
