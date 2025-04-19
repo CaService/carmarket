@@ -11,7 +11,6 @@ const SignUpPage = () => {
         <title>SignUp - Ayvens Italia</title>
       </Helmet>
       <Navbar />
-      <Navbar />
       <CardSignIn />
       <div className="mt-3">
         <FeaturesBanner />

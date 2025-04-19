@@ -45,14 +45,24 @@ const CardSignIn = () => {
     setLoading(true);
     setError(null);
 
+    console.log("Tentativo di registrazione con i dati:", formData); // Log dei dati
+
     try {
+      console.log(
+        "Invio richiesta a:",
+        `${API_BASE_URL}/users/user_create.php`
+      ); // Log URL
+
       const response = await fetch(`${API_BASE_URL}/users/user_create.php`, {
         method: "POST",
         ...fetchConfig,
         body: JSON.stringify(formData),
       });
 
+      console.log("Risposta ricevuta:", response); // Log della risposta
+
       const data = await handleApiResponse(response);
+      console.log("Dati risposta:", data); // Log dei dati risposta
 
       if (data.status === "success") {
         setSuccess(true);
@@ -70,6 +80,7 @@ const CardSignIn = () => {
         }, 2000);
       }
     } catch (error) {
+      console.error("Errore durante la registrazione:", error); // Log dell'errore
       setError(error.message);
     } finally {
       setLoading(false);
