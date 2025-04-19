@@ -108,11 +108,31 @@ const VehicleForm = ({ onSubmit }) => {
       console.log("Risposta dal server:", data);
 
       if (data.status === "success") {
-        console.log("URL immagine salvata:", data.imageUrl);
-        console.log("URL PDF salvato:", data.pdfUrl);
+        // Usiamo direttamente gli URL come vengono dal backend
+        // Il backend restituisce già il path corretto: /static/pdf/nome_file.pdf
+        const imageUrl = data.imageUrl; // sarà /images/Vehicles/nome_file
+        const pdfUrl = data.pdfUrl; // sarà /static/pdf/nome_file.pdf
+
+        console.log("URL immagine:", imageUrl);
+        console.log("URL PDF:", pdfUrl);
+
         setSuccess("Veicolo aggiunto con successo!");
         resetForm();
-        if (onSubmit) onSubmit(data);
+
+        if (onSubmit) {
+          onSubmit({
+            ...data,
+            imageUrl,
+            pdf: { url: pdfUrl },
+            specs: {
+              mileage: formData.mileage,
+              registrationDate: formData.registrationDate,
+              fuel: formData.fuel,
+              transmission: formData.transmission,
+            },
+            vehicle: { id: data.vehicle_id },
+          });
+        }
       }
     } catch (error) {
       setError(error.message);

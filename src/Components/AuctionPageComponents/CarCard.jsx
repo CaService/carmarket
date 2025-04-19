@@ -34,10 +34,11 @@ const CarCard = ({ vehicleData = {} }) => {
   } = vehicleData || {};
 
   const pdfUrl = pdf?.url || "";
+  const correctedPdfUrl = pdfUrl.startsWith("http") ? pdfUrl : `${pdfUrl}`;
 
   const docs = [
     {
-      uri: pdfUrl,
+      uri: correctedPdfUrl,
       fileType: "pdf",
     },
   ];
@@ -51,18 +52,13 @@ const CarCard = ({ vehicleData = {} }) => {
     e.stopPropagation();
 
     // Verifica che ci sia un URL del PDF
-    if (!pdfUrl) {
+    if (!correctedPdfUrl) {
       setPdfError("PDF non disponibile");
       return;
     }
 
-    // Costruisci l'URL corretto
-    const fullPdfUrl = pdfUrl.startsWith("http")
-      ? pdfUrl
-      : `${API_BASE_URL}${pdfUrl}`; // Usa API_BASE_URL invece dell'URL hardcoded
-
-    console.log("Tentativo download PDF da:", fullPdfUrl); // Per debug
-    window.open(fullPdfUrl, "_blank");
+    console.log("Tentativo download PDF da:", correctedPdfUrl); // Per debug
+    window.open(correctedPdfUrl, "_blank");
   };
 
   const handlePurchase = async () => {
