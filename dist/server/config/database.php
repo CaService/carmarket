@@ -1,32 +1,24 @@
 <?php
-$envPath = __DIR__ . '/../.env';
-if (file_exists($envPath)) {
-    require __DIR__ . '/../vendor/autoload.php';
-    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
-    $dotenv->load();
-} else {
-    error_log("File .env non trovato in: " . $envPath);
-}
-
 class Database {
     private $conn;
+    // Credenziali database hardcoded
+    private $host = 'localhost:3306';
+    private $db_name = 'carmarke_carmarket_db';
+    private $username = 'carmarke_admin';
+    private $password = 'n$Bt?ztXvNzt';
 
     public function connect() {
         try {
             // Log dei parametri di connessione (solo per debug)
-            error_log("Tentativo di connessione al database con host: " . ($_ENV['DB_HOST'] ?? 'non definito'));
-            error_log("Nome database: " . ($_ENV['DB_NAME'] ?? 'non definito'));
-            error_log("Utente database: " . ($_ENV['DB_USER'] ?? 'non definito'));
-
-            if (!isset($_ENV['DB_HOST']) || !isset($_ENV['DB_USER']) || !isset($_ENV['DB_PASS']) || !isset($_ENV['DB_NAME'])) {
-                throw new Exception("Parametri di connessione al database mancanti nel file .env");
-            }
+            error_log("Tentativo di connessione al database con host: " . $this->host);
+            error_log("Nome database: " . $this->db_name);
+            error_log("Utente database: " . $this->username);
 
             $this->conn = new mysqli(
-                $_ENV['DB_HOST'],
-                $_ENV['DB_USER'],
-                $_ENV['DB_PASS'],
-                $_ENV['DB_NAME']
+                $this->host,
+                $this->username,
+                $this->password,
+                $this->db_name
             );
 
             if ($this->conn->connect_error) {

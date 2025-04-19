@@ -16,21 +16,14 @@ export default defineConfig({
         await fs.copy("server", "dist/server", {
           overwrite: true,
           filter: (src) => {
-            // Esclude i file .env e la cartella logs
-            return !src.includes(".env") && !src.includes("/logs/");
+            // Esclude i file .env, la cartella logs e il file di configurazione del database
+            return (
+              !src.includes(".env") &&
+              !src.includes("/logs/") &&
+              !src.includes("database.config.php")
+            );
           },
         });
-
-        // Copia la cartella vendor nella dist
-        await fs.copy("vendor", "dist/vendor", {
-          overwrite: true,
-        });
-
-        // Copia composer.json e composer.lock
-        await fs.copy("composer.json", "dist/composer.json");
-        if (fs.existsSync("composer.lock")) {
-          await fs.copy("composer.lock", "dist/composer.lock");
-        }
       },
     },
   ],
