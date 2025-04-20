@@ -67,12 +67,12 @@ try {
     };
 
     $mail->isSMTP();
-    $mail->Host       = 'venom.itwebhost.info';
+    $mail->Host       = 'localhost';
     $mail->SMTPAuth   = true;
     $mail->Username   = 'carmarke@carmarket-ayvens.com';
     $mail->Password   = '27CX2dF@0hG+ll';
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-    $mail->Port       = 587;
+    $mail->Port       = 465;
     
     error_log("Impostazione mittente e destinatario...");
     $mail->setFrom('carmarke@carmarket-ayvens.com', 'Carmarket Ayvens');
