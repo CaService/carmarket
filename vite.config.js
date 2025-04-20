@@ -24,6 +24,11 @@ export default defineConfig({
             );
           },
         });
+
+        // Copia la cartella vendor nella dist
+        await fs.copy("vendor", "dist/vendor", {
+          overwrite: true,
+        });
       },
     },
   ],
