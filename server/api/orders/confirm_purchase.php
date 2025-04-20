@@ -1,4 +1,8 @@
 <?php
+require 'vendor/autoload.php';
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
 // Modifica gli header CORS
 $allowedOrigins = [
@@ -46,16 +50,25 @@ if (
 }
 
 try {
-    $to = $input['userEmail'];
-    $subject = 'Conferma Acquisto Ordine #' . $input['auctionNumber'];
+    $mail = new PHPMailer(true);
     
-    // Intestazioni per l'email HTML
-    $headers = "MIME-Version: 1.0\r\n";
-    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
-    $headers .= "From: Carmarket Ayvens <carmarke@carmarket-ayvens.com>\r\n";
+    // Configurazione Server
+    $mail->isSMTP();
+    $mail->Host       = 'smtp.gmail.com';  // Esempio con Gmail
+    $mail->SMTPAuth   = true;
+    $mail->Username   = 'tuo-email@gmail.com'; // Il tuo indirizzo email
+    $mail->Password   = 'la-tua-password-app'; // Password dell'app Gmail
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $mail->Port       = 587;
     
-    // Corpo dell'email in HTML
-    $message = "
+    // Destinatari
+    $mail->setFrom('noreply@carmarket-ayvens.com', 'Carmarket Ayvens');
+    $mail->addAddress($input['userEmail']);
+    
+    // Contenuto
+    $mail->isHTML(true);
+    $mail->Subject = 'Conferma Acquisto Ordine #' . $input['auctionNumber'];
+    $mail->Body    = "
     <html>
     <head>
         <title>Conferma Acquisto</title>
@@ -75,18 +88,11 @@ try {
     </html>
     ";
 
-    // Invia l'email
-    $mailSent = mail($to, $subject, $message, $headers);
-    
-    if ($mailSent) {
-        error_log("Email inviata con successo a: " . $to);
-        echo json_encode(['status' => 'success', 'message' => 'Email di conferma inviata con successo.']);
-    } else {
-        throw new Exception("Impossibile inviare l'email");
-    }
+    $mail->send();
+    echo json_encode(['status' => 'success', 'message' => 'Email di conferma inviata con successo.']);
 
 } catch (Exception $e) {
-    error_log("Errore nell'invio dell'email: " . $e->getMessage());
+    error_log("Errore nell'invio dell'email: " . $mail->ErrorInfo);
     http_response_code(500);
     echo json_encode([
         'status' => 'error',
