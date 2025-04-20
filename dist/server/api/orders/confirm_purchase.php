@@ -5,28 +5,6 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-// Modifica gli header CORS
-$allowedOrigins = [
-    'http://localhost:5173',
-    'https://carmarket-ayvens.com',
-    'https://carmarket-ayvens.com/repositories/carmarket'
-];
-
-$origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
-
-if (in_array($origin, $allowedOrigins)) {
-    header('Access-Control-Allow-Origin: ' . $origin);
-}
-header('Access-Control-Allow-Methods: POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
-header('Access-Control-Allow-Credentials: true');
-header('Content-Type: application/json; charset=UTF-8');
-
-// Gestione richiesta OPTIONS per preflight CORS
-if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-    exit(0);
-}
-
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 ini_set('log_errors', 1);
@@ -35,6 +13,34 @@ ini_set('error_log', __DIR__ . '/purchase_errors.log');
 error_log("=== Inizio richiesta conferma acquisto ===");
 
 try {
+    // Verifica se PHPMailer è installato
+    if (!file_exists(__DIR__ . '/../../vendor/autoload.php')) {
+        error_log("ERRORE: PHPMailer non è installato. Composer autoload.php non trovato.");
+        throw new Exception("Configurazione email non disponibile sul server");
+    }
+
+    // Modifica gli header CORS
+    $allowedOrigins = [
+        'http://localhost:5173',
+        'https://carmarket-ayvens.com',
+        'https://carmarket-ayvens.com/repositories/carmarket'
+    ];
+
+    $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
+
+    if (in_array($origin, $allowedOrigins)) {
+        header('Access-Control-Allow-Origin: ' . $origin);
+    }
+    header('Access-Control-Allow-Methods: POST, OPTIONS');
+    header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
+    header('Access-Control-Allow-Credentials: true');
+    header('Content-Type: application/json; charset=UTF-8');
+
+    // Gestione richiesta OPTIONS per preflight CORS
+    if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+        exit(0);
+    }
+
     // Leggi i dati JSON inviati dal frontend
     $input = json_decode(file_get_contents('php://input'), true);
     error_log("Dati ricevuti: " . print_r($input, true));
@@ -52,16 +58,26 @@ try {
     // Configurazione PHPMailer
     $mail = new PHPMailer(true);
     
-    $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Abilita debug logging
-    $mail->isSMTP();                                           // Usa SMTP
-    $mail->Host       = 'mail.carmarket-ayvens.com';           // Server SMTP
-    $mail->SMTPAuth   = true;                                  // Abilita autenticazione SMTP
-    $mail->Username   = 'carmarke@carmarket-ayvens.com';       // SMTP username
-    $mail->Password   = 'la-tua-password-email';               // SMTP password
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;        // Abilita TLS
-    $mail->Port       = 587;                                   // Porta TCP
+    error_log("Configurazione SMTP...");
     
-    // Impostazioni Email
+    // Debug più dettagliato
+    $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+    $mail->Debugoutput = function($str, $level) {
+        error_log("PHPMailer DEBUG: $str");
+    };
+
+    $mail->isSMTP();
+    $mail->Host       = 'mail.carmarket-ayvens.com';
+    $mail->SMTPAuth   = true;
+    $mail->Username   = 'carmarke@carmarket-ayvens.com';
+    
+    // Ottieni la password da una variabile di ambiente o file di configurazione
+    $mail->Password   = 'INSERISCI_QUI_LA_PASSWORD_CORRETTA';
+    
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $mail->Port       = 587;
+    
+    error_log("Impostazione mittente e destinatario...");
     $mail->setFrom('carmarke@carmarket-ayvens.com', 'Carmarket Ayvens');
     $mail->addAddress($input['userEmail']);
     $mail->isHTML(true);
@@ -88,16 +104,18 @@ try {
     </html>
     ";
 
+    error_log("Tentativo di invio email...");
     $mail->send();
     error_log("Email inviata con successo tramite PHPMailer");
     echo json_encode(['status' => 'success', 'message' => 'Email di conferma inviata con successo.']);
 
 } catch (Exception $e) {
-    error_log("Errore nell'invio dell'email: " . $mail->ErrorInfo);
+    $errorMessage = isset($mail) ? $mail->ErrorInfo : $e->getMessage();
+    error_log("Errore nell'invio dell'email: " . $errorMessage);
     http_response_code(500);
     echo json_encode([
         'status' => 'error',
-        'message' => "Impossibile inviare l'email: " . $mail->ErrorInfo
+        'message' => "Impossibile inviare l'email: " . $errorMessage
     ]);
 }
 
