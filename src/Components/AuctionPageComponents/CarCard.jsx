@@ -66,17 +66,17 @@ const CarCard = ({ vehicleData = {} }) => {
       setLoading(true);
 
       const response = await fetch(
-        `${API_BASE_URL}/api/orders/confirm_purchase.php`,
+        `${API_BASE_URL}/orders/confirm_purchase.php`,
         {
           method: "POST",
           ...fetchConfig,
           body: JSON.stringify({
-            userEmail: user.email, // Email dell'utente
-            auctionNumber: auctionNumber, // Numero asta
-            vehicleTitle: title, // Titolo del veicolo
-            vehiclePrice: price, // Prezzo del veicolo
-            vehicleId: vehicle.id, // Manteniamo anche l'ID del veicolo
-            userId: user.id, // Manteniamo anche l'ID dell'utente
+            userEmail: user.email,
+            auctionNumber: auctionNumber,
+            vehicleTitle: title,
+            vehiclePrice: price,
+            vehicleId: vehicle.id,
+            userId: user.id,
           }),
         }
       );
@@ -85,9 +85,8 @@ const CarCard = ({ vehicleData = {} }) => {
 
       if (data.status === "success") {
         setSuccess(true);
-        // Mostra un messaggio di successo all'utente
         alert("Acquisto confermato! Riceverai un'email di conferma.");
-        setShowModal(false); // Chiudi il modal dopo il successo
+        setShowModal(false);
       }
     } catch (error) {
       setError(error.message);
