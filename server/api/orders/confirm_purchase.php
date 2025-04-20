@@ -69,7 +69,7 @@ try {
     $mail->isSMTP();
     $mail->Host       = 'localhost';
     $mail->SMTPAuth   = true;
-    $mail->Username   = '_mainaccount@carmarket-ayvens.com';
+    $mail->Username   = 'carmarke';
     $mail->Password   = '27CX2dF@0hG+ll';
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
     $mail->Port       = 465;
