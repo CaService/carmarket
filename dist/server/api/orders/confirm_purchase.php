@@ -43,13 +43,45 @@ try {
         throw new Exception('Dati mancanti o non validi.');
     }
 
-    // Per ora, simuliamo l'invio dell'email e restituiamo sempre successo
-    error_log("Simulazione invio email a: " . $input['userEmail']);
+    $to = $input['userEmail'];
+    $subject = 'Conferma Acquisto Ordine #' . $input['auctionNumber'];
     
-    echo json_encode([
-        'status' => 'success',
-        'message' => 'Richiesta processata con successo. Riceverai i dettagli via email a breve.'
-    ]);
+    // Intestazioni per l'email HTML
+    $headers = "MIME-Version: 1.0\r\n";
+    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+    $headers .= "From: Carmarket Ayvens <carmarke@carmarket-ayvens.com>\r\n";
+    $headers .= "Reply-To: carmarke@carmarket-ayvens.com\r\n";
+    
+    // Corpo dell'email in HTML
+    $message = "
+    <html>
+    <head>
+        <title>Conferma Acquisto</title>
+    </head>
+    <body>
+        <h1>Conferma Acquisto</h1>
+        <p>Gentile utente,</p>
+        <p>Grazie per aver confermato l'acquisto per l'ordine <strong>#{$input['auctionNumber']}</strong>.</p>
+        <p><strong>Dettagli Veicolo:</strong></p>
+        <ul>
+            <li>Titolo: {$input['vehicleTitle']}</li>
+            <li>Prezzo: € {$input['vehiclePrice']}</li>
+        </ul>
+        <p>Riceverai ulteriori dettagli a breve.</p>
+        <p>Cordiali saluti,<br>Il Team Carmarket Ayvens</p>
+    </body>
+    </html>
+    ";
+
+    // Invia l'email
+    $mailSent = mail($to, $subject, $message, $headers);
+    
+    if ($mailSent) {
+        error_log("Email inviata con successo a: " . $to);
+        echo json_encode(['status' => 'success', 'message' => 'Email di conferma inviata con successo.']);
+    } else {
+        throw new Exception("Impossibile inviare l'email");
+    }
 
 } catch (Exception $e) {
     error_log("Errore durante l'elaborazione della richiesta: " . $e->getMessage());
