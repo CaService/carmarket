@@ -67,15 +67,15 @@ try {
     };
 
     $mail->isSMTP();
-    $mail->Host       = 'localhost';
+    $mail->Host       = 'mail.carmarket-ayvens.com';
     $mail->SMTPAuth   = true;
-    $mail->Username   = 'carmarke';
+    $mail->Username   = '_mainaccount@carmarket-ayvens.com';
     $mail->Password   = '27CX2dF@0hG+ll';
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
     $mail->Port       = 465;
     
     error_log("Impostazione mittente e destinatario...");
-    $mail->setFrom('carmarke@carmarket-ayvens.com', 'Carmarket Ayvens');
+    $mail->setFrom('_mainaccount@carmarket-ayvens.com', 'Carmarket Ayvens');
     $mail->addAddress($input['userEmail']);
     $mail->isHTML(true);
     $mail->Subject = 'Conferma Acquisto Ordine #' . $input['auctionNumber'];
