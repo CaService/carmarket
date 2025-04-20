@@ -7,6 +7,7 @@ const UsersTable = () => {
   const [error, setError] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   useEffect(() => {
     fetchUsers();
@@ -35,6 +36,7 @@ const UsersTable = () => {
 
   const handleDelete = async (userId) => {
     try {
+      setDeleteLoading(true);
       const response = await fetch(
         `${API_BASE_URL}/users/user_delete.php?id=${userId}`,
         {
@@ -46,11 +48,14 @@ const UsersTable = () => {
       const data = await handleApiResponse(response);
 
       if (data.status === "success") {
-        setRefreshTrigger((prev) => prev + 1);
+        setUsers(users.filter((user) => user.id !== userId));
+        setIsDeleteModalOpen(false);
+        setSelectedUser(null);
       }
     } catch (error) {
       console.error("Errore durante l'eliminazione:", error.message);
-      // Mostra un messaggio di errore all'utente
+    } finally {
+      setDeleteLoading(false);
     }
   };
 
@@ -156,14 +161,16 @@ const UsersTable = () => {
               <button
                 onClick={() => setIsDeleteModalOpen(false)}
                 className="px-4 py-2 cursor-pointer bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
+                disabled={deleteLoading}
               >
                 Annulla
               </button>
               <button
                 onClick={() => handleDelete(selectedUser)}
                 className="px-4 py-2 cursor-pointer bg-red-600 text-white rounded hover:bg-red-700"
+                disabled={deleteLoading}
               >
-                {loading ? (
+                {deleteLoading ? (
                   <div className="flex items-center">
                     <div className="w-4 h-4 border-2 border-white rounded-full animate-spin border-t-transparent mr-2"></div>
                     Eliminazione...
