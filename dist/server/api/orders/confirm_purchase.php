@@ -1,5 +1,5 @@
 <?php
-require '../../vendor/autoload.php';
+require '/home/carmarke/public_html/vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
@@ -14,7 +14,7 @@ error_log("=== Inizio richiesta conferma acquisto ===");
 
 try {
     // Verifica se PHPMailer è installato
-    if (!file_exists(__DIR__ . '/../../vendor/autoload.php')) {
+    if (!file_exists('/home/carmarke/public_html/vendor/autoload.php')) {
         error_log("ERRORE: PHPMailer non è installato. Composer autoload.php non trovato.");
         throw new Exception("Configurazione email non disponibile sul server");
     }
