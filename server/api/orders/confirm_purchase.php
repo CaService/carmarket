@@ -67,13 +67,10 @@ try {
     };
 
     $mail->isSMTP();
-    $mail->Host       = 'mail.carmarket-ayvens.com';
+    $mail->Host       = 'venom.itwebhost.info';
     $mail->SMTPAuth   = true;
     $mail->Username   = 'carmarke@carmarket-ayvens.com';
-    
-    // Ottieni la password da una variabile di ambiente o file di configurazione
-    $mail->Password   = 'INSERISCI_QUI_LA_PASSWORD_CORRETTA';
-    
+    $mail->Password   = '7uFdCL86D5!?zq!';
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
     $mail->Port       = 587;
     
