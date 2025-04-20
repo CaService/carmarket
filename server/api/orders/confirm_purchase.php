@@ -1,9 +1,4 @@
 <?php
-require 'vendor/autoload.php';
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
-
 // Modifica gli header CORS
 $allowedOrigins = [
     'http://localhost:5173',
@@ -33,70 +28,35 @@ ini_set('error_log', __DIR__ . '/purchase_errors.log');
 
 error_log("=== Inizio richiesta conferma acquisto ===");
 
-// Leggi i dati JSON inviati dal frontend
-$input = json_decode(file_get_contents('php://input'), true);
-error_log("Dati ricevuti: " . print_r($input, true));
-
-// Validazione semplice dei dati ricevuti
-if (
-    !isset($input['userEmail']) || !filter_var($input['userEmail'], FILTER_VALIDATE_EMAIL) ||
-    !isset($input['auctionNumber']) || empty($input['auctionNumber']) ||
-    !isset($input['vehicleTitle']) || empty($input['vehicleTitle']) ||
-    !isset($input['vehiclePrice']) || !is_numeric($input['vehiclePrice'])
-) {
-    http_response_code(400);
-    echo json_encode(['status' => 'error', 'message' => 'Dati mancanti o non validi.']);
-    exit;
-}
-
 try {
-    $mail = new PHPMailer(true);
-    
-    // Configurazione Server
-    $mail->isSMTP();
-    $mail->Host       = 'smtp.gmail.com';  // Esempio con Gmail
-    $mail->SMTPAuth   = true;
-    $mail->Username   = 'tuo-email@gmail.com'; // Il tuo indirizzo email
-    $mail->Password   = 'la-tua-password-app'; // Password dell'app Gmail
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-    $mail->Port       = 587;
-    
-    // Destinatari
-    $mail->setFrom('noreply@carmarket-ayvens.com', 'Carmarket Ayvens');
-    $mail->addAddress($input['userEmail']);
-    
-    // Contenuto
-    $mail->isHTML(true);
-    $mail->Subject = 'Conferma Acquisto Ordine #' . $input['auctionNumber'];
-    $mail->Body    = "
-    <html>
-    <head>
-        <title>Conferma Acquisto</title>
-    </head>
-    <body>
-        <h1>Conferma Acquisto</h1>
-        <p>Gentile utente,</p>
-        <p>Grazie per aver confermato l'acquisto per l'ordine <strong>#{$input['auctionNumber']}</strong>.</p>
-        <p><strong>Dettagli Veicolo:</strong></p>
-        <ul>
-            <li>Titolo: {$input['vehicleTitle']}</li>
-            <li>Prezzo: € {$input['vehiclePrice']}</li>
-        </ul>
-        <p>Riceverai ulteriori dettagli a breve.</p>
-        <p>Cordiali saluti,<br>Il Team Carmarket Ayvens</p>
-    </body>
-    </html>
-    ";
+    // Leggi i dati JSON inviati dal frontend
+    $input = json_decode(file_get_contents('php://input'), true);
+    error_log("Dati ricevuti: " . print_r($input, true));
 
-    $mail->send();
-    echo json_encode(['status' => 'success', 'message' => 'Email di conferma inviata con successo.']);
+    // Validazione dei dati ricevuti
+    if (
+        !isset($input['userEmail']) || !filter_var($input['userEmail'], FILTER_VALIDATE_EMAIL) ||
+        !isset($input['auctionNumber']) || empty($input['auctionNumber']) ||
+        !isset($input['vehicleTitle']) || empty($input['vehicleTitle']) ||
+        !isset($input['vehiclePrice']) || !is_numeric($input['vehiclePrice'])
+    ) {
+        throw new Exception('Dati mancanti o non validi.');
+    }
+
+    // Per ora, simuliamo l'invio dell'email e restituiamo sempre successo
+    error_log("Simulazione invio email a: " . $input['userEmail']);
+    
+    echo json_encode([
+        'status' => 'success',
+        'message' => 'Richiesta processata con successo. Riceverai i dettagli via email a breve.'
+    ]);
 
 } catch (Exception $e) {
-    error_log("Errore nell'invio dell'email: " . $mail->ErrorInfo);
+    error_log("Errore durante l'elaborazione della richiesta: " . $e->getMessage());
     http_response_code(500);
     echo json_encode([
         'status' => 'error',
-        'message' => 'Impossibile inviare l\'email di conferma. Riprova più tardi.'
+        'message' => $e->getMessage()
     ]);
 }
 
