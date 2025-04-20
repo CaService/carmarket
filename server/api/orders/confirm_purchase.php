@@ -52,6 +52,18 @@ try {
     $headers .= "From: Carmarket Ayvens <carmarke@carmarket-ayvens.com>\r\n";
     $headers .= "Reply-To: carmarke@carmarket-ayvens.com\r\n";
     
+    // Log dei dettagli email
+    error_log("Tentativo di invio email:");
+    error_log("To: " . $to);
+    error_log("Subject: " . $subject);
+    error_log("Headers: " . print_r($headers, true));
+    
+    // Verifica se la funzione mail è disponibile
+    if (!function_exists('mail')) {
+        error_log("ERRORE: La funzione mail() non è disponibile sul server");
+        throw new Exception("Configurazione email non disponibile sul server");
+    }
+
     // Corpo dell'email in HTML
     $message = "
     <html>
@@ -77,10 +89,11 @@ try {
     $mailSent = mail($to, $subject, $message, $headers);
     
     if ($mailSent) {
-        error_log("Email inviata con successo a: " . $to);
+        error_log("mail() ha restituito true, ma verifica i log del mail server");
         echo json_encode(['status' => 'success', 'message' => 'Email di conferma inviata con successo.']);
     } else {
-        throw new Exception("Impossibile inviare l'email");
+        error_log("ERRORE: mail() ha restituito false. Errore: " . error_get_last()['message']);
+        throw new Exception("Impossibile inviare l'email: " . error_get_last()['message']);
     }
 
 } catch (Exception $e) {
