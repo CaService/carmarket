@@ -1,24 +1,37 @@
 <?php
 
-// Abilita CORS e imposta header JSON (adatta l'origine se necessario)
-header("Access-Control-Allow-Origin: http://localhost:5173"); // La porta del tuo server Vite
-header("Access-Control-Allow-Methods: POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Accept");
-header('Content-Type: application/json');
+// Modifica gli header CORS
+$allowedOrigins = [
+    'http://localhost:5173',
+    'https://carmarket-ayvens.com',
+    'https://carmarket-ayvens.com/repositories/carmarket'
+];
+
+$origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
+
+if (in_array($origin, $allowedOrigins)) {
+    header('Access-Control-Allow-Origin: ' . $origin);
+}
+header('Access-Control-Allow-Methods: POST, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
+header('Access-Control-Allow-Credentials: true');
+header('Content-Type: application/json; charset=UTF-8');
 
 // Gestione richiesta OPTIONS per preflight CORS
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit(0);
 }
 
-// Includi l'autoloader di Composer per PHPMailer
-require '../../vendor/autoload.php'; // Adatta il percorso se necessario
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('log_errors', 1);
+ini_set('error_log', __DIR__ . '/purchase_errors.log');
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
+error_log("=== Inizio richiesta conferma acquisto ===");
 
 // Leggi i dati JSON inviati dal frontend
 $input = json_decode(file_get_contents('php://input'), true);
+error_log("Dati ricevuti: " . print_r($input, true));
 
 // Validazione semplice dei dati ricevuti
 if (
@@ -27,74 +40,59 @@ if (
     !isset($input['vehicleTitle']) || empty($input['vehicleTitle']) ||
     !isset($input['vehiclePrice']) || !is_numeric($input['vehiclePrice'])
 ) {
-    http_response_code(400); // Bad Request
+    http_response_code(400);
     echo json_encode(['status' => 'error', 'message' => 'Dati mancanti o non validi.']);
     exit;
 }
 
-$userEmail = $input['userEmail'];
-$auctionNumber = $input['auctionNumber'];
-$vehicleTitle = $input['vehicleTitle'];
-$vehiclePrice = $input['vehiclePrice'];
-
-// --- Configurazione PHPMailer ---
-// !! IMPORTANTE: NON mettere le credenziali direttamente qui in produzione.
-//    Usa variabili d'ambiente o un file di configurazione sicuro.
-define('SMTP_HOST', 'smtp.example.com');        // Sostituisci con l'host SMTP del tuo provider (es. smtp.gmail.com, o quello di itwebhost.info)
-define('SMTP_PORT', 587);                      // Porta SMTP (587 per TLS, 465 per SSL)
-define('SMTP_USERNAME', 'carmarke@carmarket-ayvens.com'); // Il tuo indirizzo email
-define('SMTP_PASSWORD', 'LA_TUA_PASSWORD_EMAIL');   // La password del tuo account email
-define('SMTP_SECURE', PHPMailer::ENCRYPTION_STARTTLS); // O PHPMailer::ENCRYPTION_SMTPS
-
-$mail = new PHPMailer(true); // Abilita eccezioni
-
 try {
-    // Impostazioni Server SMTP
-    $mail->isSMTP();
-    $mail->Host       = SMTP_HOST;
-    $mail->SMTPAuth   = true;
-    $mail->Username   = SMTP_USERNAME;
-    $mail->Password   = SMTP_PASSWORD;
-    $mail->SMTPSecure = SMTP_SECURE;
-    $mail->Port       = SMTP_PORT;
-    $mail->CharSet    = 'UTF-8'; // Imposta la codifica
-
-    // Mittente (dal tuo account)
-    $mail->setFrom(SMTP_USERNAME, 'Carmarket Ayvens'); // Nome Mittente opzionale
-
-    // Destinatario (dall'utente loggato)
-    $mail->addAddress($userEmail);
-
-    // Contenuto Email
-    $mail->isHTML(true); // Imposta formato HTML
-    $mail->Subject = 'Conferma Acquisto Ordine #' . $auctionNumber;
-    $mail->Body    = "
+    $to = $input['userEmail'];
+    $subject = 'Conferma Acquisto Ordine #' . $input['auctionNumber'];
+    
+    // Intestazioni per l'email HTML
+    $headers = "MIME-Version: 1.0\r\n";
+    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+    $headers .= "From: Carmarket Ayvens <carmarke@carmarket-ayvens.com>\r\n";
+    
+    // Corpo dell'email in HTML
+    $message = "
+    <html>
+    <head>
+        <title>Conferma Acquisto</title>
+    </head>
+    <body>
         <h1>Conferma Acquisto</h1>
         <p>Gentile utente,</p>
-        <p>Grazie per aver confermato l'acquisto per l'ordine <strong>#{$auctionNumber}</strong>.</p>
+        <p>Grazie per aver confermato l'acquisto per l'ordine <strong>#{$input['auctionNumber']}</strong>.</p>
         <p><strong>Dettagli Veicolo:</strong></p>
         <ul>
-            <li>Titolo: {$vehicleTitle}</li>
-            <li>Prezzo: € {$vehiclePrice}</li>
+            <li>Titolo: {$input['vehicleTitle']}</li>
+            <li>Prezzo: € {$input['vehiclePrice']}</li>
         </ul>
         <p>Riceverai ulteriori dettagli a breve.</p>
         <p>Cordiali saluti,<br>Il Team Carmarket Ayvens</p>
+    </body>
+    </html>
     ";
-    // Testo alternativo per client non-HTML
-    $mail->AltBody = "Conferma Acquisto Ordine #{$auctionNumber}. Dettagli: {$vehicleTitle}, Prezzo: € {$vehiclePrice}. Grazie, Il Team Carmarket Ayvens";
 
     // Invia l'email
-    $mail->send();
-
-    // Risposta di successo al frontend
-    echo json_encode(['status' => 'success', 'message' => 'Email di conferma inviata con successo.']);
+    $mailSent = mail($to, $subject, $message, $headers);
+    
+    if ($mailSent) {
+        error_log("Email inviata con successo a: " . $to);
+        echo json_encode(['status' => 'success', 'message' => 'Email di conferma inviata con successo.']);
+    } else {
+        throw new Exception("Impossibile inviare l'email");
+    }
 
 } catch (Exception $e) {
-    // Errore durante l'invio
-    http_response_code(500); // Internal Server Error
-    // Logga l'errore per debug (non mostrarlo direttamente all'utente in produzione)
-    error_log("Errore PHPMailer: {$mail->ErrorInfo}");
-    echo json_encode(['status' => 'error', 'message' => 'Impossibile inviare l\'email di conferma. Riprova più tardi.']);
+    error_log("Errore nell'invio dell'email: " . $e->getMessage());
+    http_response_code(500);
+    echo json_encode([
+        'status' => 'error',
+        'message' => 'Impossibile inviare l\'email di conferma. Riprova più tardi.'
+    ]);
 }
 
+error_log("=== Fine richiesta conferma acquisto ===");
 ?> 
