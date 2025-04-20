@@ -66,13 +66,17 @@ const CarCard = ({ vehicleData = {} }) => {
       setLoading(true);
 
       const response = await fetch(
-        `${API_BASE_URL}/orders/confirm_purchase.php`,
+        `${API_BASE_URL}/api/orders/confirm_purchase.php`,
         {
           method: "POST",
           ...fetchConfig,
           body: JSON.stringify({
-            vehicleId: vehicle.id,
-            userId: user.id,
+            userEmail: user.email, // Email dell'utente
+            auctionNumber: auctionNumber, // Numero asta
+            vehicleTitle: title, // Titolo del veicolo
+            vehiclePrice: price, // Prezzo del veicolo
+            vehicleId: vehicle.id, // Manteniamo anche l'ID del veicolo
+            userId: user.id, // Manteniamo anche l'ID dell'utente
           }),
         }
       );
@@ -80,11 +84,17 @@ const CarCard = ({ vehicleData = {} }) => {
       const data = await handleApiResponse(response);
 
       if (data.status === "success") {
-        // Gestisci il successo
         setSuccess(true);
+        // Mostra un messaggio di successo all'utente
+        alert("Acquisto confermato! Riceverai un'email di conferma.");
+        setShowModal(false); // Chiudi il modal dopo il successo
       }
     } catch (error) {
       setError(error.message);
+      console.error("Errore durante la conferma dell'acquisto:", error);
+      alert(
+        "Si è verificato un errore durante la conferma dell'acquisto. Riprova più tardi."
+      );
     } finally {
       setLoading(false);
     }
