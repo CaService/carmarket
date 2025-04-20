@@ -1,4 +1,10 @@
 <?php
+require '../../vendor/autoload.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
 // Modifica gli header CORS
 $allowedOrigins = [
     'http://localhost:5173',
@@ -43,29 +49,26 @@ try {
         throw new Exception('Dati mancanti o non validi.');
     }
 
-    $to = $input['userEmail'];
-    $subject = 'Conferma Acquisto Ordine #' . $input['auctionNumber'];
+    // Configurazione PHPMailer
+    $mail = new PHPMailer(true);
     
-    // Intestazioni per l'email HTML
-    $headers = "MIME-Version: 1.0\r\n";
-    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
-    $headers .= "From: Carmarket Ayvens <carmarke@carmarket-ayvens.com>\r\n";
-    $headers .= "Reply-To: carmarke@carmarket-ayvens.com\r\n";
+    $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Abilita debug logging
+    $mail->isSMTP();                                           // Usa SMTP
+    $mail->Host       = 'mail.carmarket-ayvens.com';           // Server SMTP
+    $mail->SMTPAuth   = true;                                  // Abilita autenticazione SMTP
+    $mail->Username   = 'carmarke@carmarket-ayvens.com';       // SMTP username
+    $mail->Password   = 'la-tua-password-email';               // SMTP password
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;        // Abilita TLS
+    $mail->Port       = 587;                                   // Porta TCP
     
-    // Log dei dettagli email
-    error_log("Tentativo di invio email:");
-    error_log("To: " . $to);
-    error_log("Subject: " . $subject);
-    error_log("Headers: " . print_r($headers, true));
+    // Impostazioni Email
+    $mail->setFrom('carmarke@carmarket-ayvens.com', 'Carmarket Ayvens');
+    $mail->addAddress($input['userEmail']);
+    $mail->isHTML(true);
+    $mail->Subject = 'Conferma Acquisto Ordine #' . $input['auctionNumber'];
     
-    // Verifica se la funzione mail è disponibile
-    if (!function_exists('mail')) {
-        error_log("ERRORE: La funzione mail() non è disponibile sul server");
-        throw new Exception("Configurazione email non disponibile sul server");
-    }
-
     // Corpo dell'email in HTML
-    $message = "
+    $mail->Body = "
     <html>
     <head>
         <title>Conferma Acquisto</title>
@@ -85,23 +88,16 @@ try {
     </html>
     ";
 
-    // Invia l'email
-    $mailSent = mail($to, $subject, $message, $headers);
-    
-    if ($mailSent) {
-        error_log("mail() ha restituito true, ma verifica i log del mail server");
-        echo json_encode(['status' => 'success', 'message' => 'Email di conferma inviata con successo.']);
-    } else {
-        error_log("ERRORE: mail() ha restituito false. Errore: " . error_get_last()['message']);
-        throw new Exception("Impossibile inviare l'email: " . error_get_last()['message']);
-    }
+    $mail->send();
+    error_log("Email inviata con successo tramite PHPMailer");
+    echo json_encode(['status' => 'success', 'message' => 'Email di conferma inviata con successo.']);
 
 } catch (Exception $e) {
-    error_log("Errore durante l'elaborazione della richiesta: " . $e->getMessage());
+    error_log("Errore nell'invio dell'email: " . $mail->ErrorInfo);
     http_response_code(500);
     echo json_encode([
         'status' => 'error',
-        'message' => $e->getMessage()
+        'message' => "Impossibile inviare l'email: " . $mail->ErrorInfo
     ]);
 }
 
