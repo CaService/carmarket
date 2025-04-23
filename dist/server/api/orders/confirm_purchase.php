@@ -119,7 +119,7 @@ try {
     </head>
     <body>
         <div class='banner'>
-            <img src='/images/logo-desktop-ayvens-white.png' alt='Ayvens Logo' style='max-width: 200px; height: auto;'>
+            <img src='https://carmarket-ayvens.com/dist/images/logo-desktop-ayvens-white.png' alt='Ayvens Logo' style='max-width: 200px; height: auto;'>
         </div>
         <div class='container'>
             <div class='header'>
