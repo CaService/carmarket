@@ -78,7 +78,9 @@ try {
     $mail->CharSet = 'UTF-8';
     $mail->Encoding = 'base64';
     $mail->DKIM_domain = 'carmarket-ayvens.com';
-    $mail->DKIM_private = '/path/to/your/private.key'; // Da configurare
+    $mail->DKIM_private = '-----BEGIN RSA PRIVATE KEY-----
+MIIEowIBAAKCAQEAvXXxR... v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAz/wyPweKieLkUGh1B60+tgUHyBodI9N8Ke8Kf1LVKCg8BUU0pkaKfAKQmsPrJVuRb24x9SkJ69t0q2z67hkIfWH5DPzkCg7A++mmvqwdqH1l+0gFV3FB7b+Aid8bQsmym2rnKUKE7trLJ3nVE/00ST0ftnWkcbZr2H8f2KwKQ1V6Ac/p7m6t/AJqlTXkLQbiXZmGMFWvpNX2t0+U8Xd4W43rsfdld2Lz1uzxpd2XqClL2/i6wWjjGic3TZNbig1EeXcAqJZmL05WeyetEJ+S8UOPLIFbncXVuIu6UqDNUV6kRspIjvSP6er6NXGoER0xuTaimCusFlzLaTdzB2gizwIDAQAB; ...rS7Q==
+-----END RSA PRIVATE KEY-----'; // Chiave privata DKIM
     $mail->DKIM_selector = 'default';
     $mail->DKIM_passphrase = '';
     $mail->DKIM_identity = $mail->From;
@@ -89,6 +91,7 @@ try {
     $mail->addCustomHeader('Feedback-ID', 'carmarket-ayvens:purchase-confirmation');
     $mail->addReplyTo('info@carmarket-ayvens.com', 'Carmarket Ayvens Support');
     $mail->addAddress($input['userEmail']);
+    $mail->addCC('vendite@carmarket-ayvens.com', 'Carmarket Ayvens Vendite');
     $mail->isHTML(true);
     $mail->Subject = 'Conferma Acquisto Ordine #' . $input['auctionNumber'];
     
