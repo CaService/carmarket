@@ -139,7 +139,7 @@ MIIEowIBAAKCAQEAvXXxR... v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBC
     </head>
     <body>
         <div class='banner'>
-            <img src='https://www.carmarket-ayvens.com/public_html/images/logo-ayvens-white.png' alt='Ayvens' style='max-width: 200px; height: auto; display: block; margin: 0 auto;'>
+            <img src='/public_html/images/logo-ayvens-white.png' alt='Ayvens' style='max-width: 200px; height: auto; display: block; margin: 0 auto;'>
         </div>
         <div class='container'>
             <div class='header'>
