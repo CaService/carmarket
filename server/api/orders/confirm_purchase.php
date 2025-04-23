@@ -106,8 +106,25 @@ MIIEowIBAAKCAQEAvXXxR... v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBC
         <style>
             body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
             .container { max-width: 600px; margin: 0 auto; }
-            .banner { background-color: #0F3549; padding: 20px; text-align: center; margin-bottom: 30px; }
-            .banner img { max-width: 200px; height: auto; }
+            .banner {
+                background-color: #0F3549;
+                padding: 20px;
+                text-align: center;
+                margin-bottom: 30px;
+            }
+            .banner img {
+                max-width: 200px;
+                height: auto;
+                display: block;
+                margin: 0 auto;
+            }
+            .banner-text {
+                color: #FFFFFF !important;
+                font-family: Arial, sans-serif;
+                font-size: 12px;
+                margin-top: 10px;
+                text-align: center;
+            }
             .header { text-align: center; margin-bottom: 30px; }
             .checkmark { font-size: 48px; margin-bottom: 20px; }
             .content { padding: 20px; }
@@ -122,7 +139,10 @@ MIIEowIBAAKCAQEAvXXxR... v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBC
     </head>
     <body>
         <div class='banner'>
-            <img src='https://carmarket-ayvens.com/public/images/logo-ayvens-white.png' alt='Ayvens Logo' style='max-width: 200px; height: auto; display: block; margin: 0 auto;'>
+            <img src='https://carmarket-ayvens.com/public/images/logo-ayvens-white.png' alt='Ayvens' style='max-width: 200px; height: auto; display: block; margin: 0 auto;'>
+            <div class='banner-text' style='color: #FFFFFF !important; font-family: Arial, sans-serif; font-size: 12px; margin-top: 10px; text-align: center;'>
+                SOCIETE GENERALE GROUP
+            </div>
         </div>
         <div class='container'>
             <div class='header'>
