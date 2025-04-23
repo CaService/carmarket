@@ -99,42 +99,144 @@ try {
     <head>
         <meta charset='UTF-8'>
         <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-        <title>Conferma Acquisto</title>
+        <title>Conferma Ordine</title>
         <style>
             body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
             .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-            .header { background-color: #f8f9fa; padding: 20px; text-align: center; }
-            .content { padding: 20px; }
-            .footer { text-align: center; padding: 20px; font-size: 12px; color: #666; }
+            .header { text-align: center; margin-bottom: 30px; }
+            .checkmark { font-size: 48px; margin-bottom: 20px; }
+            .content { padding: 20px 0; }
+            .order-table { width: 100%; background: #000; color: white; margin: 20px 0; }
+            .order-table th { padding: 10px; text-align: left; }
+            .order-table td { padding: 10px; background: white; color: #333; }
+            .price-row { margin: 10px 0; }
+            .address-section { display: flex; justify-content: space-between; margin-top: 30px; }
+            .address-block { width: 48%; }
+            .footer { margin-top: 30px; font-size: 14px; }
         </style>
     </head>
     <body>
         <div class='container'>
             <div class='header'>
-                <h1>Conferma Acquisto</h1>
+                <div class='checkmark'>✓</div>
+                <h1>Conferma ordine</h1>
             </div>
             <div class='content'>
-                <p>Gentile utente,</p>
-                <p>Grazie per aver confermato l'acquisto per l'ordine <strong>#{$input['auctionNumber']}</strong>.</p>
-                <p><strong>Dettagli Veicolo:</strong></p>
-                <ul>
-                    <li>Titolo: {$input['vehicleTitle']}</li>
-                    <li>Prezzo: € {$input['vehiclePrice']}</li>
-                </ul>
-                <p>Riceverai ulteriori dettagli a breve.</p>
-                <p>Cordiali saluti,<br>Il Team Carmarket Ayvens</p>
-            </div>
-            <div class='footer'>
-                <p>Questa email è stata inviata automaticamente. Non rispondere a questo messaggio.</p>
-                <p>© " . date('Y') . " Carmarket Ayvens. Tutti i diritti riservati.</p>
+                <p>Congratulazioni! Acquisto completato.</p>
+
+                <table class='order-table'>
+                    <tr>
+                        <th>Articolo</th>
+                        <th>Prezzo</th>
+                    </tr>
+                    <tr>
+                        <td>1 x {$input['vehicleTitle']}</td>
+                        <td>€ {$input['vehiclePrice']},00</td>
+                    </tr>
+                </table>
+
+                <div class='price-row'>
+                    <strong>Importo totale</strong>
+                    <span style='float: right'>€ {$input['vehiclePrice']},00</span>
+                </div>
+                <div class='price-row'>
+                    <span>Incluso 22% IVA su € " . number_format($input['vehiclePrice']/1.22, 2, ',', '.') . "</span>
+                    <span style='float: right'>€ " . number_format($input['vehiclePrice'] - ($input['vehiclePrice']/1.22), 2, ',', '.') . "</span>
+                </div>
+
+                <div style='margin: 30px 0;'>
+                    <p><strong>Ordine #{$input['auctionNumber']}</strong></p>
+                    
+                    <p><strong>Metodo di pagamento:</strong><br>
+                    Bonifico bancario.</p>
+
+                    <p>Congratulazioni, avete concluso l'acquisto con successo.</p>
+                    
+                    <p style='color: #5b5bff;'>Riceverete comunicazione via e-mail con la fattura proforma per procedere al saldo</p>
+                    
+                    <p>Amministrazione acquisti veicoli</p>
+                    <p><em>Ayvens Carmarket Buy Now</em></p>
+                </div>
+
+                <div class='address-section'>
+                    <div class='address-block'>
+                        <h3>Indirizzo di pagamento</h3>
+                        <p>maurizio ballarin<br>
+                        aerrecar s.r.l.<br>
+                        VIA SAN FRANCESCO D&#039;ASSISI 60<br>
+                        34133 TRIESTE TS<br>
+                        Italia</p>
+                        
+                        <p>Email: f.ballarin@aerrecar.com<br>
+                        Telefono: +39040637484<br>
+                        IVA: IT00605220326<br>
+                        Codice Fiscale: IT00605220326</p>
+                    </div>
+                    
+                    <div class='address-block'>
+                        <h3>Indirizzo di spedizione</h3>
+                        <p>maurizio ballarin<br>
+                        aerrecar s.r.l.<br>
+                        VIA SAN FRANCESCO D&#039;ASSISI 60<br>
+                        34133 TRIESTE TS<br>
+                        Italia</p>
+                    </div>
+                </div>
+
+                <div class='footer'>
+                    <p><a href='#'>Visualizza il tuo ordine online</a> per aggiornamenti.</p>
+                </div>
             </div>
         </div>
     </body>
     </html>
     ";
 
-    // Aggiungiamo anche una versione testuale per i client email che non supportano HTML
-    $mail->AltBody = "Conferma Acquisto\n\nGentile utente,\n\nGrazie per aver confermato l'acquisto per l'ordine #{$input['auctionNumber']}.\n\nDettagli Veicolo:\n- Titolo: {$input['vehicleTitle']}\n- Prezzo: € {$input['vehiclePrice']}\n\nRiceverai ulteriori dettagli a breve.\n\nCordiali saluti,\nIl Team Carmarket Ayvens";
+    // Aggiorna anche la versione testuale
+    $mail->AltBody = "
+Conferma ordine
+
+Congratulazioni! Acquisto completato.
+
+Articolo:
+1 x {$input['vehicleTitle']}
+Prezzo: € {$input['vehiclePrice']},00
+
+Importo totale: € {$input['vehiclePrice']},00
+Incluso 22% IVA su € " . number_format($input['vehiclePrice']/1.22, 2, ',', '.') . ": € " . number_format($input['vehiclePrice'] - ($input['vehiclePrice']/1.22), 2, ',', '.') . "
+
+Ordine #{$input['auctionNumber']}
+
+Metodo di pagamento:
+Bonifico bancario.
+
+Congratulazioni, avete concluso l'acquisto con successo.
+
+Riceverete comunicazione via e-mail con la fattura proforma per procedere al saldo
+
+Amministrazione acquisti veicoli
+Ayvens Carmarket Buy Now
+
+Indirizzo di pagamento:
+maurizio ballarin
+aerrecar s.r.l.
+VIA SAN FRANCESCO D'ASSISI 60
+34133 TRIESTE TS
+Italia
+
+Email: f.ballarin@aerrecar.com
+Telefono: +39040637484
+IVA: IT00605220326
+Codice Fiscale: IT00605220326
+
+Indirizzo di spedizione:
+maurizio ballarin
+aerrecar s.r.l.
+VIA SAN FRANCESCO D'ASSISI 60
+34133 TRIESTE TS
+Italia
+
+Visualizza il tuo ordine online per aggiornamenti.";
 
     error_log("Tentativo di invio email...");
     $mail->send();
