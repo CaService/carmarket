@@ -29,11 +29,6 @@ export default defineConfig({
         await fs.copy("vendor", "dist/vendor", {
           overwrite: true,
         });
-
-        // Copia la cartella public/images nella dist mantenendo la struttura
-        await fs.copy("public/images", "dist/images", {
-          overwrite: true,
-        });
       },
     },
   ],
