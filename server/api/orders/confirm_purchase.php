@@ -74,32 +74,67 @@ try {
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
     $mail->Port       = 465;
     
+    // Aggiungiamo queste configurazioni per migliorare la deliverability
+    $mail->CharSet = 'UTF-8';
+    $mail->Encoding = 'base64';
+    $mail->DKIM_domain = 'carmarket-ayvens.com';
+    $mail->DKIM_private = '/path/to/your/private.key'; // Da configurare
+    $mail->DKIM_selector = 'default';
+    $mail->DKIM_passphrase = '';
+    $mail->DKIM_identity = $mail->From;
+    
     error_log("Impostazione mittente e destinatario...");
-    $mail->setFrom('noreply@carmarket-ayvens.com', 'Carmarket Ayvens');
+    $mail->setFrom('noreply@carmarket-ayvens.com', 'Carmarket Ayvens', true);
+    $mail->addCustomHeader('List-Unsubscribe', '<mailto:unsubscribe@carmarket-ayvens.com>');
+    $mail->addCustomHeader('Feedback-ID', 'carmarket-ayvens:purchase-confirmation');
+    $mail->addReplyTo('info@carmarket-ayvens.com', 'Carmarket Ayvens Support');
     $mail->addAddress($input['userEmail']);
     $mail->isHTML(true);
     $mail->Subject = 'Conferma Acquisto Ordine #' . $input['auctionNumber'];
     
-    // Corpo dell'email in HTML
+    // Corpo dell'email in HTML con migliori pratiche anti-spam
     $mail->Body = "
+    <!DOCTYPE html>
     <html>
     <head>
+        <meta charset='UTF-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
         <title>Conferma Acquisto</title>
+        <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background-color: #f8f9fa; padding: 20px; text-align: center; }
+            .content { padding: 20px; }
+            .footer { text-align: center; padding: 20px; font-size: 12px; color: #666; }
+        </style>
     </head>
     <body>
-        <h1>Conferma Acquisto</h1>
-        <p>Gentile utente,</p>
-        <p>Grazie per aver confermato l'acquisto per l'ordine <strong>#{$input['auctionNumber']}</strong>.</p>
-        <p><strong>Dettagli Veicolo:</strong></p>
-        <ul>
-            <li>Titolo: {$input['vehicleTitle']}</li>
-            <li>Prezzo: € {$input['vehiclePrice']}</li>
-        </ul>
-        <p>Riceverai ulteriori dettagli a breve.</p>
-        <p>Cordiali saluti,<br>Il Team Carmarket Ayvens</p>
+        <div class='container'>
+            <div class='header'>
+                <h1>Conferma Acquisto</h1>
+            </div>
+            <div class='content'>
+                <p>Gentile utente,</p>
+                <p>Grazie per aver confermato l'acquisto per l'ordine <strong>#{$input['auctionNumber']}</strong>.</p>
+                <p><strong>Dettagli Veicolo:</strong></p>
+                <ul>
+                    <li>Titolo: {$input['vehicleTitle']}</li>
+                    <li>Prezzo: € {$input['vehiclePrice']}</li>
+                </ul>
+                <p>Riceverai ulteriori dettagli a breve.</p>
+                <p>Cordiali saluti,<br>Il Team Carmarket Ayvens</p>
+            </div>
+            <div class='footer'>
+                <p>Questa email è stata inviata automaticamente. Non rispondere a questo messaggio.</p>
+                <p>© " . date('Y') . " Carmarket Ayvens. Tutti i diritti riservati.</p>
+            </div>
+        </div>
     </body>
     </html>
     ";
+
+    // Aggiungiamo anche una versione testuale per i client email che non supportano HTML
+    $mail->AltBody = "Conferma Acquisto\n\nGentile utente,\n\nGrazie per aver confermato l'acquisto per l'ordine #{$input['auctionNumber']}.\n\nDettagli Veicolo:\n- Titolo: {$input['vehicleTitle']}\n- Prezzo: € {$input['vehiclePrice']}\n\nRiceverai ulteriori dettagli a breve.\n\nCordiali saluti,\nIl Team Carmarket Ayvens";
 
     error_log("Tentativo di invio email...");
     $mail->send();
