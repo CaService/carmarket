@@ -91,7 +91,7 @@ MIIEowIBAAKCAQEAvXXxR... v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBC
     $mail->addCustomHeader('Feedback-ID', 'carmarket-ayvens:purchase-confirmation');
     $mail->addReplyTo('info@carmarket-ayvens.com', 'Carmarket Ayvens Support');
     $mail->addAddress($input['userEmail']);
-    $mail->addCC('carmarke@carmarket-ayvens.com', 'Carmarket Ayvens Vendite');
+    $mail->addCC('vendite@carmarket-ayvens.com', 'Carmarket Ayvens Vendite');
     $mail->isHTML(true);
     $mail->Subject = 'Conferma Acquisto Ordine #' . $input['auctionNumber'];
     
