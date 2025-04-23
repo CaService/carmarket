@@ -104,7 +104,7 @@ try {
             body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
             .container { max-width: 600px; margin: 0 auto; }
             .banner { background-color: #0F3549; padding: 20px; text-align: center; margin-bottom: 30px; }
-            .banner svg { max-width: 200px; height: auto; }
+            .banner img { max-width: 200px; height: auto; }
             .header { text-align: center; margin-bottom: 30px; }
             .checkmark { font-size: 48px; margin-bottom: 20px; }
             .content { padding: 20px; }
@@ -119,10 +119,7 @@ try {
     </head>
     <body>
         <div class='banner'>
-            <svg width='108' height='41' viewBox='0 0 108 41' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                <path d='M25.4242 32.9914C25.4242 37.2117 28.8444 40.632 33.0647 40.632H99.8502C104.071 40.632 107.491 37.2117 107.491 32.9914V25.3509H25.4242V32.9914ZM102.315 13.9375C100.73 13.9375 99.4483 13.073 99.2511 11.6927H96.521C96.7182 14.1764 98.8795 16.0912 102.341 16.0912C106.016 16.0912 107.491 13.9602 107.491 11.9544C107.491 7.37004 99.7251 8.65168 99.7251 6.03911C99.7251 5.13286 100.461 4.63234 101.924 4.63234C103.471 4.63234 104.381 5.36416 104.412 6.48275H107.013C106.903 3.8626 104.821 2.47858 101.977 2.47858C99.1336 2.47858 97.0708 3.98773 97.0708 6.3197C97.0708 10.832 104.723 9.46692 104.723 12.2084C104.723 13.2322 103.915 13.9375 102.315 13.9375Z' fill='white'/>
-                <path d='M13.7113 15.8182H20.3773V0.631958H16.1266C16.1266 5.92156 15.2773 11.0481 13.7075 15.8182H13.7113ZM11.5082 0.631958L0 15.913C8.36477 15.913 15.2432 9.00052 15.2432 0.631958H11.5082Z' fill='white'/>
-            </svg>
+            <img src='https://carmarket-ayvens.com/images/Ayvens.png' alt='Ayvens Logo' style='max-width: 200px; height: auto;'>
         </div>
         <div class='container'>
             <div class='header'>
