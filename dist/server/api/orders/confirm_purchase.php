@@ -139,10 +139,7 @@ MIIEowIBAAKCAQEAvXXxR... v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBC
     </head>
     <body>
         <div class='banner'>
-            <img src='https://carmarket-ayvens.com/public/images/logo-ayvens-white.png' alt='Ayvens' style='max-width: 200px; height: auto; display: block; margin: 0 auto;'>
-            <div class='banner-text' style='color: #FFFFFF !important; font-family: Arial, sans-serif; font-size: 12px; margin-top: 10px; text-align: center;'>
-                SOCIETE GENERALE GROUP
-            </div>
+            <img src='https://www.carmarket-ayvens.com/public_html/images/logo-ayvens-white.png' alt='Ayvens' style='max-width: 200px; height: auto; display: block; margin: 0 auto;'>
         </div>
         <div class='container'>
             <div class='header'>
