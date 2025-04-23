@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import MessagePopup from "./MessagePopup";
-import emailjs from "@emailjs/browser";
 
 const ContactForm = () => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -35,23 +34,28 @@ const ContactForm = () => {
     }
 
     try {
-      const result = await emailjs.send(
-        "service_0wdsp4r", // Il tuo Service ID
-        "template_s0584f7", // Il Template ID che devi ancora creare
+      const response = await fetch(
+        "https://carmarket-ayvens.com/server/api/contact_email.php",
         {
-          from_name: formData.name,
-          from_email: userEmail,
-          message: formData.message,
-          to_email: "ca.management2025@proton.me",
-        },
-        "ALUJ-WnNsgugFAiOR" // La tua Public Key che trovi in Account > API Keys
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            email: userEmail,
+            message: formData.message,
+          }),
+        }
       );
 
-      if (result.text === "OK") {
+      const data = await response.json();
+
+      if (response.ok) {
         setPopupMessage("Messaggio inviato con successo!");
         setFormData({ name: "", email: "", message: "" });
       } else {
-        setPopupMessage("Errore nell'invio del messaggio");
+        setPopupMessage(data.message || "Errore nell'invio del messaggio");
       }
     } catch (error) {
       console.error("Errore:", error);
@@ -99,11 +103,9 @@ const ContactForm = () => {
           <input
             type="email"
             name="email"
-            value={formData.email}
-            onChange={handleChange}
-            onKeyDown={handleKeyDown}
-            required
-            className="mt-1 block w-full border p-1 font-medium border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            value={userEmail}
+            disabled
+            className="mt-1 block w-full border p-1 font-medium border-gray-300 rounded-md shadow-sm bg-gray-100 sm:text-sm"
           />
         </div>
         <div>
