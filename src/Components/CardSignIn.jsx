@@ -328,7 +328,7 @@ const CardSignIn = () => {
           className="relative z-50"
         >
           <div
-            className="fixed inset-0 bg-black/25 backdrop-blur-sm"
+            className="fixed inset-0 dialog-overlay"
             aria-hidden="true"
             onClick={() => setShowValidationDialog(false)}
           />
@@ -354,7 +354,7 @@ const CardSignIn = () => {
           className="relative z-50"
         >
           <div
-            className="fixed inset-0 bg-black/25 backdrop-blur-sm"
+            className="fixed inset-0 dialog-overlay"
             aria-hidden="true"
             onClick={handleSuccessDialogClose}
           />
