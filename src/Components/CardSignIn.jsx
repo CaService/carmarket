@@ -56,29 +56,6 @@ const CardSignIn = () => {
     return missing;
   };
 
-  const handleAutoLogin = async () => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/users/user_login.php`, {
-        method: "POST",
-        ...fetchConfig,
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-        }),
-      });
-
-      const data = await handleApiResponse(response);
-      if (data.status === "success") {
-        // Qui puoi salvare i dati dell'utente nel localStorage o in uno state manager
-        localStorage.setItem("user", JSON.stringify(data.user));
-        // Reindirizza alla homepage
-        navigate("/");
-      }
-    } catch (error) {
-      console.error("Errore durante il login automatico:", error);
-    }
-  };
-
   const handleSuccessDialogClose = () => {
     setShowSuccessDialog(false);
     navigate("/");
@@ -351,8 +328,7 @@ const CardSignIn = () => {
           className="relative z-50"
         >
           <div
-            className="fixed inset-0"
-            style={{ backgroundColor: "rgba(0, 0, 0, 0.25)" }}
+            className="fixed inset-0 bg-black/25 backdrop-blur-sm"
             aria-hidden="true"
             onClick={() => setShowValidationDialog(false)}
           />
@@ -378,8 +354,7 @@ const CardSignIn = () => {
           className="relative z-50"
         >
           <div
-            className="fixed inset-0"
-            style={{ backgroundColor: "rgba(0, 0, 0, 0.25)" }}
+            className="fixed inset-0 bg-black/25 backdrop-blur-sm"
             aria-hidden="true"
             onClick={handleSuccessDialogClose}
           />
