@@ -317,29 +317,6 @@ const CardSignIn = () => {
               </div>
             </div>
 
-            {/* <div className="flex flex-col md:flex-row md:items-center md:space-x-4">
-              <div>
-                <span className="font-semibold text-gray-700 mb-2 md:mb-0">
-                  Sono il rappresentante legale della mia società
-                </span>
-                <div className="flex items-center space-x-8 mt-4">
-                  <span>No</span>
-                  <Toggle
-                    checked={isRepresentative}
-                    onChange={handleToggleChange}
-                  />
-                  <span>Si</span>
-                </div>
-              </div>
-
-              <a
-                href="#"
-                className="flex items-center mt-2 md:mt-0 text-sm text-teal-600 hover:underline whitespace-nowrap"
-              >
-                <InfoCircledIcon className="w-6 h-6 mr-2" />
-                Chi è il legale rappresentante della società?
-              </a>
-            </div> */}
             <div className="flex justify-center mt-4">
               <Button type="submit">REGISTRATI</Button>
             </div>
@@ -367,10 +344,6 @@ const CardSignIn = () => {
           </div>
         )}
 
-        {/* <div className="max-w-2xl mx-auto mt-8">
-          <CardSignInSelector />
-        </div> */}
-
         {/* Dialog per campi mancanti */}
         <Dialog
           open={showValidationDialog}
@@ -378,7 +351,8 @@ const CardSignIn = () => {
           className="relative z-50"
         >
           <div
-            className="fixed inset-0 bg-black bg-opacity-25"
+            className="fixed inset-0"
+            style={{ backgroundColor: "rgba(0, 0, 0, 0.25)" }}
             aria-hidden="true"
             onClick={() => setShowValidationDialog(false)}
           />
@@ -404,7 +378,8 @@ const CardSignIn = () => {
           className="relative z-50"
         >
           <div
-            className="fixed inset-0 bg-black bg-opacity-25"
+            className="fixed inset-0"
+            style={{ backgroundColor: "rgba(0, 0, 0, 0.25)" }}
             aria-hidden="true"
             onClick={handleSuccessDialogClose}
           />
