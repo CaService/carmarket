@@ -1,3 +1,4 @@
+import { ClockIcon } from "@radix-ui/react-icons";
 import Flag from "react-world-flags";
 import { Link } from "react-router-dom";
 import Container from "../Container";
@@ -157,29 +158,22 @@ const CarCard = ({ vehicleData = {} }) => {
                 </span>
               </div>
 
-              <div className="flex justify-between items-center mt-4">
+              <div className="mt-6 md:mt-4 block md:hidden">
                 {isAuthenticated ? (
                   <button
+                    className="w-full bg-[#072534] text-center px-8 py-3 text-white cursor-pointer rounded-full font-semibold transition duration-300 hover:bg-white hover:text-[#072534] border border-transparent hover:border-[#072534] font-chillax"
                     onClick={() => setShowModal(true)}
-                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
-                    disabled={isLoading}
                   >
-                    {isLoading ? "Acquisto in corso..." : "ACQUISTA"}
+                    ACQUISTA
                   </button>
                 ) : (
                   <Link
-                    to="/login"
-                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
+                    to="/signup"
+                    className="block w-full text-center bg-[#73d2d2] text-white px-8 py-3 cursor-pointer rounded-full font-semibold transition duration-300 hover:bg-white hover:border-[#072534] border border-transparent font-chillax"
                   >
-                    ACCEDI PER ACQUISTARE
+                    REGISTRATI
                   </Link>
                 )}
-                <button
-                  onClick={() => setShowDetails(!showDetails)}
-                  className="text-blue-500 hover:text-blue-600 transition-colors"
-                >
-                  DETTAGLI
-                </button>
               </div>
             </div>
 
