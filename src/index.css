@@ -13,21 +13,6 @@
 }
 
 /* Dialog overlay personalizzato */
-.modal-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(1px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 40;
-  transition: all 0.2s ease-in-out;
-}
-
 body {
     font-family: 'Source Sans Pro', sans-serif;
     background-color: oklch(0.967 0.001 286.375)

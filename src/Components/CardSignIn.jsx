@@ -325,14 +325,14 @@ const CardSignIn = () => {
         <Dialog
           open={showValidationDialog}
           handler={() => setShowValidationDialog(false)}
-          className="relative"
+          className="relative z-50"
         >
           <div
-            className="modal-backdrop"
+            className="relative"
             aria-hidden="true"
             onClick={() => setShowValidationDialog(false)}
           />
-          <DialogBody className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg p-6 z-50">
+          <DialogBody className="relative bg-white rounded-lg p-6 z-10">
             <div className="text-center">
               <h4 className="text-xl font-bold text-red-500 mb-4">
                 Attenzione!
@@ -351,14 +351,14 @@ const CardSignIn = () => {
         <Dialog
           open={showSuccessDialog}
           handler={handleSuccessDialogClose}
-          className="relative"
+          className="relative z-50"
         >
           <div
-            className="modal-backdrop"
+            className="relative"
             aria-hidden="true"
             onClick={handleSuccessDialogClose}
           />
-          <DialogBody className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg p-6 z-50">
+          <DialogBody className="relative bg-white rounded-lg p-6 z-10">
             <div className="text-center">
               <h4 className="text-xl font-bold text-green-500 mb-4">
                 Registrazione Completata!
