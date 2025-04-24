@@ -27,10 +27,14 @@ const CarCard = ({ vehicleData = {} }) => {
       registrationDate: new Date(),
       fuel: "",
       transmission: "",
+      year: "",
     },
     pdf = { url: "" },
     auctionNumber = "1",
     vehicle = { id: "" },
+    description = "",
+    location = "",
+    countryCode = "IT",
   } = vehicleData || {};
 
   const pdfUrl = pdf?.url || "";
@@ -153,7 +157,7 @@ const CarCard = ({ vehicleData = {} }) => {
                 <div className="flex items-center gap-2 mb-2 md:mb-0 justify-center md:justify-start">
                   <div className="w-8 md:w-10 overflow-hidden rounded-full">
                     <Flag
-                      code="IT"
+                      code={countryCode}
                       style={{
                         width: "100%",
                         height: "100%",
@@ -162,7 +166,7 @@ const CarCard = ({ vehicleData = {} }) => {
                     />
                   </div>
                   <span className="font-bold text-xl text-[#072534] font-chillax">
-                    1.
+                    {auctionNumber}.
                   </span>
                 </div>
                 <h2 className="text-teal-700 text-xl font-bold font-chillax text-center md:text-left">
@@ -249,46 +253,59 @@ const CarCard = ({ vehicleData = {} }) => {
             </button>
           </div>
 
-          {/* Dropdown Details con PDF */}
+          {/* Dropdown Details con tabella delle caratteristiche */}
           {showDetails && (
-            <div className="px-6 pb-6 pt-6 mb-6 ml-6 mt-6 border-t border-gray-100 bg-gray-100 rounded-lg">
-              <div className="flex justify-center">
-                <div className="w-full max-w-3xl">
-                  {pdfError ? (
-                    <div className="text-center py-4">
-                      <p className="text-red-600 mb-4">{pdfError}</p>
-                      <button
-                        onClick={handlePdfDownload}
-                        className="px-4 py-2 bg-[#072534] text-white rounded-full"
-                      >
-                        Scarica PDF
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="pdf-viewer-container">
-                      <DocViewer
-                        documents={docs}
-                        pluginRenderers={DocViewerRenderers}
-                        config={{
-                          header: {
-                            disableHeader: false,
-                            disableFileName: true,
-                          },
-                          pdfZoom: {
-                            defaultZoom: 1,
-                            zoomJump: 0.2,
-                          },
-                          pdfVerticalScrollByDefault: true,
-                        }}
-                        theme={{
-                          primary: "#ffffff",
-                          secondary: "#ffffff",
-                          tertiary: "#73d2d2",
-                          textPrimary: "#ffffff",
-                          textSecondary: "#ffffff",
-                          textTertiary: "#ffffff",
-                        }}
-                      />
+            <div className="px-6 pb-6 bg-gray-100 border-t border-gray-200">
+              <div className="max-w-3xl mx-auto">
+                <div className="divide-y divide-gray-200 mt-4">
+                  <div className="flex py-3 items-center justify-between">
+                    <span className="font-medium text-gray-700">ANNO</span>
+                    <span className="text-right">{specs.year || "N/D"}</span>
+                  </div>
+                  <div className="flex py-3 items-center justify-between">
+                    <span className="font-medium text-gray-700">
+                      CHILOMETRAGGIO
+                    </span>
+                    <span className="text-right">
+                      {specs.mileage || "N/D"} Chilometri
+                    </span>
+                  </div>
+                  <div className="flex py-3 items-center justify-between">
+                    <span className="font-medium text-gray-700">
+                      CARBURANTE
+                    </span>
+                    <span className="text-right">{specs.fuel || "N/D"}</span>
+                  </div>
+                  <div className="flex py-3 items-center justify-between">
+                    <span className="font-medium text-gray-700">CAMBIO</span>
+                    <span className="text-right">
+                      {specs.transmission || "N/D"}
+                    </span>
+                  </div>
+                  <div className="flex py-3 items-center justify-between">
+                    <span className="font-medium text-gray-700">
+                      DATA IMMATRICOLAZIONE
+                    </span>
+                    <span className="text-right">
+                      {specs.registrationDate
+                        ? new Date(specs.registrationDate).toLocaleDateString()
+                        : "N/D"}
+                    </span>
+                  </div>
+                  <div className="flex py-3 items-center justify-between">
+                    <span className="font-medium text-gray-700">LOCALITÀ</span>
+                    <span className="text-right">{location || "N/D"}</span>
+                  </div>
+                  <div className="flex py-3 items-center justify-between">
+                    <span className="font-medium text-gray-700">PAESE</span>
+                    <span className="text-right">{countryCode || "IT"}</span>
+                  </div>
+                  {description && (
+                    <div className="py-3">
+                      <span className="font-medium text-gray-700 block mb-2">
+                        DESCRIZIONE
+                      </span>
+                      <p className="text-gray-600">{description}</p>
                     </div>
                   )}
                 </div>
