@@ -5,10 +5,13 @@ import { CardAuth } from "./Navbar"; // Importa CardAuth da Navbar
 // import CardSignInSelector from "./CardSignInSelector";
 import Container from "./Container";
 import Button from "./Button";
+import { useNavigate } from "react-router-dom";
+import { Dialog, DialogBody, DialogFooter } from "@material-tailwind/react";
 // import { InfoCircledIcon } from "@radix-ui/react-icons";
 // import Toggle from "./Toggle";
 
 const CardSignIn = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     country: "",
     company_name: "",
@@ -24,6 +27,8 @@ const CardSignIn = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+  const [showValidationDialog, setShowValidationDialog] = useState(false);
+  const [missingFields, setMissingFields] = useState([]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,29 +45,60 @@ const CardSignIn = () => {
     }));
   };
 
+  const validateForm = () => {
+    const missing = [];
+    Object.entries(formData).forEach(([key, value]) => {
+      if (!value || value.trim() === "") {
+        missing.push(key.replace(/_/g, " ").toUpperCase());
+      }
+    });
+    return missing;
+  };
+
+  const handleAutoLogin = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/users/user_login.php`, {
+        method: "POST",
+        ...fetchConfig,
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      const data = await handleApiResponse(response);
+      if (data.status === "success") {
+        // Qui puoi salvare i dati dell'utente nel localStorage o in uno state manager
+        localStorage.setItem("user", JSON.stringify(data.user));
+        // Reindirizza alla homepage
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("Errore durante il login automatico:", error);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const missing = validateForm();
+
+    if (missing.length > 0) {
+      setMissingFields(missing);
+      setShowValidationDialog(true);
+      return;
+    }
+
     setLoading(true);
     setError(null);
 
-    console.log("Tentativo di registrazione con i dati:", formData);
-
     try {
-      console.log(
-        "Invio richiesta a:",
-        `${API_BASE_URL}/users/user_create.php`
-      );
-
       const response = await fetch(`${API_BASE_URL}/users/user_create.php`, {
         method: "POST",
         ...fetchConfig,
         body: JSON.stringify(formData),
       });
 
-      console.log("Risposta ricevuta:", response);
-
       const data = await handleApiResponse(response);
-      console.log("Dati risposta:", data);
 
       if (data.status === "success") {
         // Invio email di notifica all'amministrazione
@@ -77,22 +113,11 @@ const CardSignIn = () => {
             "Errore nell'invio dell'email di notifica:",
             emailError
           );
-          // Non blocchiamo il flusso se l'invio dell'email fallisce
         }
 
         setSuccess(true);
-        setTimeout(() => {
-          setFormData({
-            country: "",
-            company_name: "",
-            vat_number: "",
-            address: "",
-            postal_code: "",
-            city: "",
-            email: "",
-            password: "",
-          });
-        }, 2000);
+        // Esegui il login automatico
+        await handleAutoLogin();
       }
     } catch (error) {
       console.error("Errore durante la registrazione:", error);
@@ -340,6 +365,35 @@ const CardSignIn = () => {
         {/* <div className="max-w-2xl mx-auto mt-8">
           <CardSignInSelector />
         </div> */}
+
+        {/* Dialog per campi mancanti */}
+        <Dialog
+          open={showValidationDialog}
+          handler={() => setShowValidationDialog(false)}
+        >
+          <DialogBody>
+            <div className="text-center">
+              <h4 className="text-xl font-bold text-red-500 mb-4">
+                Attenzione!
+              </h4>
+              <p className="mb-4">
+                Per favore compila i seguenti campi obbligatori:
+              </p>
+              <ul className="list-disc list-inside">
+                {missingFields.map((field, index) => (
+                  <li key={index} className="text-gray-700">
+                    {field}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </DialogBody>
+          <DialogFooter>
+            <Button onClick={() => setShowValidationDialog(false)}>
+              Ho capito
+            </Button>
+          </DialogFooter>
+        </Dialog>
       </Container>
     </div>
   );
