@@ -8,7 +8,7 @@ const ContactForm = () => {
 
   const [formData, setFormData] = useState({
     name: "",
-    email: "",
+    email: userEmail || "",
     message: "",
   });
 
@@ -43,7 +43,7 @@ const ContactForm = () => {
           },
           body: JSON.stringify({
             name: formData.name,
-            email: userEmail,
+            email: formData.email,
             message: formData.message,
           }),
         }
@@ -103,9 +103,11 @@ const ContactForm = () => {
           <input
             type="email"
             name="email"
-            value={userEmail}
-            disabled
-            className="mt-1 block w-full border p-1 font-medium border-gray-300 rounded-md shadow-sm bg-gray-100 sm:text-sm"
+            value={formData.email}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
+            required
+            className="mt-1 block w-full border p-1 font-medium border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           />
         </div>
         <div>
