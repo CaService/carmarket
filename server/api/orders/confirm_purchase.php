@@ -94,7 +94,9 @@ MIIEowIBAAKCAQEAvXXxR... v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBC
     $mail->addCustomHeader('Feedback-ID', 'carmarket-ayvens:purchase-confirmation');
     $mail->addReplyTo('info@carmarket-ayvens.com', 'Carmarket Ayvens Support');
     $mail->addAddress($input['userEmail']);
+    error_log("Destinatario principale impostato: " . $input['userEmail']);
     $mail->addCC('vendite@carmarket-ayvens.com', 'Carmarket Ayvens Vendite');
+    error_log("CC impostato: vendite@carmarket-ayvens.com");
     $mail->isHTML(true);
     $mail->Subject = 'Conferma Acquisto Ordine #' . $input['auctionNumber'];
     
@@ -267,9 +269,14 @@ Italia
 Visualizza il tuo ordine online per aggiornamenti.";
 
     error_log("Tentativo di invio email...");
-    $mail->send();
-    error_log("Email inviata con successo tramite PHPMailer");
-    echo json_encode(['status' => 'success', 'message' => 'Email di conferma inviata con successo.']);
+    try {
+        $mail->send();
+        error_log("Email inviata con successo tramite PHPMailer");
+        echo json_encode(['status' => 'success', 'message' => 'Email di conferma inviata con successo.']);
+    } catch (Exception $e) {
+        error_log("Errore nell'invio dell'email: " . $mail->ErrorInfo);
+        throw $e;
+    }
 
 } catch (Exception $e) {
     $errorMessage = isset($mail) ? $mail->ErrorInfo : $e->getMessage();
