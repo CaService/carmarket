@@ -327,11 +327,6 @@ const CardSignIn = () => {
           handler={() => setShowValidationDialog(false)}
           className="relative z-50"
         >
-          <div
-            className="relative"
-            aria-hidden="true"
-            onClick={() => setShowValidationDialog(false)}
-          />
           <DialogBody className="relative bg-white rounded-lg p-6 z-10">
             <div className="text-center">
               <h4 className="text-xl font-bold text-red-500 mb-4">
@@ -353,11 +348,6 @@ const CardSignIn = () => {
           handler={handleSuccessDialogClose}
           className="relative z-50"
         >
-          <div
-            className="relative"
-            aria-hidden="true"
-            onClick={handleSuccessDialogClose}
-          />
           <DialogBody className="relative bg-white rounded-lg p-6 z-10">
             <div className="text-center">
               <h4 className="text-xl font-bold text-green-500 mb-4">
