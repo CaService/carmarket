@@ -1,21 +1,16 @@
-import { ClockIcon } from "@radix-ui/react-icons";
 import Flag from "react-world-flags";
 import { Link } from "react-router-dom";
 import Container from "../Container";
 import { useSelector } from "react-redux";
 import { useState } from "react";
-import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
-import "@cyntler/react-doc-viewer/dist/index.css";
+import PropTypes from "prop-types";
 import { API_BASE_URL, fetchConfig, handleApiResponse } from "../../config/api";
 
 const CarCard = ({ vehicleData = {} }) => {
   const [showDetails, setShowDetails] = useState(false);
-  const [pdfError, setPdfError] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const { isAuthenticated, user } = useSelector((state) => state.auth);
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Destructuring con valori di default
   const {
@@ -29,7 +24,6 @@ const CarCard = ({ vehicleData = {} }) => {
       transmission: "",
       year: "",
     },
-    pdf = { url: "" },
     auctionNumber = "1",
     vehicle = { id: "" },
     description = "",
@@ -37,37 +31,13 @@ const CarCard = ({ vehicleData = {} }) => {
     countryCode = "IT",
   } = vehicleData || {};
 
-  const pdfUrl = pdf?.url || "";
-  const correctedPdfUrl = pdfUrl.startsWith("http") ? pdfUrl : `${pdfUrl}`;
-
-  const docs = [
-    {
-      uri: correctedPdfUrl,
-      fileType: "pdf",
-    },
-  ];
-
   const toggleDetails = () => {
     setShowDetails(!showDetails);
   };
 
-  const handlePdfDownload = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    // Verifica che ci sia un URL del PDF
-    if (!correctedPdfUrl) {
-      setPdfError("PDF non disponibile");
-      return;
-    }
-
-    console.log("Tentativo download PDF da:", correctedPdfUrl); // Per debug
-    window.open(correctedPdfUrl, "_blank");
-  };
-
   const handlePurchase = async () => {
     try {
-      setLoading(true);
+      setIsLoading(true);
 
       const response = await fetch(
         `${API_BASE_URL}/orders/confirm_purchase.php`,
@@ -88,18 +58,16 @@ const CarCard = ({ vehicleData = {} }) => {
       const data = await handleApiResponse(response);
 
       if (data.status === "success") {
-        setSuccess(true);
         alert("Acquisto confermato! Riceverai un'email di conferma.");
         setShowModal(false);
       }
     } catch (error) {
-      setError(error.message);
       console.error("Errore durante la conferma dell'acquisto:", error);
       alert(
         "Si è verificato un errore durante la conferma dell'acquisto. Riprova più tardi."
       );
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -189,22 +157,29 @@ const CarCard = ({ vehicleData = {} }) => {
                 </span>
               </div>
 
-              <div className="mt-6 md:mt-4 block md:hidden">
+              <div className="flex justify-between items-center mt-4">
                 {isAuthenticated ? (
                   <button
-                    className="w-full bg-[#072534] text-center px-8 py-3 text-white cursor-pointer rounded-full font-semibold transition duration-300 hover:bg-white hover:text-[#072534] border border-transparent hover:border-[#072534] font-chillax"
                     onClick={() => setShowModal(true)}
+                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
+                    disabled={isLoading}
                   >
-                    ACQUISTA
+                    {isLoading ? "Acquisto in corso..." : "ACQUISTA"}
                   </button>
                 ) : (
                   <Link
-                    to="/signup"
-                    className="block w-full text-center bg-[#73d2d2] text-white px-8 py-3 cursor-pointer rounded-full font-semibold transition duration-300 hover:bg-white hover:border-[#072534] border border-transparent font-chillax"
+                    to="/login"
+                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
                   >
-                    REGISTRATI
+                    ACCEDI PER ACQUISTARE
                   </Link>
                 )}
+                <button
+                  onClick={() => setShowDetails(!showDetails)}
+                  className="text-blue-500 hover:text-blue-600 transition-colors"
+                >
+                  DETTAGLI
+                </button>
               </div>
             </div>
 
@@ -244,12 +219,6 @@ const CarCard = ({ vehicleData = {} }) => {
               className="text-center flex-1 p-4 pb-8 font-semibold cursor-pointer text-[#072534] underline-animation"
             >
               DETTAGLI {showDetails ? "-" : "+"}
-            </button>
-            <button
-              onClick={handlePdfDownload}
-              className="text-center flex-1 p-4 pb-8 font-semibold cursor-pointer text-[#072534] underline-animation"
-            >
-              SCARICA PDF +
             </button>
           </div>
 
@@ -316,6 +285,31 @@ const CarCard = ({ vehicleData = {} }) => {
       </div>
     </Container>
   );
+};
+
+CarCard.propTypes = {
+  vehicleData: PropTypes.shape({
+    title: PropTypes.string,
+    price: PropTypes.string,
+    imageUrl: PropTypes.string,
+    specs: PropTypes.shape({
+      mileage: PropTypes.string,
+      registrationDate: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.instanceOf(Date),
+      ]),
+      fuel: PropTypes.string,
+      transmission: PropTypes.string,
+      year: PropTypes.string,
+    }),
+    auctionNumber: PropTypes.string,
+    vehicle: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+    description: PropTypes.string,
+    location: PropTypes.string,
+    countryCode: PropTypes.string,
+  }),
 };
 
 export default CarCard;
