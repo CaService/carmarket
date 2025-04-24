@@ -6,6 +6,9 @@ export default {
       fontFamily: {
         sans: ["Chillax", "sans-serif"],
       },
+      corePlugins: {
+        backgroundOpacity: true,
+      },
     },
   },
   plugins: [],
