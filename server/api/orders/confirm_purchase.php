@@ -52,8 +52,11 @@ try {
         !isset($input['vehicleTitle']) || empty($input['vehicleTitle']) ||
         !isset($input['vehiclePrice']) || !is_numeric($input['vehiclePrice'])
     ) {
+        error_log("Errore validazione dati: email utente non valida o mancante");
         throw new Exception('Dati mancanti o non validi.');
     }
+
+    error_log("Email utente ricevuta: " . $input['userEmail']);
 
     // Configurazione PHPMailer
     $mail = new PHPMailer(true);
