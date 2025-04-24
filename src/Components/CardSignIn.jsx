@@ -45,13 +45,13 @@ const CardSignIn = () => {
     setLoading(true);
     setError(null);
 
-    console.log("Tentativo di registrazione con i dati:", formData); // Log dei dati
+    console.log("Tentativo di registrazione con i dati:", formData);
 
     try {
       console.log(
         "Invio richiesta a:",
         `${API_BASE_URL}/users/user_create.php`
-      ); // Log URL
+      );
 
       const response = await fetch(`${API_BASE_URL}/users/user_create.php`, {
         method: "POST",
@@ -59,12 +59,27 @@ const CardSignIn = () => {
         body: JSON.stringify(formData),
       });
 
-      console.log("Risposta ricevuta:", response); // Log della risposta
+      console.log("Risposta ricevuta:", response);
 
       const data = await handleApiResponse(response);
-      console.log("Dati risposta:", data); // Log dei dati risposta
+      console.log("Dati risposta:", data);
 
       if (data.status === "success") {
+        // Invio email di notifica all'amministrazione
+        try {
+          await fetch(`${API_BASE_URL}/users/signup_email.php`, {
+            method: "POST",
+            ...fetchConfig,
+            body: JSON.stringify(formData),
+          });
+        } catch (emailError) {
+          console.error(
+            "Errore nell'invio dell'email di notifica:",
+            emailError
+          );
+          // Non blocchiamo il flusso se l'invio dell'email fallisce
+        }
+
         setSuccess(true);
         setTimeout(() => {
           setFormData({
@@ -80,7 +95,7 @@ const CardSignIn = () => {
         }, 2000);
       }
     } catch (error) {
-      console.error("Errore durante la registrazione:", error); // Log dell'errore
+      console.error("Errore durante la registrazione:", error);
       setError(error.message);
     } finally {
       setLoading(false);
