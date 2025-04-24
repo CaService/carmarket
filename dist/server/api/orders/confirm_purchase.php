@@ -185,16 +185,16 @@ MIIEowIBAAKCAQEAvXXxR... v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBC
 
                 <div class='address-section'>
                     <div class='address-block'>
-                        <h3>Indirizzo di pagamento</h3>
-                        <p>maurizio ballarin<br>
-                        aerrecar s.r.l.<br>
-                        VIA SAN FRANCESCO D&#039;ASSISI 60<br>
-                        34133 TRIESTE TS<br>
+                        <h3>Estremi di pagamento</h3>
+                        <p>Adriano Tuzzi<br>
+                        Ayvens s.r.l.<br>
+                        VIA CIVIDALE 356 60<br>
+                        33100 UDINE UD<br>
                         Italia</p>
                         
-                        <p>Email: f.ballarin@aerrecar.com<br>
-                        Telefono: +39040637484<br>
-                        IVA: IT00605220326<br>
+                        <p>Email: noreply@carmarket-ayvens.com<br>
+                        Telefono: +391234567890<br>
+                        P.IVA/C.F.: 0123456789<br>
                         Codice Fiscale: IT00605220326</p>
                     </div>
                     
