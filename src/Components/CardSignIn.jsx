@@ -328,11 +328,11 @@ const CardSignIn = () => {
           className="relative z-50"
         >
           <div
-            className="fixed inset-0 dialog-overlay"
+            className="absolute top-0 left-0 right-0 bottom-0 bg-black opacity-30"
             aria-hidden="true"
             onClick={() => setShowValidationDialog(false)}
           />
-          <DialogBody className="relative bg-white rounded-lg p-6">
+          <DialogBody className="relative bg-white rounded-lg p-6 z-10">
             <div className="text-center">
               <h4 className="text-xl font-bold text-red-500 mb-4">
                 Attenzione!
@@ -354,11 +354,11 @@ const CardSignIn = () => {
           className="relative z-50"
         >
           <div
-            className="fixed inset-0 dialog-overlay"
+            className="absolute top-0 left-0 right-0 bottom-0 bg-black opacity-30"
             aria-hidden="true"
             onClick={handleSuccessDialogClose}
           />
-          <DialogBody className="relative bg-white rounded-lg p-6">
+          <DialogBody className="relative bg-white rounded-lg p-6 z-10">
             <div className="text-center">
               <h4 className="text-xl font-bold text-green-500 mb-4">
                 Registrazione Completata!
