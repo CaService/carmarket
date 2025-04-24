@@ -314,7 +314,7 @@ const CardSignIn = () => {
         <CustomDialog
           isOpen={showValidationDialog}
           onClose={() => setShowValidationDialog(false)}
-          title="Attenzione!"
+          title="Attenzione"
           message="Per favore compila tutti i campi"
           type="error"
         />
@@ -323,7 +323,7 @@ const CardSignIn = () => {
         <CustomDialog
           isOpen={showSuccessDialog}
           onClose={handleSuccessDialogClose}
-          title="Registrazione Completata!"
+          title="Registrazione Completata"
           message="La registrazione è avvenuta con successo. Ora puoi effettuare il login."
           type="success"
         />
