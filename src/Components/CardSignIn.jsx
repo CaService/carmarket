@@ -28,6 +28,7 @@ const CardSignIn = () => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
   const [showValidationDialog, setShowValidationDialog] = useState(false);
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
   const [missingFields, setMissingFields] = useState([]);
 
   const handleChange = (e) => {
@@ -78,6 +79,11 @@ const CardSignIn = () => {
     }
   };
 
+  const handleSuccessDialogClose = () => {
+    setShowSuccessDialog(false);
+    navigate("/");
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const missing = validateForm();
@@ -101,8 +107,6 @@ const CardSignIn = () => {
       const data = await handleApiResponse(response);
 
       if (data.status === "success") {
-        setSuccess(true);
-
         // Invio email di notifica all'amministrazione
         try {
           await fetch(`${API_BASE_URL}/users/signup_email.php`, {
@@ -117,8 +121,8 @@ const CardSignIn = () => {
           );
         }
 
-        // Esegui il login automatico e aspetta che sia completato
-        await handleAutoLogin();
+        setSuccess(true);
+        setShowSuccessDialog(true);
       }
     } catch (error) {
       console.error("Errore durante la registrazione:", error);
@@ -374,7 +378,7 @@ const CardSignIn = () => {
           className="relative z-50"
         >
           <div
-            className="fixed inset-0 bg-black/60"
+            className="fixed inset-0 bg-black bg-opacity-25"
             aria-hidden="true"
             onClick={() => setShowValidationDialog(false)}
           />
@@ -389,6 +393,33 @@ const CardSignIn = () => {
               <Button onClick={() => setShowValidationDialog(false)}>
                 Ho capito
               </Button>
+            </DialogFooter>
+          </DialogBody>
+        </Dialog>
+
+        {/* Dialog per registrazione completata */}
+        <Dialog
+          open={showSuccessDialog}
+          handler={handleSuccessDialogClose}
+          className="relative z-50"
+        >
+          <div
+            className="fixed inset-0 bg-black bg-opacity-25"
+            aria-hidden="true"
+            onClick={handleSuccessDialogClose}
+          />
+          <DialogBody className="relative bg-white rounded-lg p-6">
+            <div className="text-center">
+              <h4 className="text-xl font-bold text-green-500 mb-4">
+                Registrazione Completata!
+              </h4>
+              <p className="mb-4">
+                La registrazione è avvenuta con successo. Ora puoi effettuare il
+                login.
+              </p>
+            </div>
+            <DialogFooter className="flex justify-center pt-4">
+              <Button onClick={handleSuccessDialogClose}>Ho capito</Button>
             </DialogFooter>
           </DialogBody>
         </Dialog>
