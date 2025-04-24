@@ -101,6 +101,8 @@ const CardSignIn = () => {
       const data = await handleApiResponse(response);
 
       if (data.status === "success") {
+        setSuccess(true);
+
         // Invio email di notifica all'amministrazione
         try {
           await fetch(`${API_BASE_URL}/users/signup_email.php`, {
@@ -115,8 +117,7 @@ const CardSignIn = () => {
           );
         }
 
-        setSuccess(true);
-        // Esegui il login automatico
+        // Esegui il login automatico e aspetta che sia completato
         await handleAutoLogin();
       }
     } catch (error) {
@@ -370,29 +371,26 @@ const CardSignIn = () => {
         <Dialog
           open={showValidationDialog}
           handler={() => setShowValidationDialog(false)}
+          className="relative z-50"
         >
-          <DialogBody>
+          <div
+            className="fixed inset-0 bg-black/60"
+            aria-hidden="true"
+            onClick={() => setShowValidationDialog(false)}
+          />
+          <DialogBody className="relative bg-white rounded-lg p-6">
             <div className="text-center">
               <h4 className="text-xl font-bold text-red-500 mb-4">
                 Attenzione!
               </h4>
-              <p className="mb-4">
-                Per favore compila i seguenti campi obbligatori:
-              </p>
-              <ul className="list-disc list-inside">
-                {missingFields.map((field, index) => (
-                  <li key={index} className="text-gray-700">
-                    {field}
-                  </li>
-                ))}
-              </ul>
+              <p className="mb-4">Per favore compila tutti i campi</p>
             </div>
+            <DialogFooter className="flex justify-center pt-4">
+              <Button onClick={() => setShowValidationDialog(false)}>
+                Ho capito
+              </Button>
+            </DialogFooter>
           </DialogBody>
-          <DialogFooter>
-            <Button onClick={() => setShowValidationDialog(false)}>
-              Ho capito
-            </Button>
-          </DialogFooter>
         </Dialog>
       </Container>
     </div>
