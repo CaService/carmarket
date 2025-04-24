@@ -326,6 +326,9 @@ const CardSignIn = () => {
           open={showValidationDialog}
           handler={() => setShowValidationDialog(false)}
           className="relative z-50"
+          overlayProps={{
+            className: "!bg-black/20 backdrop-blur-none",
+          }}
         >
           <DialogBody className="relative bg-white rounded-lg p-6 z-10">
             <div className="text-center">
@@ -347,6 +350,9 @@ const CardSignIn = () => {
           open={showSuccessDialog}
           handler={handleSuccessDialogClose}
           className="relative z-50"
+          overlayProps={{
+            className: "!bg-black/20 backdrop-blur-none",
+          }}
         >
           <DialogBody className="relative bg-white rounded-lg p-6 z-10">
             <div className="text-center">
