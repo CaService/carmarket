@@ -6,7 +6,7 @@ import { CardAuth } from "./Navbar"; // Importa CardAuth da Navbar
 import Container from "./Container";
 import Button from "./Button";
 import { useNavigate } from "react-router-dom";
-import { Dialog, DialogBody, DialogFooter } from "@material-tailwind/react";
+import CustomDialog from "./CustomDialog";
 // import { InfoCircledIcon } from "@radix-ui/react-icons";
 // import Toggle from "./Toggle";
 
@@ -310,6 +310,24 @@ const CardSignIn = () => {
           </form>
         </div>
 
+        {/* Dialog per campi mancanti */}
+        <CustomDialog
+          isOpen={showValidationDialog}
+          onClose={() => setShowValidationDialog(false)}
+          title="Attenzione!"
+          message="Per favore compila tutti i campi"
+          type="error"
+        />
+
+        {/* Dialog per registrazione completata */}
+        <CustomDialog
+          isOpen={showSuccessDialog}
+          onClose={handleSuccessDialogClose}
+          title="Registrazione Completata!"
+          message="La registrazione è avvenuta con successo. Ora puoi effettuare il login."
+          type="success"
+        />
+
         {showLoginModal && (
           <div
             className="z-50 fixed inset-0 flex items-center justify-center"
@@ -320,55 +338,6 @@ const CardSignIn = () => {
             </div>
           </div>
         )}
-
-        {/* Dialog per campi mancanti */}
-        <Dialog
-          open={showValidationDialog}
-          handler={() => setShowValidationDialog(false)}
-          className="relative z-50"
-          overlayProps={{
-            className: "bg-black bg-opacity-50",
-          }}
-        >
-          <DialogBody className="relative bg-white rounded-lg p-6 z-10">
-            <div className="text-center">
-              <h4 className="text-xl font-bold text-red-500 mb-4">
-                Attenzione!
-              </h4>
-              <p className="mb-4">Per favore compila tutti i campi</p>
-            </div>
-            <DialogFooter className="flex justify-center pt-4">
-              <Button onClick={() => setShowValidationDialog(false)}>
-                Ho capito
-              </Button>
-            </DialogFooter>
-          </DialogBody>
-        </Dialog>
-
-        {/* Dialog per registrazione completata */}
-        <Dialog
-          open={showSuccessDialog}
-          handler={handleSuccessDialogClose}
-          className="relative z-50"
-          overlayProps={{
-            className: "bg-black bg-opacity-50",
-          }}
-        >
-          <DialogBody className="relative bg-white rounded-lg p-6 z-10">
-            <div className="text-center">
-              <h4 className="text-xl font-bold text-green-500 mb-4">
-                Registrazione Completata!
-              </h4>
-              <p className="mb-4">
-                La registrazione è avvenuta con successo. Ora puoi effettuare il
-                login.
-              </p>
-            </div>
-            <DialogFooter className="flex justify-center pt-4">
-              <Button onClick={handleSuccessDialogClose}>Ho capito</Button>
-            </DialogFooter>
-          </DialogBody>
-        </Dialog>
       </Container>
     </div>
   );
