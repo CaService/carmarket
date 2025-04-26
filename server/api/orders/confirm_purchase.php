@@ -270,9 +270,9 @@ Visualizza il tuo ordine online per aggiornamenti.";
 
     error_log("Tentativo di invio email...");
     try {
-        $mail->send();
-        error_log("Email inviata con successo tramite PHPMailer");
-        echo json_encode(['status' => 'success', 'message' => 'Email di conferma inviata con successo.']);
+    $mail->send();
+    error_log("Email inviata con successo tramite PHPMailer");
+    echo json_encode(['status' => 'success', 'message' => 'Email di conferma inviata con successo.']);
     } catch (Exception $e) {
         error_log("Errore nell'invio dell'email: " . $mail->ErrorInfo);
         throw $e;

@@ -29,23 +29,21 @@ DirectoryIndex index.html
 # Abilita la riscrittura URL
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /repositories/carmarket/
-
-    # Gestisci le richieste API - Modificata questa sezione
-    RewriteCond %{REQUEST_URI} ^/repositories/carmarket/server/api/.*\.php$ [NC]
-    RewriteCond %{REQUEST_FILENAME} -f
-    RewriteRule ^ - [L]
+    RewriteBase /
 
     # Se il file richiesto esiste, servilo direttamente
     RewriteCond %{REQUEST_FILENAME} -f
     RewriteRule ^ - [L]
 
-    # Per tutte le altre richieste non-API
-    RewriteCond %{REQUEST_URI} !^/repositories/carmarket/server/api/
-    RewriteRule . index.html [L]
+    # Se la directory richiesta esiste, servila direttamente
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Per tutte le altre richieste, servire index.html
+    RewriteRule ^ index.html [L]
 </IfModule>
 
-# Gestione API - Aggiornata questa sezione
+# Gestione API
 <FilesMatch "\.php$">
     SetHandler application/x-httpd-php
     
