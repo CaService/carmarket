@@ -116,12 +116,6 @@ const CardAuction = () => {
                 </div>
               ) : (
                 <div className="relative">
-                  {/* Indicatore di scroll */}
-                  <div className="absolute right-0 top-1/2 -translate-y-1/2 flex flex-col gap-2 pr-2">
-                    <div className="w-2 h-2 rounded-full bg-gray-300"></div>
-                    <div className="w-2 h-2 rounded-full bg-teal-700"></div>
-                  </div>
-
                   {/* Container scrollabile */}
                   <div className="overflow-x-auto pb-4 hide-scrollbar">
                     <div
