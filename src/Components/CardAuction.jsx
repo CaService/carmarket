@@ -7,10 +7,16 @@ import { Link } from "react-router-dom";
 import { API_BASE_URL } from "../config/api";
 
 const CardAuction = () => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // Verifica lo stato di autenticazione
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsLoggedIn(!!token);
+  }, []);
 
   // Fetch dei veicoli
   useEffect(() => {
@@ -84,20 +90,26 @@ const CardAuction = () => {
                     />
                   </div>
                 </div>
-                <p className="text-center font-semibold pt-20 font-[chillax] text-lg text-[#072534]">
-                  Registrati per acquistare un veicolo.
-                </p>
+                {!isLoggedIn && (
+                  <p className="text-center font-semibold pt-20 font-[chillax] text-lg text-[#072534]">
+                    Registrati per acquistare un veicolo.
+                  </p>
+                )}
 
                 <div className="mt-4 flex justify-between gap-4 pt-16">
-                  <Link
-                    to="/signup"
-                    className="w-1/2 bg-[#73d2d2] text-center border border-[#73d2d2] px-3 py-3 rounded-full font-semibold transition duration-300 hover:bg-white hover:border hover:border-[#072534] flex items-center justify-center font-chillax"
-                  >
-                    REGISTRATI
-                  </Link>
+                  {!isLoggedIn && (
+                    <Link
+                      to="/signup"
+                      className="w-1/2 bg-[#73d2d2] text-center border border-[#73d2d2] px-3 py-3 rounded-full font-semibold transition duration-300 hover:bg-white hover:border hover:border-[#072534] flex items-center justify-center font-chillax"
+                    >
+                      REGISTRATI
+                    </Link>
+                  )}
                   <Link
                     to="/auction"
-                    className="w-1/2 bg-[#072534] border border-[#072534] text-white px-3 py-3 rounded-full font-semibold transition duration-300 hover:bg-white hover:border hover:border-[#072534] hover:text-[#072534] text-center flex items-center justify-center font-chillax"
+                    className={`${
+                      isLoggedIn ? "w-full" : "w-1/2"
+                    } bg-[#072534] border border-[#072534] text-white px-3 py-3 rounded-full font-semibold transition duration-300 hover:bg-white hover:border hover:border-[#072534] hover:text-[#072534] text-center flex items-center justify-center font-chillax`}
                   >
                     MOSTRA DI PIÙ
                   </Link>
