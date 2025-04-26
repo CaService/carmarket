@@ -21,7 +21,7 @@ const CarCard = ({ vehicleData = {} }) => {
   const {
     title = "",
     price = "",
-    imageUrl = "/images/Ayvens.svg", // Immagine di default
+    imageUrl = "/images/Ayvens.svg",
     specs = {
       mileage: "",
       registrationDate: new Date(),
@@ -255,50 +255,66 @@ const CarCard = ({ vehicleData = {} }) => {
 
           {/* Dropdown Details con tabella delle caratteristiche */}
           {showDetails && (
-            <div className="px-6 pb-6 bg-gray-100 border-t border-gray-200">
-              <div className="max-w-3xl mx-auto">
+            <div className="px-4 md:px-6 pb-6 bg-gray-100 border-t border-gray-200 w-full">
+              <div className="w-full">
                 <div className="divide-y divide-gray-200 mt-4">
-                  <div className="flex py-3 items-center justify-between">
-                    <span className="font-medium text-gray-700">ANNO</span>
-                    <span className="text-right">{specs.year || "N/D"}</span>
+                  <div className="flex flex-col md:flex-row md:items-center md:justify-between py-3">
+                    <span className="font-medium text-gray-700 mb-1 md:mb-0">
+                      ANNO
+                    </span>
+                    <span className="text-gray-600 md:text-right">
+                      {specs.year || "N/D"}
+                    </span>
                   </div>
-                  <div className="flex py-3 items-center justify-between">
-                    <span className="font-medium text-gray-700">
+                  <div className="flex flex-col md:flex-row md:items-center md:justify-between py-3">
+                    <span className="font-medium text-gray-700 mb-1 md:mb-0">
                       CHILOMETRAGGIO
                     </span>
-                    <span className="text-right">
+                    <span className="text-gray-600 md:text-right">
                       {specs.mileage || "N/D"} Chilometri
                     </span>
                   </div>
-                  <div className="flex py-3 items-center justify-between">
-                    <span className="font-medium text-gray-700">
+                  <div className="flex flex-col md:flex-row md:items-center md:justify-between py-3">
+                    <span className="font-medium text-gray-700 mb-1 md:mb-0">
                       CARBURANTE
                     </span>
-                    <span className="text-right">{specs.fuel || "N/D"}</span>
+                    <span className="text-gray-600 md:text-right">
+                      {specs.fuel || "N/D"}
+                    </span>
                   </div>
-                  <div className="flex py-3 items-center justify-between">
-                    <span className="font-medium text-gray-700">CAMBIO</span>
-                    <span className="text-right">
+                  <div className="flex flex-col md:flex-row md:items-center md:justify-between py-3">
+                    <span className="font-medium text-gray-700 mb-1 md:mb-0">
+                      CAMBIO
+                    </span>
+                    <span className="text-gray-600 md:text-right">
                       {specs.transmission || "N/D"}
                     </span>
                   </div>
-                  <div className="flex py-3 items-center justify-between">
-                    <span className="font-medium text-gray-700">
+                  <div className="flex flex-col md:flex-row md:items-center md:justify-between py-3">
+                    <span className="font-medium text-gray-700 mb-1 md:mb-0">
                       DATA IMMATRICOLAZIONE
                     </span>
-                    <span className="text-right">
+                    <span className="text-gray-600 md:text-right">
                       {specs.registrationDate
                         ? new Date(specs.registrationDate).toLocaleDateString()
                         : "N/D"}
                     </span>
                   </div>
-                  <div className="flex py-3 items-center justify-between">
-                    <span className="font-medium text-gray-700">LOCALITÀ</span>
-                    <span className="text-right">{location || "N/D"}</span>
+                  <div className="flex flex-col md:flex-row md:items-center md:justify-between py-3">
+                    <span className="font-medium text-gray-700 mb-1 md:mb-0">
+                      LOCALITÀ
+                    </span>
+                    <span className="text-gray-600 md:text-right">
+                      {location || "N/D"}
+                    </span>
                   </div>
-                  <div className="flex py-3 items-center justify-between">
-                    <span className="font-medium text-gray-700">PAESE</span>
-                    <span className="text-right">{countryCode || "IT"}</span>
+                  <div className="flex flex-col md:flex-row md:items-center md:justify-between py-3">
+                    <span className="font-medium text-gray-700 mb-1 md:mb-0">
+                      PAESE
+                    </span>
+                    <span className="text-gray-600 md:text-right">
+                      {countryCode || "IT"}
+                    </span>
                   </div>
                   {description && (
                     <div className="py-3">
