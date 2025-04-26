@@ -9,7 +9,6 @@ import CookiePage from "./pages/CookiePage";
 import PrivacyPage from "./pages/PrivacyPage";
 
 const AppRoutes = () => {
-  // Rimuoviamo il basename condizionale poiché il server gestisce già il path base
   return (
     <Router>
       <Routes>

@@ -1,10 +1,8 @@
-import { ClockIcon } from "@radix-ui/react-icons";
 import Flag from "react-world-flags";
 import { Link } from "react-router-dom";
 import Container from "../Container";
 import { useSelector } from "react-redux";
 import { useState } from "react";
-import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import "@cyntler/react-doc-viewer/dist/index.css";
 import { API_BASE_URL, fetchConfig, handleApiResponse } from "../../config/api";
 

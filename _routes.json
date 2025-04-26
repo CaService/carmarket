@@ -1,19 +1,11 @@
 {
   "version": 1,
   "include": ["/*"],
-  "exclude": [
-    "/repositories/carmarket/static/*",
-    "/repositories/carmarket/server/api/*"
-  ],
+  "exclude": ["/static/*", "/server/api/*"],
   "rules": [
     {
-      "pattern": "/repositories/carmarket/admin",
-      "serve": "/repositories/carmarket/index.html",
-      "status": 200
-    },
-    {
-      "pattern": "/repositories/carmarket/**",
-      "serve": "/repositories/carmarket/index.html",
+      "pattern": "/*",
+      "serve": "/index.html",
       "status": 200
     }
   ]
