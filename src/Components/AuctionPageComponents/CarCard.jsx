@@ -69,13 +69,94 @@ const CarCard = ({ vehicleData = {} }) => {
 
   const generatePDF = async () => {
     try {
-      const element = emailRef.current;
-      const canvas = await html2canvas(element, {
-        scale: 2, // Migliora la qualità
-        useCORS: true, // Permette il caricamento delle immagini
+      // Creiamo un elemento temporaneo con stili base
+      const tempDiv = document.createElement("div");
+      tempDiv.style.width = "600px";
+      tempDiv.style.padding = "20px";
+      tempDiv.style.backgroundColor = "#FFFFFF";
+      tempDiv.style.color = "#000000";
+      tempDiv.style.fontFamily = "Arial, sans-serif";
+
+      // Aggiungiamo il contenuto
+      tempDiv.innerHTML = `
+        <div style="text-align: center; margin-bottom: 20px;">
+          <h1 style="color: #000000; margin-bottom: 20px;">Conferma ordine</h1>
+          <div style="font-size: 48px; margin-bottom: 20px;">✓</div>
+        </div>
+        
+        <div style="margin-bottom: 20px;">
+          <p>Congratulazioni! Acquisto completato.</p>
+          
+          <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+            <tr style="background-color: #000000; color: #FFFFFF;">
+              <th style="padding: 10px; text-align: left;">Articolo</th>
+              <th style="padding: 10px; text-align: left;">Prezzo</th>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border: 1px solid #000000;">1 x ${title}</td>
+              <td style="padding: 10px; border: 1px solid #000000;">€ ${price},00</td>
+            </tr>
+          </table>
+          
+          <div style="margin: 10px 0;">
+            <strong>Importo totale</strong>
+            <span style="float: right;">€ ${price},00</span>
+          </div>
+          
+          <div style="margin: 10px 0;">
+            <span>Incluso 22% IVA su € ${price}</span>
+            <span style="float: right;">€ ${parseFloat(price) * 0.22}</span>
+          </div>
+          
+          <div style="margin: 20px 0;">
+            <p><strong>Ordine #${auctionNumber}</strong></p>
+            <p><strong>Metodo di pagamento:</strong><br>Bonifico bancario.</p>
+            <p>Congratulazioni, avete concluso l'acquisto con successo.</p>
+            <p style="color: #0000FF;">Riceverete comunicazione via e-mail con la fattura proforma per procedere al saldo</p>
+          </div>
+          
+          <div style="display: flex; justify-content: space-between; margin-top: 30px;">
+            <div style="width: 48%;">
+              <h3>Estremi di pagamento</h3>
+              <p>
+                Adriano Tuzzi<br>
+                Ayvens s.r.l.<br>
+                VIA CIVIDALE 356 60<br>
+                33100 UDINE UD<br>
+                Italia
+              </p>
+              <p>
+                Email: noreply@carmarket-ayvens.com<br>
+                Telefono: +391234567890<br>
+                P.IVA/C.F.: 0123456789<br>
+                Codice Fiscale: IT00605220326
+              </p>
+            </div>
+            
+            <div style="width: 48%;">
+              <h3>Indirizzo di spedizione</h3>
+              <p>
+                maurizio ballarin<br>
+                aerrecar s.r.l.<br>
+                VIA SAN FRANCESCO D'ASSISI 60<br>
+                34133 TRIESTE TS<br>
+                Italia
+              </p>
+            </div>
+          </div>
+        </div>
+      `;
+
+      document.body.appendChild(tempDiv);
+
+      const canvas = await html2canvas(tempDiv, {
+        scale: 2,
+        useCORS: true,
         logging: false,
-        backgroundColor: "#ffffff",
+        backgroundColor: "#FFFFFF",
       });
+
+      document.body.removeChild(tempDiv);
 
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF({
@@ -84,17 +165,15 @@ const CarCard = ({ vehicleData = {} }) => {
         format: "a4",
       });
 
-      const imgWidth = 210; // Larghezza A4 in mm
-      const pageHeight = 297; // Altezza A4 in mm
+      const imgWidth = 210;
+      const pageHeight = 297;
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
       let heightLeft = imgHeight;
       let position = 0;
 
-      // Prima pagina
       pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
       heightLeft -= pageHeight;
 
-      // Pagine aggiuntive se necessario
       while (heightLeft >= 0) {
         position = heightLeft - imgHeight;
         pdf.addPage();
