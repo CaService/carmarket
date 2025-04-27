@@ -180,7 +180,14 @@ const CarCard = ({ vehicleData = {} }) => {
               <div className="flex flex-col md:flex-row gap-2 text-gray-700 text-sm font-['Source_Sans_Pro'] text-center md:text-left">
                 <span>
                   {specs.mileage} Chilometri |{" "}
-                  {new Date(specs.registrationDate).toLocaleDateString()}
+                  {new Date(specs.registrationDate).toLocaleDateString(
+                    "it-IT",
+                    {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    }
+                  )}
                 </span>
                 <span>
                   {specs.fuel} | {specs.transmission}
@@ -294,7 +301,14 @@ const CarCard = ({ vehicleData = {} }) => {
                     </span>
                     <span className="text-gray-600 md:text-right">
                       {specs.registrationDate
-                        ? new Date(specs.registrationDate).toLocaleDateString()
+                        ? new Date(specs.registrationDate).toLocaleDateString(
+                            "it-IT",
+                            {
+                              day: "2-digit",
+                              month: "2-digit",
+                              year: "numeric",
+                            }
+                          )
                         : "N/D"}
                     </span>
                   </div>

@@ -33,16 +33,6 @@ const Footer = () => {
               </li>
             </ul>
           </div>
-
-          <div className="text-center mt-8 pb-4">
-            <Link
-              to="/admin"
-              className="text-gray-300 text-xs hover:text-gray-400 transition-colors duration-300"
-              style={{ opacity: 0.3 }}
-            >
-              ©
-            </Link>
-          </div>
         </div>
       </Container>
     </footer>
