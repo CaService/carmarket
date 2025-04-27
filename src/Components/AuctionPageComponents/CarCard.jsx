@@ -92,7 +92,9 @@ const CarCard = ({ vehicleData = {} }) => {
 
       if (data.status === "success") {
         setSuccess(true);
-        alert("Acquisto confermato! Riceverai un'email di conferma.");
+        alert(
+          "Acquisto confermato! Riceverai un'email contenente la fattura dell'acquisto."
+        );
         setShowModal(false);
       }
     } catch (error) {
