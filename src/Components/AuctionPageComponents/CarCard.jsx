@@ -159,7 +159,7 @@ const CarCard = ({ vehicleData = {} }) => {
             <img
               src={imageUrl}
               alt={title}
-              className="w-full h-[160px] md:h-full object-fit"
+              className="w-full h-[160px] md:h-full object-cover"
             />
             <div className="absolute bottom-2 left-2 bg-white rounded-full w-8 h-8 flex items-center justify-center">
               <span className="text-sm font-medium text-[#072534]">
@@ -263,7 +263,7 @@ const CarCard = ({ vehicleData = {} }) => {
 
         {/* Accordion Buttons */}
         <div className="border-t border-gray-100">
-          <div className="flex">
+          <div className="flex flex-col md:flex-row">
             <button
               onClick={toggleDetails}
               className="text-center flex-1 p-4 pb-8 font-semibold cursor-pointer text-[#072534] underline-animation"

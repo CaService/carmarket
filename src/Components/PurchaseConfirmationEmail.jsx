@@ -26,9 +26,12 @@ const PurchaseConfirmationEmail = ({
         margin: 0,
         padding: 0,
         backgroundColor: "#FFFFFF",
+        width: "100%",
+        maxWidth: "600px",
+        margin: "0 auto",
       }}
     >
-      <div style={{ maxWidth: "600px", margin: "0 auto" }}>
+      <div style={{ maxWidth: "600px", margin: "0 auto", padding: "0 10px" }}>
         <div
           style={{
             backgroundColor: "#0F3549",
@@ -55,11 +58,13 @@ const PurchaseConfirmationEmail = ({
           >
             ✓
           </div>
-          <h1 style={{ color: "#333333" }}>Conferma ordine</h1>
+          <h1 style={{ color: "#333333", fontSize: "24px" }}>
+            Conferma ordine
+          </h1>
         </div>
 
         <div style={{ padding: "20px" }}>
-          <p style={{ color: "#333333" }}>
+          <p style={{ color: "#333333", fontSize: "16px" }}>
             Congratulazioni! Acquisto completato.
           </p>
 
@@ -69,6 +74,7 @@ const PurchaseConfirmationEmail = ({
               background: "#000000",
               color: "#FFFFFF",
               margin: "20px 0",
+              fontSize: "14px",
             }}
           >
             <tbody>
@@ -99,16 +105,16 @@ const PurchaseConfirmationEmail = ({
             </tbody>
           </table>
 
-          <div style={{ margin: "10px 0", color: "#333333" }}>
+          <div style={{ margin: "10px 0", color: "#333333", fontSize: "14px" }}>
             <strong>Importo totale</strong>
             <span style={{ float: "right" }}>€ {vehiclePrice},00</span>
           </div>
-          <div style={{ margin: "10px 0", color: "#333333" }}>
+          <div style={{ margin: "10px 0", color: "#333333", fontSize: "14px" }}>
             <span>Incluso 22% IVA su € {basePrice}</span>
             <span style={{ float: "right" }}>€ {vatAmount}</span>
           </div>
 
-          <div style={{ margin: "30px 0" }}>
+          <div style={{ margin: "30px 0", fontSize: "14px" }}>
             <p>
               <strong>Ordine #{auctionNumber}</strong>
             </p>
@@ -141,6 +147,7 @@ const PurchaseConfirmationEmail = ({
               padding: "20px",
               border: "1px solid #333333",
               borderRadius: "5px",
+              fontSize: "14px",
             }}
           >
             <h3 style={{ color: "#333333", marginBottom: "15px" }}>
@@ -163,7 +170,9 @@ const PurchaseConfirmationEmail = ({
             </p>
           </div>
 
-          <div style={{ marginTop: "30px", color: "#333333" }}>
+          <div
+            style={{ marginTop: "30px", color: "#333333", fontSize: "14px" }}
+          >
             <p>
               Ayvens s.r.l.
               <br />
