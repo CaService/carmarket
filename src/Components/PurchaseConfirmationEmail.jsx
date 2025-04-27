@@ -116,76 +116,64 @@ const PurchaseConfirmationEmail = ({
             <p>
               <strong>Metodo di pagamento:</strong>
               <br />
-              Bonifico bancario.
+              BONIFICO BANCARIO
             </p>
 
-            <p>Congratulazioni, avete concluso l&apos;acquisto con successo.</p>
+            <p>
+              Congratulazioni, state per concludere l&apos;acquisto con
+              successo.
+            </p>
 
             <p style={{ color: "#5B5BFF" }}>
-              Riceverete comunicazione via e-mail con la fattura proforma per
-              procedere al saldo
+              Potete proseguire con il pagamento alle seguenti coordinate
+              bancarie.
             </p>
 
-            <p>Amministrazione acquisti veicoli</p>
+            <p>Amministrazione Acquisti Veicoli</p>
             <p>
-              <em>Ayvens Carmarket Buy Now</em>
+              <em>Ayvens CarMarket</em>
             </p>
           </div>
 
           <div
             style={{
-              display: "flex",
-              justifyContent: "space-between",
               marginTop: "30px",
+              padding: "20px",
+              border: "1px solid #333333",
+              borderRadius: "5px",
             }}
           >
-            <div style={{ width: "48%" }}>
-              <h3 style={{ color: "#333333" }}>Estremi di pagamento</h3>
-              <p style={{ color: "#333333" }}>
-                Adriano Tuzzi
-                <br />
-                Ayvens s.r.l.
-                <br />
-                VIA CIVIDALE 356 60
-                <br />
-                33100 UDINE UD
-                <br />
-                Italia
-              </p>
-
-              <p style={{ color: "#333333" }}>
-                Email: noreply@carmarket-ayvens.com
-                <br />
-                Telefono: +391234567890
-                <br />
-                P.IVA/C.F.: 0123456789
-                <br />
-                Codice Fiscale: IT00605220326
-              </p>
-            </div>
-
-            <div style={{ width: "48%" }}>
-              <h3 style={{ color: "#333333" }}>Indirizzo di spedizione</h3>
-              <p style={{ color: "#333333" }}>
-                maurizio ballarin
-                <br />
-                aerrecar s.r.l.
-                <br />
-                VIA SAN FRANCESCO D&apos;ASSISI 60
-                <br />
-                34133 TRIESTE TS
-                <br />
-                Italia
-              </p>
-            </div>
+            <h3 style={{ color: "#333333", marginBottom: "15px" }}>
+              COORDINATE BANCARIE
+            </h3>
+            <p style={{ color: "#333333", marginBottom: "10px" }}>
+              BANCA SELLA
+              <br />
+              C/C # 1234567890
+              <br />
+              IBAN IT1234567890
+            </p>
+            <p style={{ color: "#333333", marginBottom: "10px" }}>
+              Adriano Tuzzi
+              <br />
+              Ayvens s.r.l.
+            </p>
+            <p style={{ color: "#333333", fontWeight: "bold" }}>
+              Causale: Pagamento Ordine #{auctionNumber}
+            </p>
           </div>
 
-          <div style={{ marginTop: "30px", fontSize: "14px" }}>
+          <div style={{ marginTop: "30px", color: "#333333" }}>
             <p>
-              <a href="#" style={{ color: "#5B5BFF", textDecoration: "none" }}>
-                Visualizza il tuo ordine online
-              </a>{" "}
-              per aggiornamenti.
+              Ayvens s.r.l.
+              <br />
+              Via Cividale 356, 33100 Udine UD Italia
+              <br />
+              vendite@ayvens-carmarket.com
+              <br />
+              +391234567890
+              <br />
+              P.IVA/C.F.: 1234567890
             </p>
           </div>
         </div>
