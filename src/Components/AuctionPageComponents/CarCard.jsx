@@ -111,6 +111,11 @@ const CarCard = ({ vehicleData = {} }) => {
             <h2 className="text-4xl font-bold text-teal-600 mb-4 text-center">
               CONFERMA ACQUISTO
             </h2>
+            <p className="text-gray-700 text-center mb-6 italic">
+              Cliccando conferma accetti l&apos;ordine e scarichi questo
+              proforma, a breve riceverai la mail contenente la fattura
+              dell&apos;acquisto.
+            </p>
             <div className="mb-8">
               <PurchaseConfirmationEmail
                 vehicleTitle={title}
