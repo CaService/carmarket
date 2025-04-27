@@ -22,9 +22,10 @@ const PurchaseConfirmationEmail = ({
       style={{
         fontFamily: "Arial, sans-serif",
         lineHeight: "1.6",
-        color: "#333",
+        color: "#333333",
         margin: 0,
         padding: 0,
+        backgroundColor: "#FFFFFF",
       }}
     >
       <div style={{ maxWidth: "600px", margin: "0 auto" }}>
@@ -49,18 +50,24 @@ const PurchaseConfirmationEmail = ({
         </div>
 
         <div style={{ textAlign: "center", marginBottom: "30px" }}>
-          <div style={{ fontSize: "48px", marginBottom: "20px" }}>✓</div>
-          <h1>Conferma ordine</h1>
+          <div
+            style={{ fontSize: "48px", marginBottom: "20px", color: "#333333" }}
+          >
+            ✓
+          </div>
+          <h1 style={{ color: "#333333" }}>Conferma ordine</h1>
         </div>
 
         <div style={{ padding: "20px" }}>
-          <p>Congratulazioni! Acquisto completato.</p>
+          <p style={{ color: "#333333" }}>
+            Congratulazioni! Acquisto completato.
+          </p>
 
           <table
             style={{
               width: "100%",
-              background: "#000",
-              color: "white",
+              background: "#000000",
+              color: "#FFFFFF",
               margin: "20px 0",
             }}
           >
@@ -73,8 +80,8 @@ const PurchaseConfirmationEmail = ({
                 <td
                   style={{
                     padding: "10px",
-                    background: "white",
-                    color: "#333",
+                    background: "#FFFFFF",
+                    color: "#333333",
                   }}
                 >
                   1 x {vehicleTitle}
@@ -82,8 +89,8 @@ const PurchaseConfirmationEmail = ({
                 <td
                   style={{
                     padding: "10px",
-                    background: "white",
-                    color: "#333",
+                    background: "#FFFFFF",
+                    color: "#333333",
                   }}
                 >
                   € {vehiclePrice},00
@@ -92,11 +99,11 @@ const PurchaseConfirmationEmail = ({
             </tbody>
           </table>
 
-          <div style={{ margin: "10px 0" }}>
+          <div style={{ margin: "10px 0", color: "#333333" }}>
             <strong>Importo totale</strong>
             <span style={{ float: "right" }}>€ {vehiclePrice},00</span>
           </div>
-          <div style={{ margin: "10px 0" }}>
+          <div style={{ margin: "10px 0", color: "#333333" }}>
             <span>Incluso 22% IVA su € {basePrice}</span>
             <span style={{ float: "right" }}>€ {vatAmount}</span>
           </div>
@@ -114,7 +121,7 @@ const PurchaseConfirmationEmail = ({
 
             <p>Congratulazioni, avete concluso l&apos;acquisto con successo.</p>
 
-            <p style={{ color: "#5b5bff" }}>
+            <p style={{ color: "#5B5BFF" }}>
               Riceverete comunicazione via e-mail con la fattura proforma per
               procedere al saldo
             </p>
@@ -133,8 +140,8 @@ const PurchaseConfirmationEmail = ({
             }}
           >
             <div style={{ width: "48%" }}>
-              <h3>Estremi di pagamento</h3>
-              <p>
+              <h3 style={{ color: "#333333" }}>Estremi di pagamento</h3>
+              <p style={{ color: "#333333" }}>
                 Adriano Tuzzi
                 <br />
                 Ayvens s.r.l.
@@ -146,7 +153,7 @@ const PurchaseConfirmationEmail = ({
                 Italia
               </p>
 
-              <p>
+              <p style={{ color: "#333333" }}>
                 Email: noreply@carmarket-ayvens.com
                 <br />
                 Telefono: +391234567890
@@ -158,8 +165,8 @@ const PurchaseConfirmationEmail = ({
             </div>
 
             <div style={{ width: "48%" }}>
-              <h3>Indirizzo di spedizione</h3>
-              <p>
+              <h3 style={{ color: "#333333" }}>Indirizzo di spedizione</h3>
+              <p style={{ color: "#333333" }}>
                 maurizio ballarin
                 <br />
                 aerrecar s.r.l.
@@ -175,7 +182,7 @@ const PurchaseConfirmationEmail = ({
 
           <div style={{ marginTop: "30px", fontSize: "14px" }}>
             <p>
-              <a href="#" style={{ color: "#5b5bff", textDecoration: "none" }}>
+              <a href="#" style={{ color: "#5B5BFF", textDecoration: "none" }}>
                 Visualizza il tuo ordine online
               </a>{" "}
               per aggiornamenti.
