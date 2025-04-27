@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 import "@cyntler/react-doc-viewer/dist/index.css";
 import { API_BASE_URL, fetchConfig, handleApiResponse } from "../../config/api";
+import PurchaseConfirmationEmail from "../PurchaseConfirmationEmail";
 
 const CarCard = ({ vehicleData = {} }) => {
   const [showDetails, setShowDetails] = useState(false);
@@ -106,15 +107,17 @@ const CarCard = ({ vehicleData = {} }) => {
       {/* MODAL POPUP */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-          <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
+          <div className="bg-white rounded-lg shadow-lg p-8 max-w-4xl w-full overflow-y-auto max-h-[90vh]">
             <h2 className="text-4xl font-bold text-teal-600 mb-4 text-center">
-              ATTENZIONE
+              CONFERMA ACQUISTO
             </h2>
-            <p className="text-gray-800 text-center mb-8">
-              Stai per confermare l&apos;ordine{" "}
-              <span className="font-bold">#{auctionNumber}</span>.<br />
-              Vuoi procedere con l&apos;acquisto?
-            </p>
+            <div className="mb-8">
+              <PurchaseConfirmationEmail
+                vehicleTitle={title}
+                vehiclePrice={parseFloat(price)}
+                auctionNumber={auctionNumber}
+              />
+            </div>
             <div className="flex justify-center gap-4">
               <button
                 className="px-6 py-2 rounded-full bg-gray-200 text-gray-800 font-semibold hover:bg-gray-300 transition cursor-pointer"
