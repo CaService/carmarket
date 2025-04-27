@@ -6,8 +6,8 @@ import { useState, useRef } from "react";
 import "@cyntler/react-doc-viewer/dist/index.css";
 import { API_BASE_URL, fetchConfig, handleApiResponse } from "../../config/api";
 import PurchaseConfirmationEmail from "../PurchaseConfirmationEmail";
-import html2canvas from "html2canvas";
-import { jsPDF } from "jspdf";
+import PurchaseConfirmationPDF from "../PurchaseConfirmationPDF";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 
 const CarCard = ({ vehicleData = {} }) => {
   const [showDetails, setShowDetails] = useState(false);
@@ -67,134 +67,9 @@ const CarCard = ({ vehicleData = {} }) => {
     window.open(correctedPdfUrl, "_blank");
   };
 
-  const generatePDF = async () => {
-    try {
-      // Creiamo un elemento temporaneo con stili base
-      const tempDiv = document.createElement("div");
-      tempDiv.style.width = "600px";
-      tempDiv.style.padding = "20px";
-      tempDiv.style.backgroundColor = "#FFFFFF";
-      tempDiv.style.color = "#000000";
-      tempDiv.style.fontFamily = "Arial, sans-serif";
-
-      // Aggiungiamo il contenuto
-      tempDiv.innerHTML = `
-        <div style="text-align: center; margin-bottom: 20px;">
-          <h1 style="color: #000000; margin-bottom: 20px;">Conferma ordine</h1>
-          <div style="font-size: 48px; margin-bottom: 20px;">✓</div>
-        </div>
-        
-        <div style="margin-bottom: 20px;">
-          <p>Congratulazioni! Acquisto completato.</p>
-          
-          <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
-            <tr style="background-color: #000000; color: #FFFFFF;">
-              <th style="padding: 10px; text-align: left;">Articolo</th>
-              <th style="padding: 10px; text-align: left;">Prezzo</th>
-            </tr>
-            <tr>
-              <td style="padding: 10px; border: 1px solid #000000;">1 x ${title}</td>
-              <td style="padding: 10px; border: 1px solid #000000;">€ ${price},00</td>
-            </tr>
-          </table>
-          
-          <div style="margin: 10px 0;">
-            <strong>Importo totale</strong>
-            <span style="float: right;">€ ${price},00</span>
-          </div>
-          
-          <div style="margin: 10px 0;">
-            <span>Incluso 22% IVA su € ${price}</span>
-            <span style="float: right;">€ ${parseFloat(price) * 0.22}</span>
-          </div>
-          
-          <div style="margin: 20px 0;">
-            <p><strong>Ordine #${auctionNumber}</strong></p>
-            <p><strong>Metodo di pagamento:</strong><br>Bonifico bancario.</p>
-            <p>Congratulazioni, avete concluso l'acquisto con successo.</p>
-            <p style="color: #0000FF;">Riceverete comunicazione via e-mail con la fattura proforma per procedere al saldo</p>
-          </div>
-          
-          <div style="display: flex; justify-content: space-between; margin-top: 30px;">
-            <div style="width: 48%;">
-              <h3>Estremi di pagamento</h3>
-              <p>
-                Adriano Tuzzi<br>
-                Ayvens s.r.l.<br>
-                VIA CIVIDALE 356 60<br>
-                33100 UDINE UD<br>
-                Italia
-              </p>
-              <p>
-                Email: noreply@carmarket-ayvens.com<br>
-                Telefono: +391234567890<br>
-                P.IVA/C.F.: 0123456789<br>
-                Codice Fiscale: IT00605220326
-              </p>
-            </div>
-            
-            <div style="width: 48%;">
-              <h3>Indirizzo di spedizione</h3>
-              <p>
-                maurizio ballarin<br>
-                aerrecar s.r.l.<br>
-                VIA SAN FRANCESCO D'ASSISI 60<br>
-                34133 TRIESTE TS<br>
-                Italia
-              </p>
-            </div>
-          </div>
-        </div>
-      `;
-
-      document.body.appendChild(tempDiv);
-
-      const canvas = await html2canvas(tempDiv, {
-        scale: 2,
-        useCORS: true,
-        logging: false,
-        backgroundColor: "#FFFFFF",
-      });
-
-      document.body.removeChild(tempDiv);
-
-      const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF({
-        orientation: "portrait",
-        unit: "mm",
-        format: "a4",
-      });
-
-      const imgWidth = 210;
-      const pageHeight = 297;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      let heightLeft = imgHeight;
-      let position = 0;
-
-      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
-
-      while (heightLeft >= 0) {
-        position = heightLeft - imgHeight;
-        pdf.addPage();
-        pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
-      }
-
-      return pdf;
-    } catch (error) {
-      console.error("Errore nella generazione del PDF:", error);
-      throw error;
-    }
-  };
-
   const handlePurchase = async () => {
     try {
       setLoading(true);
-
-      // Genera e scarica il PDF
-      const pdf = await generatePDF();
-      pdf.save(`ordine_${auctionNumber}.pdf`);
 
       // Invia la richiesta di conferma acquisto
       const response = await fetch(
@@ -245,7 +120,7 @@ const CarCard = ({ vehicleData = {} }) => {
               proforma, a breve riceverai la mail contenente la fattura
               dell&apos;acquisto.
             </p>
-            <div className="mb-8" ref={emailRef}>
+            <div className="mb-8">
               <PurchaseConfirmationEmail
                 vehicleTitle={title}
                 vehiclePrice={parseFloat(price)}
@@ -259,12 +134,20 @@ const CarCard = ({ vehicleData = {} }) => {
               >
                 INDIETRO
               </button>
-              <button
+              <PDFDownloadLink
+                document={
+                  <PurchaseConfirmationPDF
+                    vehicleTitle={title}
+                    vehiclePrice={parseFloat(price)}
+                    auctionNumber={auctionNumber}
+                  />
+                }
+                fileName={`ordine_${auctionNumber}.pdf`}
                 className="px-6 py-2 rounded-full bg-[#072534] text-white font-semibold hover:bg-[#0f3549] transition cursor-pointer"
                 onClick={handlePurchase}
               >
-                CONFERMA
-              </button>
+                {({ loading }) => (loading ? "Generazione PDF..." : "CONFERMA")}
+              </PDFDownloadLink>
             </div>
           </div>
         </div>
