@@ -2,10 +2,12 @@ import Flag from "react-world-flags";
 import { Link } from "react-router-dom";
 import Container from "../Container";
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import "@cyntler/react-doc-viewer/dist/index.css";
 import { API_BASE_URL, fetchConfig, handleApiResponse } from "../../config/api";
 import PurchaseConfirmationEmail from "../PurchaseConfirmationEmail";
+import html2canvas from "html2canvas";
+import { jsPDF } from "jspdf";
 
 const CarCard = ({ vehicleData = {} }) => {
   const [showDetails, setShowDetails] = useState(false);
@@ -15,6 +17,7 @@ const CarCard = ({ vehicleData = {} }) => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(null);
+  const emailRef = useRef(null);
 
   // Destructuring con valori di default
   const {
@@ -64,10 +67,57 @@ const CarCard = ({ vehicleData = {} }) => {
     window.open(correctedPdfUrl, "_blank");
   };
 
+  const generatePDF = async () => {
+    try {
+      const element = emailRef.current;
+      const canvas = await html2canvas(element, {
+        scale: 2, // Migliora la qualità
+        useCORS: true, // Permette il caricamento delle immagini
+        logging: false,
+        backgroundColor: "#ffffff",
+      });
+
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4",
+      });
+
+      const imgWidth = 210; // Larghezza A4 in mm
+      const pageHeight = 297; // Altezza A4 in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      // Prima pagina
+      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      // Pagine aggiuntive se necessario
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+
+      return pdf;
+    } catch (error) {
+      console.error("Errore nella generazione del PDF:", error);
+      throw error;
+    }
+  };
+
   const handlePurchase = async () => {
     try {
       setLoading(true);
 
+      // Genera e scarica il PDF
+      const pdf = await generatePDF();
+      pdf.save(`ordine_${auctionNumber}.pdf`);
+
+      // Invia la richiesta di conferma acquisto
       const response = await fetch(
         `${API_BASE_URL}/orders/confirm_purchase.php`,
         {
@@ -116,7 +166,7 @@ const CarCard = ({ vehicleData = {} }) => {
               proforma, a breve riceverai la mail contenente la fattura
               dell&apos;acquisto.
             </p>
-            <div className="mb-8">
+            <div className="mb-8" ref={emailRef}>
               <PurchaseConfirmationEmail
                 vehicleTitle={title}
                 vehiclePrice={parseFloat(price)}
