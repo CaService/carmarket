@@ -1,4 +1,20 @@
 <?php
+// Gestore di errori globale
+set_error_handler(function($errno, $errstr, $errfile, $errline) {
+    throw new ErrorException($errstr, $errno, 0, $errfile, $errline);
+});
+
+// Gestore di eccezioni globale
+set_exception_handler(function($e) {
+    error_log("Errore non gestito: " . $e->getMessage());
+    http_response_code(500);
+    echo json_encode([
+        'status' => 'error',
+        'message' => $e->getMessage()
+    ]);
+    exit();
+});
+
 // Abilita il reporting degli errori all'inizio del file
 error_reporting(E_ALL);
 ini_set('display_errors', 1);

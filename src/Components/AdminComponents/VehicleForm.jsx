@@ -87,14 +87,10 @@ const VehicleForm = ({ onSubmit }) => {
       // Aggiungi i file con i nomi corretti
       if (formData.pdf) {
         formDataObj.append("pdfFile", formData.pdf);
-        console.log("PDF aggiunto al FormData:", formData.pdf.name);
       }
       if (formData.imageFile) {
         formDataObj.append("imageFile", formData.imageFile);
-        console.log("Immagine aggiunta al FormData:", formData.imageFile.name);
       }
-
-      console.log("Invio dati al server...");
 
       const response = await fetch(
         `${API_BASE_URL}/vehicles/vehicle_create.php`,
@@ -104,17 +100,21 @@ const VehicleForm = ({ onSubmit }) => {
         }
       );
 
-      const data = await handleApiResponse(response);
-      console.log("Risposta dal server:", data);
+      // Verifica se la risposta è JSON valido
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new Error("La risposta del server non è in formato JSON valido");
+      }
+
+      const data = await response.json();
+
+      if (data.status === "error") {
+        throw new Error(data.message);
+      }
 
       if (data.status === "success") {
-        // Usiamo direttamente gli URL come vengono dal backend
-        // Il backend restituisce già il path corretto: /static/pdf/nome_file.pdf
-        const imageUrl = data.imageUrl; // sarà /images/Vehicles/nome_file
-        const pdfUrl = data.pdfUrl; // sarà /static/pdf/nome_file.pdf
-
-        console.log("URL immagine:", imageUrl);
-        console.log("URL PDF:", pdfUrl);
+        const imageUrl = data.imageUrl;
+        const pdfUrl = data.pdfUrl;
 
         setSuccess("Veicolo aggiunto con successo!");
         resetForm();
@@ -135,7 +135,10 @@ const VehicleForm = ({ onSubmit }) => {
         }
       }
     } catch (error) {
-      setError(error.message);
+      setError(
+        error.message ||
+          "Si è verificato un errore durante il caricamento del veicolo"
+      );
       console.error("Errore durante il caricamento:", error);
     } finally {
       setLoading(false);

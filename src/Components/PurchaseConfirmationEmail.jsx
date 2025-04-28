@@ -64,10 +64,6 @@ const PurchaseConfirmationEmail = ({
         </div>
 
         <div style={{ padding: "20px" }}>
-          <p style={{ color: "#333333", fontSize: "16px" }}>
-            Congratulazioni! Acquisto completato.
-          </p>
-
           <table
             style={{
               width: "100%",
