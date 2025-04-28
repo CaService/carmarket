@@ -48,7 +48,8 @@ DirectoryIndex index.html
     SetHandler application/x-httpd-php
     
     # CORS Headers
-    Header set Access-Control-Allow-Origin "*"
+    SetEnvIf Origin "^https://(www\.)?carmarket-ayvens\.com$" AccessControlAllowOrigin=$0
+    Header add Access-Control-Allow-Origin %{AccessControlAllowOrigin}e env=AccessControlAllowOrigin
     Header set Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE"
     Header set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With, Accept"
     Header set Access-Control-Allow-Credentials "true"
