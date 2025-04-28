@@ -22,8 +22,8 @@ try {
     // Modifica gli header CORS
     $allowedOrigins = [
         'http://localhost:5173',
-        'https://www.carmarket-ayvens.com',
-        'https://www.carmarket-ayvens.com/repositories/carmarket'
+        'https://carmarket-ayvens.com',
+        'https://carmarket-ayvens.com/repositories/carmarket'
     ];
 
     $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
