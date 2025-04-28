@@ -48,11 +48,20 @@ DirectoryIndex index.html
     SetHandler application/x-httpd-php
     
     # CORS Headers
+    Header always unset Access-Control-Allow-Origin
+    Header always unset Access-Control-Allow-Methods
+    Header always unset Access-Control-Allow-Headers
+    Header always unset Access-Control-Allow-Credentials
+    
     SetEnvIf Origin "^https://(www\.)?carmarket-ayvens\.com$" AccessControlAllowOrigin=$0
-    Header add Access-Control-Allow-Origin %{AccessControlAllowOrigin}e env=AccessControlAllowOrigin
-    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE"
-    Header set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With, Accept"
-    Header set Access-Control-Allow-Credentials "true"
+    Header always set Access-Control-Allow-Origin %{AccessControlAllowOrigin}e env=AccessControlAllowOrigin
+    Header always set Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE"
+    Header always set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With, Accept"
+    Header always set Access-Control-Allow-Credentials "true"
+    
+    # Gestione preflight OPTIONS
+    RewriteCond %{REQUEST_METHOD} OPTIONS
+    RewriteRule ^(.*)$ $1 [R=200,L]
     
     # Forza PHP a processare i file
     AddType application/x-httpd-php .php
