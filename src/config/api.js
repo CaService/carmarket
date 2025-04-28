@@ -1,7 +1,7 @@
 // Configurazione corretta per produzione
 export const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL ||
-  "https://www.carmarket-ayvens.com/server/api";
+  "https://carmarket-ayvens.com/server/api";
 
 // Configurazione comune per le chiamate fetch
 export const fetchConfig = {
