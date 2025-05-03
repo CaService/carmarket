@@ -152,9 +152,9 @@ const PurchaseConfirmationEmail = ({
             <p style={{ color: "#333333", marginBottom: "10px" }}>
               BANCA SELLA
               <br />
-              C/C # 1234567890
+              C/C # 8V52105515420
               <br />
-              IBAN IT1234567890
+              IBAN IT74U0326812300052105515420
             </p>
             <p style={{ color: "#333333", marginBottom: "10px" }}>
               Adriano Tuzzi
@@ -172,13 +172,13 @@ const PurchaseConfirmationEmail = ({
             <p>
               Ayvens s.r.l.
               <br />
-              Via Cividale 356, 33100 Udine UD Italia
+              Viale Luca Gaurico 187, 00128 Roma RM Italia
               <br />
               vendite@ayvens-carmarket.com
               <br />
-              +391234567890
+              +390656558798
               <br />
-              P.IVA/C.F.: 1234567890
+              P.IVA: 01924961004
             </p>
           </div>
         </div>

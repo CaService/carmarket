@@ -1,34 +1,27 @@
 import React from "react";
-import {
-  Document,
-  Page,
-  Text,
-  View,
-  StyleSheet,
-  Image,
-} from "@react-pdf/renderer";
+import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
 import PropTypes from "prop-types";
 
 const styles = StyleSheet.create({
   page: {
-    padding: 30,
+    padding: 20,
     fontFamily: "Helvetica",
   },
   header: {
-    marginBottom: 20,
+    marginBottom: 15,
     textAlign: "center",
   },
   title: {
-    fontSize: 24,
-    marginBottom: 10,
+    fontSize: 20,
+    marginBottom: 8,
   },
   checkmark: {
-    fontSize: 48,
-    marginBottom: 20,
+    fontSize: 40,
+    marginBottom: 15,
   },
   table: {
     width: "100%",
-    marginBottom: 20,
+    marginBottom: 15,
   },
   tableRow: {
     flexDirection: "row",
@@ -39,32 +32,32 @@ const styles = StyleSheet.create({
   tableHeader: {
     backgroundColor: "#000000",
     color: "#FFFFFF",
-    padding: 10,
+    padding: 8,
     flex: 1,
   },
   tableCell: {
-    padding: 10,
+    padding: 8,
     flex: 1,
   },
   total: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 10,
+    marginBottom: 8,
   },
   bankDetails: {
-    marginTop: 30,
-    padding: 20,
+    marginTop: 20,
+    padding: 15,
     borderWidth: 1,
     borderColor: "#000000",
     borderRadius: 5,
   },
   bankTitle: {
-    fontSize: 16,
-    marginBottom: 15,
+    fontSize: 14,
+    marginBottom: 10,
   },
   footer: {
-    marginTop: 30,
-    fontSize: 12,
+    marginTop: 20,
+    fontSize: 10,
   },
 });
 
@@ -132,8 +125,8 @@ const PurchaseConfirmationPDF = ({
         <View style={styles.bankDetails}>
           <Text style={styles.bankTitle}>COORDINATE BANCARIE</Text>
           <Text>BANCA SELLA</Text>
-          <Text>C/C # 1234567890</Text>
-          <Text>IBAN IT1234567890</Text>
+          <Text>C/C # 8V52105515420</Text>
+          <Text>IBAN IT74U0326812300052105515420</Text>
           <Text>Adriano Tuzzi</Text>
           <Text>Ayvens s.r.l.</Text>
           <Text>Causale: Pagamento Ordine #{auctionNumber}</Text>
@@ -141,10 +134,10 @@ const PurchaseConfirmationPDF = ({
 
         <View style={styles.footer}>
           <Text>Ayvens s.r.l.</Text>
-          <Text>Via Cividale 356, 33100 Udine UD Italia</Text>
+          <Text>Viale Luca Gaurico 187, 00128 Roma RM Italia</Text>
           <Text>vendite@ayvens-carmarket.com</Text>
-          <Text>+391234567890</Text>
-          <Text>P.IVA/C.F.: 1234567890</Text>
+          <Text>+390656558798</Text>
+          <Text>P.IVA: 01924961004</Text>
         </View>
       </Page>
     </Document>
