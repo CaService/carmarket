@@ -7,6 +7,7 @@ import ContactPage from "./pages/ContactPage";
 import AboutUsPage from "./pages/AboutUsPage";
 import CookiePage from "./pages/CookiePage";
 import PrivacyPage from "./pages/PrivacyPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 const AppRoutes = () => {
   return (
@@ -19,6 +20,7 @@ const AppRoutes = () => {
       <Route path="/about" element={<AboutUsPage />} />
       <Route path="/cookie" element={<CookiePage />} />
       <Route path="/privacy" element={<PrivacyPage />} />
+      <Route path="/reset-password" element={<ResetPasswordPage />} />
     </Routes>
   );
 };

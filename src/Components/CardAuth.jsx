@@ -107,12 +107,12 @@ const CardAuth = ({ onClose, fromSignUp = false }) => {
           <div className="text-red-500 text-sm mb-4 text-center">{error}</div>
         )}
 
-        <a
-          href="#"
-          className="text-sm text-blue-600 hover:underline mb-6 block"
+        <button
+          onClick={() => navigate("/reset-password")}
+          className="text-sm text-blue-600 hover:underline mb-6 block cursor-pointer"
         >
           Password dimenticata?
-        </a>
+        </button>
 
         <button
           type="submit"
